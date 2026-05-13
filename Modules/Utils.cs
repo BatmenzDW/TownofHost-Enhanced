@@ -3188,7 +3188,7 @@ public static class Utils
     public static void SyncAllSettings()
     {
         PlayerGameOptionsSender.SetDirtyToAll();
-        GameOptionsSender.SendAllGameOptions();
+        PlayerGameOptionsSender.SendAllImmediately();
     }
 
     public static bool CheckFirstDied(this PlayerControl pc)

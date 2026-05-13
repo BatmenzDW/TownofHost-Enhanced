@@ -1056,7 +1056,7 @@ static class ExtendedPlayerControl
     public static void SyncSettings(this PlayerControl player)
     {
         PlayerGameOptionsSender.SetDirty(player.PlayerId);
-        GameOptionsSender.SendAllGameOptions();
+        PlayerGameOptionsSender.SendAllImmediately();
     }
     public static void WriteSettingsInWriter(this MessageWriter writer, PlayerControl player)
     {
@@ -1404,18 +1404,21 @@ static class ExtendedPlayerControl
     public static bool IsMurderedThisRound(this PlayerControl player) => player.PlayerId.IsMurderedThisRound();
     public static bool IsMurderedThisRound(this byte playerId) => Main.MurderedThisRound.Contains(playerId);
 
-    public static void SendGameData(this NetworkedPlayerInfo playerInfo)
+    public static DataFlagRateLimiter.QueuedAction SendGameData(this NetworkedPlayerInfo player)
     {
-        MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
-        writer.StartMessage(5);
-        writer.Write(AmongUsClient.Instance.GameId);
-        writer.StartMessage(1);
-        writer.WritePacked(playerInfo.NetId);
-        playerInfo.Serialize(writer, false);
-        writer.EndMessage();
-        writer.EndMessage();
-        AmongUsClient.Instance.SendOrDisconnect(writer);
-        writer.Recycle();
+        return DataFlagRateLimiter.Enqueue(() =>
+        {
+            MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+            writer.StartMessage(5);
+            writer.Write(AmongUsClient.Instance.GameId);
+            writer.StartMessage(1);
+            writer.WritePacked(player.NetId);
+            player.Serialize(writer, false);
+            writer.EndMessage();
+            writer.EndMessage();
+            AmongUsClient.Instance.SendOrDisconnect(writer);
+            writer.Recycle();
+        });
     }
 
     public static bool KnowDeathReason(this PlayerControl seer, PlayerControl target)
