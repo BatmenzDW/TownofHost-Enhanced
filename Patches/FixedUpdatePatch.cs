@@ -14,6 +14,8 @@ namespace TOHE.Patches;
 public static class FixedUpdatePatch
 {
     private static int NonLowLoadPlayerIndex;
+    
+    [HarmonyPostfix]
     public static void Postfix()
     {
         try

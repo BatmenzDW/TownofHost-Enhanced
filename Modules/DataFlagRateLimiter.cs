@@ -60,9 +60,15 @@ public static class DataFlagRateLimiter
         };
 
         // Not needed on modded regions
-        if (GameStates.IsVanillaServer)
+        if (!GameStates.IsVanillaServer)
         {
             Execute(qa);
+            return qa;
+        }
+
+        if (GameStates.IsEnded && !GameStates.IsLobby)
+        {
+            Drop(qa);
             return qa;
         }
 
@@ -78,6 +84,23 @@ public static class DataFlagRateLimiter
         }
 
         return qa;
+    }
+
+    private static void Drop(QueuedAction qa)
+    {
+        try
+        {
+            qa.Cleanup?.Invoke();
+        }
+        catch (Exception e)
+        {
+            Utils.ThrowException(e);
+
+
+        }
+
+        qa.Dropped = true;
+        qa.Done = true;
     }
 
     // Called once per frame
