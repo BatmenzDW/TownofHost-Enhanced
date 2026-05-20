@@ -3450,7 +3450,6 @@ public static class Utils
         return t?.PadRight(Mathf.Max(num - (bc - t.Length), 0));
     }
 
-    private static int previousDumpEnd = 0;
     public static void DumpLog(bool open = true)
     {
         var f = $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TOHE-logs/";
