@@ -3460,26 +3460,12 @@ public static class Utils
         string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
         string filename = $"{f}TOHE-v{Main.PluginVersion}-{t}.log";
         if (!Directory.Exists(f)) Directory.CreateDirectory(f);
-        // FileInfo file = new(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-        // file.CopyTo(@filename);
-
-        var lines = File.ReadLines(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log").Skip(previousDumpEnd);
-        
-        int n = lines.Count();
-
-        if (n == 0)
-        {
-            if (PlayerControl.LocalPlayer != null)
-                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, GetString("Dump.NoNewLogInfo"));
-            return;
-        }
-
-        previousDumpEnd += n;
-        File.WriteAllLines(@filename, lines);
+        FileInfo file = new(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+        file.CopyTo(@filename);
 
         if (!open) return;
 
-        if (PlayerControl.LocalPlayer != null)
+        if (PlayerControl.LocalPlayer)
             HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.DumpfileSaved"), $"TOHE - v{Main.PluginVersion}-{t}.log"));
 
         SendMessage(string.Format(GetString("Message.DumpcmdUsed"), PlayerControl.LocalPlayer.GetNameWithRole()));
