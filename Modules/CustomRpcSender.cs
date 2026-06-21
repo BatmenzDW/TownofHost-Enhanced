@@ -10,6 +10,7 @@ using TOHE.Roles.Neutral;
 using TOHE.Modules;
 using UnityEngine;
 using System.Runtime.CompilerServices;
+using TOHE.Test;
 
 namespace TOHE;
 
@@ -23,9 +24,6 @@ public class CustomRpcSender
     public bool shouldLog;
     public delegate void onSendDelegateType();
     public onSendDelegateType onSendDelegate;
-
-    private readonly List<string> LastRpcs = [];
-    private readonly List<object> LastWriten = [];
 
     private readonly List<MessageWriter> doneStreams = [];
 
@@ -94,6 +92,8 @@ public class CustomRpcSender
                 throw new InvalidOperationException(errorMsg);
         }
 
+        ExperimentManager.Record("StartMessage", $"{name}, targetClientId: {targetClientId}, currentState: {currentState}");
+
         if (stream.Length > 500)
         {
             if (currentState == State.InRootPackedMessage)
@@ -143,6 +143,8 @@ public class CustomRpcSender
                 throw new InvalidOperationException(errorMsg);
         }
 
+        ExperimentManager.Record("StartPackedMessage", $"{name}, currentState: {currentState}");
+
         if (stream.Length > 500)
         {
             doneStreams.Add(stream);
@@ -170,6 +172,8 @@ public class CustomRpcSender
             else
                 throw new InvalidOperationException(errorMsg);
         }
+
+        ExperimentManager.Record("EndMessage", $"{name}, currentState: {currentState}, startNew: {startNew}, messages: {messages}");
 
         bool wasPackedContext = packed;
         bool closingPackedRoot = currentState == State.InRootPackedMessage;
@@ -225,6 +229,8 @@ public class CustomRpcSender
                 throw new InvalidOperationException(errorMsg);
         }
 
+        ExperimentManager.Record("StartRpc", $"{name}, targetNetId: {targetNetId}, callId: {callId}, currentRpcTarget: {currentRpcTarget}");
+
         if (messages >= AmongUsClient.Instance.GetMaxMessagePackingLimit())
         {
             EndMessage(startNew: true);
@@ -251,6 +257,8 @@ public class CustomRpcSender
             else
                 throw new InvalidOperationException(errorMsg);
         }
+
+        ExperimentManager.Record("EndRpc", $"{name}, currentRpcTarget: {currentRpcTarget}");
 
         stream.EndMessage();
         currentState = State.InRootMessage;
@@ -296,6 +304,8 @@ public class CustomRpcSender
             else
                 throw new InvalidOperationException(errorMsg);
         }
+
+        ExperimentManager.Record("AutoStartRpc", $"{name}, targetNetId: {targetNetId}, callId: {callId}, targetClientId: {targetClientId}, caller: {callerPath}:{callerLine}");
 
         if (currentRpcTarget != targetClientId)
         {
@@ -343,6 +353,8 @@ public class CustomRpcSender
             else
                 throw new InvalidOperationException(errorMsg);
         }
+
+        ExperimentManager.Record("SendMessage", $"{name}, Length: {stream.Length}, dispose: {dispose}, sendOption: {sendOption}");
 
         if (stream.Length >= 1400 && sendOption == SendOption.Reliable && !dispose) Logger.Warn($"Large reliable packet \"{name}\" is sending ({stream.Length} bytes)", "CustomRpcSender");
         else if (shouldLog || stream.Length > 3) Logger.Info($"\"{name}\" is finished (Length: {stream.Length}, dispose: {dispose}, sendOption: {sendOption})", "CustomRpcSender");

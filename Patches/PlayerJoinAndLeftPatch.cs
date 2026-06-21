@@ -12,6 +12,7 @@ using TOHE.Roles.AddOns.Common;
 using TOHE.Roles.Core.AssignManager;
 using TOHE.Roles.Crewmate;
 using TOHE.Roles.Neutral;
+using TOHE.Test;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -176,6 +177,19 @@ class DisconnectInternalPatch
         GameStates.InGame = false;
         Logger.Info($"Disconnect (Reason:{reason}:{stringReason}, ping:{__instance.Ping})", "Reason Disconnect");
         RehostManager.OnDisconnectInternal(reason);
+
+        if (reason == DisconnectReasons.Kicked)
+        {
+            ExperimentManager.OnKicked();
+        }
+        else if (reason == DisconnectReasons.ClientTimeout)
+        {
+            ExperimentManager.OnTimedOut();
+        }
+        else
+        {
+            ExperimentManager.OnDisconnected();
+        }
     }
 }
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
