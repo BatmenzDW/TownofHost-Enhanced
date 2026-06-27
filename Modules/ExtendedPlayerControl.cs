@@ -1203,6 +1203,12 @@ static class ExtendedPlayerControl
     }
     public static bool CanUseKillButton(this PlayerControl pc)
     {
+        var result = CanUseKillButtonNested(pc);
+        Logger.Info($"CanUseKillButton: {pc.GetNameWithRole()} => {result}", "CanUseKillButton");
+        return result;
+    }
+    public static bool CanUseKillButtonNested(this PlayerControl pc)
+    {
         if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId) || DollMaster.IsDoll(pc.PlayerId)) return false;
         if (MeetingStates.FirstMeeting && !Options.ShieldedCanUseKillButton.GetBool() && pc.CheckFirstDied()) return false;
         if (pc.Is(CustomRoles.Killer) || Mastermind.PlayerIsManipulated(pc)) return true;

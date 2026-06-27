@@ -71,7 +71,29 @@ public static class ExperimentManager
         
     ];
 
+    public static readonly Dictionary<string, List<int>> RecordFrequencies = [];
+
+    public static readonly Dictionary<string, int> LastSecondRecords = [];
+
     public static readonly List<TestEvent> Events = [];
+
+    private static float _timeSinceLastFrequencyUpdate;
+
+    public static void OnFixedUpdate(float deltaTime)
+    {
+        _timeSinceLastFrequencyUpdate += deltaTime;
+        if (_timeSinceLastFrequencyUpdate >= 1f)
+        {
+            foreach (var category in LastSecondRecords.Keys)
+            {
+                if (!RecordFrequencies.ContainsKey(category))
+                    RecordFrequencies[category] = [];
+                RecordFrequencies[category].Add(LastSecondRecords.TryGetValue(category, out var count) ? count : 0);
+            }
+            LastSecondRecords.Clear();
+            _timeSinceLastFrequencyUpdate = 0f;
+        }
+    }
 
     public static void RunExperiment(string name)
     {
@@ -95,15 +117,20 @@ public static class ExperimentManager
 
     public static void Record(
         string category,
-        string message)
+        string message,
+        bool log = true)
     {
-        Events.Add(
-            new(
-                DateTime.UtcNow,
-                category,
-                message
-            )
-        );
+
+        if (log)
+            Events.Add(
+                new(
+                    DateTime.UtcNow,
+                    category,
+                    message
+                )
+            );
+        
+        LastSecondRecords[category] = LastSecondRecords.TryGetValue(category, out var count) ? count + 1 : 1;
     }
 
     public static void OnKicked()
@@ -156,9 +183,13 @@ public static class ExperimentManager
 
         File.WriteAllText(
             "last_run.json",
+            "[" +
             JsonSerializer.Serialize(
                 Events.TakeLast(200)
             ) + Environment.NewLine + JsonSerializer.Serialize(results)
+            + Environment.NewLine + 
+            JsonSerializer.Serialize(RecordFrequencies)
+            + "]"
         );
     }
 }

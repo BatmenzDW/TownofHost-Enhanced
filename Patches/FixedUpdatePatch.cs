@@ -4,6 +4,7 @@ using TMPro;
 using TOHE.Modules;
 using TOHE.Roles.AddOns.Common;
 using TOHE.Roles.Core;
+using TOHE.Test;
 using UnityEngine;
 using static TOHE.Translator;
 
@@ -20,6 +21,8 @@ public static class FixedUpdatePatch
     {
         try
         {
+            ExperimentManager.OnFixedUpdate(Time.fixedDeltaTime);
+
             KickNotJoinedPlayers();
 
             var amongUsClient = AmongUsClient.Instance;
