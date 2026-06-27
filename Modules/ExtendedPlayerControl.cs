@@ -1201,15 +1201,27 @@ static class ExtendedPlayerControl
         }
         return isMeeting || player == null ? player?.Data?.PlayerName : player?.name;
     }
+    private static readonly Dictionary<byte, bool> KillButtonCache = [];
     public static bool CanUseKillButton(this PlayerControl pc)
     {
         var result = CanUseKillButtonNested(pc);
-        Logger.Info($"CanUseKillButton: {pc.GetNameWithRole()} => {result}", "CanUseKillButton");
+        if (KillButtonCache.TryGetValue(pc.PlayerId, out var cachedResult) && cachedResult != result)
+        {
+            Logger.Info($"CanUseKillButton: {pc.GetNameWithRole()} => {result}", "CanUseKillButton");
+        }
+        KillButtonCache[pc.PlayerId] = result;
         return result;
     }
     public static bool CanUseKillButtonNested(this PlayerControl pc)
     {
-        if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId) || DollMaster.IsDoll(pc.PlayerId)) return false;
+        if (!pc.IsAlive() || Pelican.IsEaten(pc.PlayerId) || DollMaster.IsDoll(pc.PlayerId)) 
+        {
+            if (KillButtonCache.TryGetValue(pc.PlayerId, out var cachedResult) && cachedResult)
+            {
+                Logger.Info($"CanUseKillButton: {pc.GetNameWithRole()} => false; Player is not alive, eaten, or a doll", "CanUseKillButton");
+            }
+            return false;
+        }
         if (MeetingStates.FirstMeeting && !Options.ShieldedCanUseKillButton.GetBool() && pc.CheckFirstDied()) return false;
         if (pc.Is(CustomRoles.Killer) || Mastermind.PlayerIsManipulated(pc)) return true;
         if (pc.Is(CustomRoles.Narc) && !NarcManager.NarcCanUseKillButton(pc)) return false;
