@@ -426,6 +426,8 @@ public class CustomRpcSender
                 throw new InvalidOperationException(errorMsg);
         }
 
+        ExperimentManager.Record("Writing RPC message", $"Current state: {currentState}", log: false);
+
         action(stream);
 
         return this;
