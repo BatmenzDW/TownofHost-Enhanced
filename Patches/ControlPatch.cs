@@ -64,7 +64,7 @@ internal class ControllerManagerUpdatePatch
                     var role = PlayerControl.LocalPlayer.GetCustomRole();
                     var lp = PlayerControl.LocalPlayer;
                     var sb = new StringBuilder();
-                    sb.Append(GetString(role.ToString()) + Utils.GetRoleMode(role) + lp.GetRoleInfo(true));
+                    sb.Append(GetString(role.ToString()) + Utils.GetRoleChance(role) + lp.GetRoleInfo(true));
                     //if (Options.CustomRoleSpawnChances.TryGetValue(role, out var opt))
                     //Utils.ShowChildrenSettings(Options.CustomRoleSpawnChances[role], ref sb, command: true);
                     HudManager.Instance.ShowPopUp(sb.ToString() + "<size=0%>tohe</size>");
@@ -86,7 +86,7 @@ internal class ControllerManagerUpdatePatch
                     List<string> addDes = [];
                     foreach (var subRole in Main.PlayerStates[lp.PlayerId].SubRoles.Where(x => x is not CustomRoles.Charmed).ToArray())
                     {
-                        addDes.Add(GetString($"{subRole}") + Utils.GetRoleMode(subRole) + GetString($"{subRole}InfoLong"));
+                        addDes.Add(GetString($"{subRole}") + Utils.GetRoleChance(subRole) + GetString($"{subRole}InfoLong"));
                     }
 
                     addonInfoIndex++;

@@ -155,7 +155,7 @@ internal class Lich : RoleBase
             (LichPlayer.GetRoleClass() as Lich).OnTargetVote();
     }
 
-    public static bool IsCursed(byte playerId) => playerId == TargetId;
+    public static bool TargetIsCursed(byte playerId) => playerId == TargetId;
     public static bool IsCursed(PlayerControl player) => player.PlayerId == TargetId;
     public static bool IsDeceived(PlayerControl seer, PlayerControl target)
     {
@@ -228,7 +228,7 @@ internal class Lich : RoleBase
 
         return true;
     }
-    public static bool IsDeceived(byte seerId, byte targetId)
+    public static bool SeerIsDeceived(byte seerId, byte targetId)
     {
         try
         {

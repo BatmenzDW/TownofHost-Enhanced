@@ -1140,7 +1140,7 @@ class MeetingHudStartPatch
             deathReasonText.transform.transform.SetParent(textTemplate.transform);
             deathReasonText.transform.localPosition = new Vector3(0f, +0.18f, 0f);
             deathReasonText.fontSize = 1.4f;
-            deathReasonText.text = $"『{ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(targetId))}』";
+            deathReasonText.text = $"『{ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalsText(targetId))}』";
             deathReasonText.color = Color.white;
             deathReasonText.gameObject.name = "DeathReasonTextMeeting";
             deathReasonText.enableWordWrapping = false;

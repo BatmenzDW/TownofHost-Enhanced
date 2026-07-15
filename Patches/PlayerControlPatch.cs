@@ -1531,7 +1531,7 @@ class FixedUpdateInNormalGamePatch
                 RealName.Clear().Append($"<size=0%>{oldRealName}</size> ");
             }
             DeathReason.Clear().Append(localPlayer.Data.IsDead && !localPlayer.IsAlive() && localPlayer.KnowDeathReason(player)
-                ? $"\n<size=1.7>『{CustomRoles.Doctor.GetColoredTextByRole(Utils.GetVitalText(playerId))}』</size>" : string.Empty);
+                ? $"\n<size=1.7>『{CustomRoles.Doctor.GetColoredTextByRole(Utils.GetVitalsText(playerId))}』</size>" : string.Empty);
 
             // code from EHR (Endless Host Roles by: Gurge44)
             var currentText = player?.cosmetics?.nameText?.text ?? "";

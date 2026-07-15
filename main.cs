@@ -537,11 +537,8 @@ public class Main : BasePlugin
         }
     }
 
-    public override void Load()
+    private void LoadClientOptions()
     {
-        Instance = this;
-
-        //Client Options
         HideName = Config.Bind("Client Options", "Hide Game Code Name", "TOHE");
         HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
         DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
@@ -564,20 +561,20 @@ public class Main : BasePlugin
         EnableCustomDecorations = Config.Bind("Client Options", "EnableCustomDecorations", true);
         SwitchVanilla = Config.Bind("Client Options", "SwitchVanilla", false);
 
-        // Debug
+        LoadDebugOptions();
+    }
+
+    private void LoadDebugOptions()
+    {
         VersionCheat = Config.Bind("Client Options", "VersionCheat", false);
         GodMode = Config.Bind("Client Options", "GodMode", false);
         AutoRehost = Config.Bind("Client Options", "AutoRehost", false);
+    }
 
-        if (!DebugModeManager.AmDebugger)
-        {
-            HorseMode.Value = false;
-            // Disable Horse Mode since it cause client crash
-        }
-
+    private static void SetupLogger()
+    {
         Logger = BepInEx.Logging.Logger.CreateLogSource("TOHE");
-        coroutines = AddComponent<Coroutines>();
-        dispatcher = AddComponent<Dispatcher>();
+
         TOHE.Logger.Enable();
         //TOHE.Logger.Disable("NotifyRoles");
         TOHE.Logger.Disable("SwitchSystem");
@@ -608,13 +605,10 @@ public class Main : BasePlugin
             // TOHE.Logger.Disable("KnowRoleTarget");
         }
         //TOHE.Logger.isDetail = true;
+    }
 
-        // 認証関連-初期化
-        DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
-
-        // 認証関連-認証
-        DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
-
+    private void BindConfigs()
+    {
         Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
         Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
         Preset3 = Config.Bind("Preset Name Options", "Preset3", "Preset_3");
@@ -627,6 +621,44 @@ public class Main : BasePlugin
         LastShapeshifterCooldown = Config.Bind("Other", "LastShapeshifterCooldown", (float)30);
         LastGuardianAngelCooldown = Config.Bind("Other", "LastGuardianAngelCooldown", (float)35);
         PlayerSpawnTimeOutCooldown = Config.Bind("Other", "PlayerSpawnTimeOutCooldown", (float)3);
+    }
+
+    private static void LogGitInfo()
+    {
+        TOHE.Logger.Info($" {Application.version}", "Among Us Version");
+
+        var handler = TOHE.Logger.Handler("GitVersion");
+        handler.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}");
+        handler.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}");
+        handler.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}");
+        handler.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}");
+        handler.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}");
+        handler.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}");
+    }
+
+    public override void Load()
+    {
+        Instance = this;
+
+        LoadClientOptions();
+        
+
+        if (!DebugModeManager.AmDebugger)
+        {
+            HorseMode.Value = false;
+            // Disable Horse Mode since it cause client crash
+        }
+
+        SetupLogger();
+        
+        coroutines = AddComponent<Coroutines>();
+        dispatcher = AddComponent<Dispatcher>();
+
+        DebugKeyAuth = new HashAuth(DebugKeyHash, DebugKeySalt);
+
+        DebugModeManager.Auth(DebugKeyAuth, DebugKeyInput.Value);
+
+        BindConfigs();
 
         hasArgumentException = false;
         ExceptionMessage = "";
@@ -640,7 +672,6 @@ public class Main : BasePlugin
         BanManager.Init();
         TemplateManager.Init();
         TagManager.Init();
-        //SpamManager.Init();
         DevManager.Init();
         Cloud.Init();
 
@@ -648,16 +679,8 @@ public class Main : BasePlugin
 
         IRandom.SetInstance(new NetRandomWrapper());
 
-        TOHE.Logger.Info($" {Application.version}", "Among Us Version");
-
-        var handler = TOHE.Logger.Handler("GitVersion");
-        handler.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}");
-        handler.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}");
-        handler.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}");
-        handler.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}");
-        handler.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}");
-        handler.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}");
-
+        LogGitInfo();
+        
         // Injecting BaseModdedRpc has a very high chance for the game to crash on load!!!
         // And you need to inject it for all the modded rpc to work!!!
         // Works after injected. No idea how to resolve this problem.
@@ -1071,7 +1094,7 @@ public enum CustomRoles
     Susceptible,
     Swift,
     Tiebreaker,
-    Stealer, //stealer
+    Stealer,
     Torch,
     Trapper,
     Tricky,
@@ -1179,14 +1202,10 @@ public enum AdditionalWinners
     Specter = CustomRoles.Specter,
     Maverick = CustomRoles.Maverick,
     Shaman = CustomRoles.Shaman,
-    // Changed to Pariah
-    // Taskinator = CustomRoles.Taskinator,
     Pixie = CustomRoles.Pixie,
     Quizmaster = CustomRoles.Quizmaster,
     SchrodingersCat = CustomRoles.SchrodingersCat,
     Troller = CustomRoles.Troller,
-    //   NiceMini = CustomRoles.NiceMini,
-    //   Baker = CustomRoles.Baker,
 }
 [Obfuscation(Exclude = true)]
 public enum SuffixModes

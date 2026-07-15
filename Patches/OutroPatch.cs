@@ -97,7 +97,7 @@ class EndGamePatch
                 if (date == DateTime.MinValue) continue;
                 var killerId = kvp.Value.GetRealKiller();
                 var targetId = kvp.Key;
-                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetDisplayRoleAndSubName(targetId, targetId, false, true))}{(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetSubRolesText(targetId, summary: true))}) [{Utils.GetVitalText(kvp.Key)}]");
+                sb.Append($"\n{date:T} {Main.AllPlayerNames[targetId]}({(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetDisplayRoleAndSubName(targetId, targetId, false, true))}{(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetSubRolesText(targetId, summary: true))}) [{Utils.GetVitalsText(kvp.Key)}]");
                 if (killerId != byte.MaxValue && killerId != targetId)
                     sb.Append($"\n\t⇐ {Main.AllPlayerNames[killerId]}({(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetDisplayRoleAndSubName(killerId, killerId, false, true))}{(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetSubRolesText(killerId, summary: true))})");
             }
@@ -111,7 +111,7 @@ class EndGamePatch
                 var killerId = kvp.Value.GetRealKiller();
                 var targetId = kvp.Key;
 
-                sb.Append($"\n<line-height=85%><size=85%><voffset=-1em><color=#9c9c9c>{date:T}</color> {Main.AllPlayerNames[targetId]}({(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetDisplayRoleAndSubName(targetId, targetId, false, true))}{(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetSubRolesText(targetId, summary: true))}) 『{Utils.GetVitalText(kvp.Key, true)}』</voffset></size></line-height>");
+                sb.Append($"\n<line-height=85%><size=85%><voffset=-1em><color=#9c9c9c>{date:T}</color> {Main.AllPlayerNames[targetId]}({(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetDisplayRoleAndSubName(targetId, targetId, false, true))}{(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetSubRolesText(targetId, summary: true))}) 『{Utils.GetVitalsText(kvp.Key, true)}』</voffset></size></line-height>");
                 if (killerId != byte.MaxValue && killerId != targetId)
                     sb.Append($"<br>\t⇐ {Main.AllPlayerNames[killerId]}({(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetDisplayRoleAndSubName(killerId, killerId, false, true))}{(Options.CurrentGameMode == CustomGameMode.FFA ? string.Empty : Utils.GetSubRolesText(killerId, summary: true))})");
             }
