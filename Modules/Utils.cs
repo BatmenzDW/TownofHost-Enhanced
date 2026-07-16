@@ -1313,6 +1313,178 @@ public static class Utils
         messages.Do(x => SendMessage(x.Text, x.SendTo, x.Title, sendOption: sendOption));
     }
 
+    private static void ReplaceStarsWithArrows(ref string title)
+    {
+        if (title.Count(x => x == '\u2605') == 2 && !title.Contains('\n'))
+        {
+            if (title.Contains('<') && title.Contains('>') && title.Contains('#'))
+                title = $"{title[..(title.IndexOf('>') + 1)]}\u27a1{title.Replace("\u2605", "")[..(title.LastIndexOf('<') - 2)]}\u2b05";
+            else
+                title = "\u27a1" + title.Replace("\u2605", "") + "\u2b05";
+        }
+    }
+
+    private static bool HandleMessageWhenHostIsDead(CustomRpcSender writer, PlayerControl sender, string text, byte sendTo, string title, bool noSplit, bool final, bool multiple, SendOption sendOption, bool addToHistory)
+    {
+        bool delayMessage = false;
+        if (!TempReviveHostRunning)
+        {
+            delayMessage = true;
+            Main.Instance.StartCoroutine(TempReviveHost());
+        }
+        else
+        {
+            if (TempReviveHostTimeSinceRevivalStopwatch.ElapsedMilliseconds < 250)
+                delayMessage = true;
+
+            TempReviveHostRevertStopwatch.Restart();
+        }
+
+        if (!delayMessage) return false;
+
+        Main.Instance.StartCoroutine(DelaySend());
+        return true;
+
+        IEnumerator DelaySend()
+        {
+            yield return new WaitForSecondsRealtime(0.3f);
+            SendMessage(text, sendTo, title, noSplit, writer, final, multiple, sendOption, addToHistory);
+        }
+
+        IEnumerator TempReviveHost()
+        {
+            TempReviveHostRunning = true;
+            TempReviveHostRevertStopwatch = Stopwatch.StartNew();
+            TempReviveHostTimeSinceRevivalStopwatch = Stopwatch.StartNew();
+
+            Logger.Msg("Temporarily reviving host to send message....", "TempReviveHost");
+
+            sender.Data.IsDead = false;
+            sender.Data.SendGameData();
+
+            while (TempReviveHostRevertStopwatch.ElapsedMilliseconds < 1000)
+                yield return null;
+
+            Logger.Msg("Re-killing host after message sent.", "TempReviveHost");
+
+            TempReviveHostTimeSinceRevivalStopwatch.Reset();
+
+            if (!AmongUsClient.Instance.AmHost || GameStates.IsEnded || GameStates.IsLobby)
+            {
+                TempReviveHostRunning = false;
+                yield break;
+            }
+
+            sender.Data.IsDead = true;
+            sender.Data.SendGameData();
+
+            TempReviveHostRunning = false;
+        }
+    }
+
+    private static bool HandleSplitTitle(int fullRpcSize, int fullRpcSizeLimit, int titleRpcSize, int titleRpcSizeLimit, int resetNameRpcSize, string title, string text, bool multiple, CustomRpcSender writer, PlayerControl sender, int targetClientId, SendOption sendOption, byte sendTo, bool addToHistory)
+    {
+        if ((fullRpcSize <= fullRpcSizeLimit && titleRpcSizeLimit <= titleRpcSize) || title.Length <= 100)
+        {
+            Logger.Info($"Set sender name to {title}; Split", "SendMessage");
+            writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
+                .Write(sender.Data.NetId)
+                .Write(title)
+                .EndRpc();
+        }
+        else
+        {
+            titleRpcSizeLimit = (fullRpcSizeLimit - 8 - resetNameRpcSize) * 2;
+
+            if (titleRpcSizeLimit - 4 < 1)
+            {
+                Logger.SendInGame(GetString("MessageTooLong"), Color.red);
+                if (!multiple) writer.SendMessage(dispose: true);
+                return true;
+            }
+
+            string[] lines = title.Split('\n');
+            var shortenedTitle = string.Empty;
+
+            foreach (string line in lines)
+            {
+                if (shortenedTitle.Length * 2 + line.Length * 2 + 4 < titleRpcSizeLimit)
+                {
+                    shortenedTitle += line + "\n";
+                    continue;
+                }
+
+                if (shortenedTitle.Length * 2 >= titleRpcSizeLimit - 4)
+                {
+                    foreach (char[] chars in shortenedTitle.Chunk(titleRpcSizeLimit - 4))
+                        writer = SendTempTitleMessage(new string(chars));
+                }
+                else
+                    writer = SendTempTitleMessage(shortenedTitle);
+
+                string sentText = shortenedTitle;
+                shortenedTitle = line + "\n";
+
+                if (Regex.Matches(sentText, "<size").Count > Regex.Matches(sentText, "</size>").Count)
+                {
+                    string sizeTag = Regex.Matches(sentText, @"<size=\d+\.?\d*%?>")[^1].Value;
+                    shortenedTitle = sizeTag + shortenedTitle;
+                }
+            }
+
+            if (shortenedTitle.Length > 0 && !shortenedTitle.IsNullOrWhiteSpace())
+                writer = SendTempTitleMessage(shortenedTitle);
+
+            if (text == "\n") return true;
+
+            title = "\u200e";
+
+            if (writer.CurrentState == CustomRpcSender.State.Finished)
+                writer = CustomRpcSender.Create("Utils.SendMessage(2)", sendOption);
+
+            Logger.Info($"Set sender name to {title}", "SendMessage");
+            writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
+                .Write(sender.Data.NetId)
+                .Write(title)
+                .EndRpc();
+
+            CustomRpcSender SendTempTitleMessage(string tempTitle)
+            {
+                if (writer.CurrentState == CustomRpcSender.State.Finished)
+                    writer = CustomRpcSender.Create("Utils.SendMessage.SendTempTitleMessage", sendOption);
+
+                Logger.Info($"Set sender name to {tempTitle}; TempTitle", "SendMessage");
+                writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
+                    .Write(sender.Data.NetId)
+                    .Write(tempTitle)
+                    .EndRpc();
+
+                writer.AutoStartRpc(sender.NetId, RpcCalls.SendChat, targetClientId)
+                    .Write("\n")
+                    .EndRpc();
+
+                Logger.Info($"Set sender name to {sender.GetRealName()}; TempTitle2", "SendMessage");
+                writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
+                    .Write(sender.Data.NetId)
+                    .Write(Main.AllPlayerNames.GetValueOrDefault(sender.PlayerId, string.Empty))
+                    .EndRpc();
+
+                writer.SendMessage();
+
+                try
+                {
+                    string pureTitle = tempTitle.RemoveHtmlTags();
+                    Logger.Info($" Message: \\n - To: {(sendTo == byte.MaxValue ? "Everyone" : $"{GetPlayerById(sendTo)?.GetRealName()}")} - Title: {pureTitle[..(pureTitle.Length <= 300 ? pureTitle.Length : 300)]}", "SendMessage");
+                }
+                catch { Logger.Info(" Message sent", "SendMessage"); }
+
+                if (addToHistory) ChatUpdatePatch.LastMessages.Add(("\n", sendTo, tempTitle, TimeStamp));
+                return writer;
+            }
+        }
+        return false;
+    }
+
     public static CustomRpcSender SendMessage(string text, byte sendTo = byte.MaxValue, string title = "", bool noSplit = false, CustomRpcSender writer = null, bool final = false, bool multiple = false, SendOption sendOption = SendOption.Reliable, bool addToHistory = true, bool force = false, bool noNumberSplit = false, bool numberSplitFinal = false, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
     {
         try
@@ -1332,13 +1504,7 @@ public static class Utils
 
             if (title == string.Empty) title = GetString("DefaultSystemMessageTitle");
 
-            if (title.Count(x => x == '\u2605') == 2 && !title.Contains('\n'))
-            {
-                if (title.Contains('<') && title.Contains('>') && title.Contains('#'))
-                    title = $"{title[..(title.IndexOf('>') + 1)]}\u27a1{title.Replace("\u2605", "")[..(title.LastIndexOf('<') - 2)]}\u2b05";
-                else
-                    title = "\u27a1" + title.Replace("\u2605", "") + "\u2b05";
-            }
+            ReplaceStarsWithArrows(ref title);
 
             text = text.Replace("color=#", "#");
             title = title.Replace("color=", string.Empty);
@@ -1362,61 +1528,8 @@ public static class Utils
             Logger.Info($"sender owner: {sender.AmOwner}; sender dead: {sender.Data.IsDead}; sender alive: {sender.IsAlive()}", "SendMessage CheckTempReviveHost");
             if (sender.AmOwner && sender.Data.IsDead)
             {
-                bool delayMessage = false;
-                if (!TempReviveHostRunning)
-                {
-                    delayMessage = true;
-                    Main.Instance.StartCoroutine(TempReviveHost());
-                }
-                else
-                {
-                    if (TempReviveHostTimeSinceRevivalStopwatch.ElapsedMilliseconds < 250)
-                        delayMessage = true;
-                    
-                    TempReviveHostRevertStopwatch.Restart();
-                }
-
-                if (delayMessage)
-                {
-                    Main.Instance.StartCoroutine(DelaySend());
-                    return writer;
-                    
-                    IEnumerator DelaySend()
-                    {
-                        yield return new WaitForSecondsRealtime(0.3f);
-                        SendMessage(text, sendTo, title, noSplit, writer, final, multiple, sendOption, addToHistory);
-                    }
-                }
-                
-                IEnumerator TempReviveHost()
-                {
-                    TempReviveHostRunning = true;
-                    TempReviveHostRevertStopwatch = Stopwatch.StartNew();
-                    TempReviveHostTimeSinceRevivalStopwatch = Stopwatch.StartNew();
-                    
-                    Logger.Msg("Temporarily reviving host to send message....", "TempReviveHost");
-
-                    sender.Data.IsDead = false;
-                    sender.Data.SendGameData();
-                    
-                    while (TempReviveHostRevertStopwatch.ElapsedMilliseconds < 1000)
-                        yield return null;
-                    
-                    Logger.Msg("Re-killing host after message sent.", "TempReviveHost");
-                    
-                    TempReviveHostTimeSinceRevivalStopwatch.Reset();
-                    
-                    if (!AmongUsClient.Instance.AmHost || GameStates.IsEnded || GameStates.IsLobby)
-                    {
-                        TempReviveHostRunning = false;
-                        yield break;
-                    }
-
-                    sender.Data.IsDead = true;
-                    sender.Data.SendGameData();
-                    
-                    TempReviveHostRunning = false;
-                }
+                bool handled = HandleMessageWhenHostIsDead(writer, sender, text, sendTo, title, noSplit, final, multiple, sendOption, addToHistory);
+                if (handled) return writer;
             }
 
             if (GameStates.IsVanillaServer && !noSplit && !noNumberSplit)
@@ -1445,104 +1558,8 @@ public static class Utils
             {
                 int titleRpcSizeLimit = fullRpcSizeLimit - textRpcSize - resetNameRpcSize;
 
-                if ((fullRpcSize <= fullRpcSizeLimit && titleRpcSizeLimit <= titleRpcSize) || title.Length <= 100)
-                {
-                    Logger.Info($"Set sender name to {title}; Split", "SendMessage");
-                    writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
-                        .Write(sender.Data.NetId)
-                        .Write(title)
-                        .EndRpc();
-                }
-                else
-                {
-                    titleRpcSizeLimit = (fullRpcSizeLimit - 8 - resetNameRpcSize) * 2;
-
-                    if (titleRpcSizeLimit - 4 < 1)
-                    {
-                        Logger.SendInGame(GetString("MessageTooLong"), Color.red);
-                        if (!multiple) writer.SendMessage(dispose: true);
-                        return writer;
-                    }
-
-                    string[] lines = title.Split('\n');
-                    var shortenedTitle = string.Empty;
-
-                    foreach (string line in lines)
-                    {
-                        if (shortenedTitle.Length * 2 + line.Length * 2 + 4 < titleRpcSizeLimit)
-                        {
-                            shortenedTitle += line + "\n";
-                            continue;
-                        }
-
-                        if (shortenedTitle.Length * 2 >= titleRpcSizeLimit - 4)
-                        {
-                            foreach (char[] chars in shortenedTitle.Chunk(titleRpcSizeLimit - 4))
-                                writer = SendTempTitleMessage(new string(chars));
-                        }
-                        else
-                            writer = SendTempTitleMessage(shortenedTitle);
-
-                        string sentText = shortenedTitle;
-                        shortenedTitle = line + "\n";
-
-                        if (Regex.Matches(sentText, "<size").Count > Regex.Matches(sentText, "</size>").Count)
-                        {
-                            string sizeTag = Regex.Matches(sentText, @"<size=\d+\.?\d*%?>")[^1].Value;
-                            shortenedTitle = sizeTag + shortenedTitle;
-                        }
-                    }
-
-                    if (shortenedTitle.Length > 0 && !shortenedTitle.IsNullOrWhiteSpace())
-                        writer = SendTempTitleMessage(shortenedTitle);
-
-                    if (text == "\n") return writer;
-
-                    title = "\u200e";
-
-                    if (writer.CurrentState == CustomRpcSender.State.Finished)
-                        writer = CustomRpcSender.Create("Utils.SendMessage(2)", sendOption);
-
-                    Logger.Info($"Set sender name to {title}", "SendMessage");
-                    writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
-                        .Write(sender.Data.NetId)
-                        .Write(title)
-                        .EndRpc();
-
-                    CustomRpcSender SendTempTitleMessage(string tempTitle)
-                    {
-                        if (writer.CurrentState == CustomRpcSender.State.Finished)
-                            writer = CustomRpcSender.Create("Utils.SendMessage.SendTempTitleMessage", sendOption);
-
-                        Logger.Info($"Set sender name to {tempTitle}; TempTitle", "SendMessage");
-                        writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
-                            .Write(sender.Data.NetId)
-                            .Write(tempTitle)
-                            .EndRpc();
-
-                        writer.AutoStartRpc(sender.NetId, RpcCalls.SendChat, targetClientId)
-                            .Write("\n")
-                            .EndRpc();
-
-                        Logger.Info($"Set sender name to {sender.GetRealName()}; TempTitle2", "SendMessage");
-                        writer.AutoStartRpc(sender.NetId, RpcCalls.SetName, targetClientId)
-                            .Write(sender.Data.NetId)
-                            .Write(Main.AllPlayerNames.GetValueOrDefault(sender.PlayerId, string.Empty))
-                            .EndRpc();
-
-                        writer.SendMessage();
-
-                        try
-                        {
-                            string pureTitle = tempTitle.RemoveHtmlTags();
-                            Logger.Info($" Message: \\n - To: {(sendTo == byte.MaxValue ? "Everyone" : $"{GetPlayerById(sendTo)?.GetRealName()}")} - Title: {pureTitle[..(pureTitle.Length <= 300 ? pureTitle.Length : 300)]}", "SendMessage");
-                        }
-                        catch { Logger.Info(" Message sent", "SendMessage"); }
-
-                        if (addToHistory) ChatUpdatePatch.LastMessages.Add(("\n", sendTo, tempTitle, TimeStamp));
-                        return writer;
-                    }
-                }
+                bool handled = HandleSplitTitle(fullRpcSize, fullRpcSizeLimit, titleRpcSize, titleRpcSizeLimit, resetNameRpcSize, title, text, multiple, writer, sender, targetClientId, sendOption, sendTo, addToHistory);
+                if (handled) return writer;
             }
 
             titleRpcSize = title.Length * 2 + 4;
