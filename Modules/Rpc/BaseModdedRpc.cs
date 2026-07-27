@@ -6,6 +6,7 @@ using System;
 
 namespace TOHE.Modules.Rpc
 {
+    [Obsolete("Use CustomRpcSender instead as it handles data throttling.")]
     public abstract class BaseModdedRpc : BaseGameDataMessage
     {
         // https://github.com/BepInEx/Il2CppInterop/blob/master/Documentation/Class-Injection.md
@@ -32,7 +33,6 @@ namespace TOHE.Modules.Rpc
         {
             msg.WritePacked(this.rpcObjectNetId);
             msg.Write(this.RpcType);
-            // Logger.Info($"Serializing RPC: {this.RpcType} for object with NetId: {this.rpcObjectNetId}", "BaseModdedRpc.SerializeValues");
             SerializeRpcValues(msg);
         }
 

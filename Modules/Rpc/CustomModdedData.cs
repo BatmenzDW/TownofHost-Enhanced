@@ -7,6 +7,7 @@ using System;
 namespace TOHE.Modules.Rpc
 {
     // Used to serialize multiple gamedata calls in a single message item
+    [Obsolete("Use CustomRpcSender instead as it handles data throttling.")]
     public abstract class CustomModdedData : BaseGameDataMessage
     {
         // Refer BaseModdedRpc for how to code this dogshit framework
@@ -26,7 +27,6 @@ namespace TOHE.Modules.Rpc
         {
             msg.CancelMessage();
             msg.StartMessage((byte)this.FirstDataType);
-            // Logger.Info($"Serializing CustomModdedData: {this.FirstDataType}", "CustomModdedData.SerializeValues");
             SerializeCustomValues(msg);
         }
 
