@@ -501,8 +501,7 @@ class MurderPlayerPatch
             // Sync protected player from being killed first info for modded clients
             if (PlayerControl.LocalPlayer.IsHost())
             {
-                var msg = new RpcSyncShieldPersonDiedFirst(PlayerControl.LocalPlayer.NetId, Main.FirstDied, Main.FirstDiedPrevious);
-                RpcUtils.LateBroadcastReliableMessage(msg);
+                LegacyRpcSenders.SendSyncShieldPersonDiedFirst(PlayerControl.LocalPlayer.NetId, Main.FirstDied, Main.FirstDiedPrevious);
             }
         }
 
