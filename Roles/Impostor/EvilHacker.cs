@@ -148,7 +148,7 @@ internal class EvilHacker : RoleBase
         var writer = MessageWriter.Get(SendOption.Reliable);
         writer.Write(RpcTypeId);
         writer.Write((byte)room);
-        RpcUtils.LateBroadcastReliableMessage(new RpcSyncRoleSkill(PlayerControl.LocalPlayer.NetId, pc.NetId, writer));
+        LegacyRpcSenders.SendSyncRoleSkill(PlayerControl.LocalPlayer.NetId, pc.NetId, writer);
     }
     public override void ReceiveRPC(MessageReader reader, PlayerControl pc)
     {

@@ -65,8 +65,7 @@ internal class Arsonist : RoleBase
         }
         else
         {
-            var msg = new RpcSetCurrentDousingTarget(PlayerControl.LocalPlayer.NetId, arsonistId, targetId);
-            RpcUtils.LateBroadcastReliableMessage(msg);
+            RoleRpcs.SendSetCurrentDousingTarget(PlayerControl.LocalPlayer.NetId, arsonistId, targetId);
         }
     }
     public static void ReceiveCurrentDousingTargetRPC(MessageReader reader)
@@ -80,8 +79,7 @@ internal class Arsonist : RoleBase
 
     private static void SendSetDousedPlayerRPC(PlayerControl player, PlayerControl target, bool isDoused)
     {
-        var msg = new RpcSetDousedPlayer(PlayerControl.LocalPlayer.NetId, player.PlayerId, target.PlayerId, isDoused);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetDousedPlayer(PlayerControl.LocalPlayer.NetId, player.PlayerId, target.PlayerId, isDoused);
     }
     public static void ReceiveSetDousedPlayerRPC(MessageReader reader)
     {

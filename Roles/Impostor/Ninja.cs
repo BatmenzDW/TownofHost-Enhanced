@@ -48,8 +48,7 @@ internal class Ninja : RoleBase
     private static void SendRPC(byte playerId)
     {
         var targetId = MarkedPlayer.ContainsKey(playerId) ? MarkedPlayer[playerId] : byte.MaxValue;
-        var msg = new RpcSetMarkedPlayer(PlayerControl.LocalPlayer.NetId, playerId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetMarkedPlayer(PlayerControl.LocalPlayer.NetId, playerId, targetId);
 
     }
     public static void ReceiveRPC(MessageReader reader)

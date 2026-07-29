@@ -64,8 +64,7 @@ internal class Crewpostor : RoleBase
         }
         else
         {
-            var msg = new RpcSetCrewpostorTasksDone(PlayerControl.LocalPlayer.NetId, cpID, tasksDone);
-            RpcUtils.LateBroadcastReliableMessage(msg);
+            RoleRpcs.SendSetCrewpostorTasksDone(PlayerControl.LocalPlayer.NetId, cpID, tasksDone);
         }
     }
     public static void ReceiveRPC(MessageReader reader)

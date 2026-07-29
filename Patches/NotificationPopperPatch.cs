@@ -66,8 +66,7 @@ internal class NotificationPopperPatch
         if (!AmongUsClient.Instance.AmHost || Options.HideGameSettings.GetBool()) return;
         if (!Main.EnumeratePlayerControls().Any(pc => pc.IsNonHostModdedClient())) return;
 
-        var msg = new RpcNotificationPopper(PlayerControl.LocalPlayer.NetId, index, playSound);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        LegacyRpcSenders.SendNotificationPopper(PlayerControl.LocalPlayer.NetId, index, playSound);
 
     }
 }

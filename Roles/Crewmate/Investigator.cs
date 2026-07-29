@@ -55,8 +55,7 @@ internal class Investigator : RoleBase
 
     private static void SendRPC(bool setTarget, byte playerId = byte.MaxValue, byte targetId = byte.MaxValue)
     {
-        var msg = new RpcSetInvestigatorLimit(PlayerControl.LocalPlayer.NetId, setTarget, playerId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetInvestigatorLimit(PlayerControl.LocalPlayer.NetId, setTarget, playerId, targetId);
     }
 
     public static void ReceiveRPC(MessageReader reader)

@@ -94,8 +94,7 @@ internal class Sniper : RoleBase
     private static void SendRPC(byte playerId)
     {
         Logger.Info($"Player{playerId}:SendRPC", "Sniper");
-        var msg = new RpcSniperSync(PlayerControl.LocalPlayer.NetId, playerId, shotNotify[playerId]);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSniperSync(PlayerControl.LocalPlayer.NetId, playerId, shotNotify[playerId]);
     }
     public static void ReceiveRPC(MessageReader msg)
     {

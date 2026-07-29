@@ -142,8 +142,7 @@ internal class Alchemist : RoleBase
     private static void SendRPC(PlayerControl pc)
     {
         if (!pc.IsNonHostModdedClient()) return;
-        var msg = new RpcSetAlchemistTimer(PlayerControl.LocalPlayer.NetId, FixNextSabo, PotionID, (InvisTime.TryGetValue(pc.PlayerId, out var x) ? x : -1).ToString());
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetAlchemistTimer(PlayerControl.LocalPlayer.NetId, FixNextSabo, PotionID, (InvisTime.TryGetValue(pc.PlayerId, out var x) ? x : -1).ToString());
     }
     public static void ReceiveRPC(MessageReader reader)
     {

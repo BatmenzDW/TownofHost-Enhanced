@@ -42,8 +42,7 @@ public static class AbilityUseManager
         var player = playerId.GetPlayer();
         if (AmongUsClient.Instance.AmHost && player.IsNonHostModdedClient() && rpc)
         {
-            var message = new RpcSyncAbilityUseLimit(PlayerControl.LocalPlayer.NetId, playerId, limit);
-            RpcUtils.LateBroadcastReliableMessage(message);
+            LegacyRpcSenders.SendSyncAbilityUseLimit(PlayerControl.LocalPlayer.NetId, playerId, limit);
         }
 
         Utils.NotifyRoles(SpecifySeer: player, ForceLoop: false);

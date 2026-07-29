@@ -242,8 +242,7 @@ internal class Inquisitor : RoleBase
 
     private static void SendRPC(byte playerId, byte targetId)
     {
-        var msg = new RpcSetInquisitor(PlayerControl.LocalPlayer.NetId, playerId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetInquisitor(PlayerControl.LocalPlayer.NetId, playerId, targetId);
     }
     public static void ReceiveRPC(MessageReader reader)
     {

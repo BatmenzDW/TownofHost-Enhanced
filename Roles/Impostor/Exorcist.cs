@@ -236,8 +236,7 @@ internal class Exorcist : RoleBase
 
     private static void SendExorcismRPC(byte exorcistId)
     {
-        var msg = new RpcExorcistExorcise(PlayerControl.LocalPlayer.NetId, exorcistId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendExorcistExorcise(PlayerControl.LocalPlayer.NetId, exorcistId);
     }
 
     public static void ReceiveRPC_Custom(MessageReader reader, PlayerControl pc)

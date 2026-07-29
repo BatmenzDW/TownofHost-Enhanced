@@ -168,8 +168,7 @@ internal class EvilTracker : RoleBase
     }
     private static void SendRPC(byte trackerId, byte targetId)
     {
-        var msg = new RpcSetEvilTrackerTarget(PlayerControl.LocalPlayer.NetId, trackerId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetEvilTrackerTarget(PlayerControl.LocalPlayer.NetId, trackerId, targetId);
     }
     public static void ReceiveRPC(MessageReader reader)
     {

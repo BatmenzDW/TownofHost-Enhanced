@@ -39,8 +39,7 @@ internal class Greedy : RoleBase
 
     private static void SendRPC(byte playerId)
     {
-        var msg = new RpcSetGreedy(PlayerControl.LocalPlayer.NetId, playerId, IsOdd[playerId]);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetGreedy(PlayerControl.LocalPlayer.NetId, playerId, IsOdd[playerId]);
     }
 
     public static void ReceiveRPC(MessageReader reader)

@@ -293,8 +293,7 @@ internal class Judge : RoleBase
 
     private static void SendRPC(byte targetId)
     {
-        var msg = new RpcJudge(PlayerControl.LocalPlayer.NetId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendJudge(PlayerControl.LocalPlayer.NetId, targetId);
     }
     public static void ReceiveRPC_Custom(MessageReader reader, PlayerControl pc)
     {

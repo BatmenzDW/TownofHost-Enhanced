@@ -64,8 +64,7 @@ internal class Keeper : RoleBase
 
     private static void SendRPC(int type, byte keeperId = 0xff, byte targetId = 0xff)
     {
-        var msg = new RpcKeeper(PlayerControl.LocalPlayer.NetId, type, keeperId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendKeeper(PlayerControl.LocalPlayer.NetId, type, keeperId, targetId);
     }
 
     public static void ReceiveRPC(MessageReader reader)

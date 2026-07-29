@@ -180,8 +180,7 @@ public static class NameColorManager
     private static void SendRPC(byte seerId, byte targetId = byte.MaxValue, string colorCode = "")
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        var msg = new RpcSetNameColorData(PlayerControl.LocalPlayer.NetId, seerId, targetId, colorCode);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        LegacyRpcSenders.SendNameColorData(PlayerControl.LocalPlayer.NetId, seerId, targetId, colorCode);
     }
     public static void ReceiveRPC(MessageReader reader)
     {

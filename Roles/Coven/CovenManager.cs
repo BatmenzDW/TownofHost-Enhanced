@@ -58,8 +58,7 @@ public abstract class CovenManager : RoleBase // NO, THIS IS NOT A ROLE
     }
     private static void SendRPC(byte playerId)
     {
-        var msg = new RpcNecronomicon(PlayerControl.LocalPlayer.NetId, playerId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendNecronomicon(PlayerControl.LocalPlayer.NetId, playerId);
     }
     public static void ReceiveNecroRPC(MessageReader reader)
     {

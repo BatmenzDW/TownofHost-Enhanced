@@ -203,8 +203,7 @@ internal class Retributionist : RoleBase
 
     private static void SendRPC(byte playerId)
     {
-        var msg = new RpcRetributionistRevenge(PlayerControl.LocalPlayer.NetId, playerId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendRetributionistRevenge(PlayerControl.LocalPlayer.NetId, playerId);
     }
     public static void ReceiveRPC_Custom(MessageReader reader, PlayerControl pc)
     {

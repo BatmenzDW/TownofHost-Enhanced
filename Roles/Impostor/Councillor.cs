@@ -305,8 +305,7 @@ internal class Councillor : RoleBase
 
     private static void SendRPC(byte playerId)
     {
-        var msg = new RpcCouncillorJudge(PlayerControl.LocalPlayer.NetId, playerId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendCouncillorJudge(PlayerControl.LocalPlayer.NetId, playerId);
     }
     public static void ReceiveRPC_Custom(MessageReader reader, PlayerControl pc)
     {

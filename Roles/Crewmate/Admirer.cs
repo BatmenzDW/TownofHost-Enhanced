@@ -49,8 +49,7 @@ internal class Admirer : RoleBase
     }
     public static void SendRPC(byte playerId, byte targetId)
     {
-        var msg = new RpcSyncAdmiredList(PlayerControl.LocalPlayer.NetId, playerId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSyncAdmiredList(PlayerControl.LocalPlayer.NetId, playerId, targetId);
 
     }
     public static void ReceiveRPC(MessageReader reader)

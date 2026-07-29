@@ -76,8 +76,7 @@ internal class Jailer : RoleBase
 
     public static void SendRPC(byte jailerId)
     {
-        var msg = new RpcSyncJailerData(PlayerControl.LocalPlayer.NetId, jailerId, JailerTarget[jailerId], JailerHasExe[jailerId], JailerDidVote[jailerId]);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSyncJailerData(PlayerControl.LocalPlayer.NetId, jailerId, JailerTarget[jailerId], JailerHasExe[jailerId], JailerDidVote[jailerId]);
     }
 
     public static void ReceiveRPC(MessageReader reader)

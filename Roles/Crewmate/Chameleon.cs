@@ -57,8 +57,7 @@ internal class Chameleon : RoleBase
         if (!pc.IsNonHostModdedClient()) return;
         var cooldown = (InvisCooldown.TryGetValue(pc.PlayerId, out var y) ? y : -1).ToString();
         var duration = (InvisDuration.TryGetValue(pc.PlayerId, out var x) ? x : -1).ToString();
-        var msg = new RpcSetChameleonTimer(PlayerControl.LocalPlayer.NetId, pc.PlayerId, cooldown, duration);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetChameleonTimer(PlayerControl.LocalPlayer.NetId, pc.PlayerId, cooldown, duration);
     }
     public static void ReceiveRPC_Custom(MessageReader reader)
     {

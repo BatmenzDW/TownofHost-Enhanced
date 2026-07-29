@@ -750,7 +750,7 @@ internal class RPCHandlerPatch
 
             _ = new LateTask(() =>
             {
-                RpcUtils.LateSpecificSendMessage(new RpcRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId), __instance.OwnerId);
+                LegacyRpcSenders.SendRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId, __instance.OwnerId);
             }, 1f, "Retry Version Check Task");
         }
     }
@@ -857,20 +857,17 @@ internal static class RPC
         if (AmongUsClient.Instance.AmHost)
             PlaySound(PlayerID, sound);
 
-        var message = new RpcPlaySound(PlayerControl.LocalPlayer.NetId, PlayerID, sound);
-        RpcUtils.LateBroadcastReliableMessage(message);
+        LegacyRpcSenders.SendPlaySound(PlayerControl.LocalPlayer.NetId, PlayerID, sound);
     }
     public static void SyncAllPlayerNames()
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        var message = new RpcSyncAllPlayerNames(PlayerControl.LocalPlayer.NetId);
-        RpcUtils.LateBroadcastReliableMessage(message);
+        LegacyRpcSenders.SendSyncAllPlayerNames(PlayerControl.LocalPlayer.NetId);
     }
     public static void ShowPopUp(this PlayerControl pc, string message, string title = "")
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        var msg = new RpcShowPopUp(pc.NetId, pc.PlayerId, message, title);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        LegacyRpcSenders.SendShowPopUp(pc.NetId, pc.PlayerId, message, title);
     }
     public static async void RpcVersionCheck()
     {
@@ -880,8 +877,17 @@ internal static class RPC
             var hostId = AmongUsClient.Instance.HostId;
             if (Main.playerVersion.ContainsKey(hostId) || !Main.VersionCheat.Value)
             {
-                var message = new RpcVersionCheck(PlayerControl.LocalPlayer.NetId);
-                RpcUtils.LateBroadcastReliableMessage(message);
+                var cheating = Main.VersionCheat.Value;
+
+                var writer = CustomRpcSender.Create("RpcVersionCheck", SendOption.Reliable);
+                writer.AutoStartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck)
+                    .Write(cheating ? Main.playerVersion[hostId].version.ToString() : Main.PluginVersion)
+                    .Write(cheating ? Main.playerVersion[hostId].tag : $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
+                    .Write(cheating ? Main.playerVersion[hostId].forkId : Main.ForkId)
+                    .Write(cheating)
+                    .EndRpc();
+
+                writer.SendMessage();
             }
             Main.playerVersion[PlayerControl.LocalPlayer.GetClientId()] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
@@ -894,11 +900,15 @@ internal static class RPC
     public static async void RpcRequestRetryVersionCheck()
     {
         while (PlayerControl.LocalPlayer == null || AmongUsClient.Instance.GetHost() == null) await Task.Delay(500);
-        RpcUtils.LateBroadcastReliableMessage(new RpcRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId));
+
+        var writer = CustomRpcSender.Create("RpcRequestRetryVersionCheck", SendOption.Reliable);
+        writer.AutoStartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RequestRetryVersionCheck)
+            .EndRpc();
+        writer.SendMessage();
     }
     public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
     {
-        RpcUtils.LateBroadcastReliableMessage(new RpcSetDeathReason(PlayerControl.LocalPlayer.NetId, playerId, deathReason));
+        LegacyRpcSenders.SendSetDeathReason(PlayerControl.LocalPlayer.NetId, playerId, deathReason);
     }
     public static void GetDeathReason(MessageReader reader)
     {
@@ -1011,8 +1021,7 @@ internal static class RPC
     public static void SyncDeadPassedMeetingList()
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        var msg = new RpcSyncDeadPassedMeetingList(PlayerControl.LocalPlayer.NetId, Main.DeadPassedMeetingPlayers);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        LegacyRpcSenders.SendSyncDeadPassedMeetingList(PlayerControl.LocalPlayer.NetId, Main.DeadPassedMeetingPlayers);
 
     }
     public static void SendRpcLogger(uint targetNetId, byte callId, SendOption sendOption, int targetClientId = -1)
@@ -1046,7 +1055,7 @@ internal static class RPC
         state.RoleofKiller = Main.PlayerStates.TryGetValue(killerId, out var kState) ? kState.MainRole : CustomRoles.NotAssigned;
 
         if (!AmongUsClient.Instance.AmHost) return;
-        RpcUtils.LateBroadcastReliableMessage(new RpcSetRealKiller(PlayerControl.LocalPlayer.NetId, targetId, killerId));
+        LegacyRpcSenders.SendSetRealKiller(PlayerControl.LocalPlayer.NetId, targetId, killerId);
     }
 }
 

@@ -54,7 +54,7 @@ internal class Spy : RoleBase
         writer.Write((byte)1);
         writer.Write(susId);
         writer.Write(SpyRedNameList[susId].ToString());
-        RpcUtils.LateBroadcastReliableMessage(new RpcSyncRoleSkill(PlayerControl.LocalPlayer.NetId, _Player.NetId, writer));
+        LegacyRpcSenders.SendSyncRoleSkill(PlayerControl.LocalPlayer.NetId, _Player.NetId, writer);
     }
     public void SendRPC(byte susId, bool changeColor)
     {
@@ -63,7 +63,7 @@ internal class Spy : RoleBase
         writer.Write(susId);
         writer.Write(changeColor);
         Logger.Info($"RPC to remove player {susId} from red name list and change `change` to {changeColor}", "Spy");
-        RpcUtils.LateBroadcastReliableMessage(new RpcSyncRoleSkill(PlayerControl.LocalPlayer.NetId, _Player.NetId, writer));
+        LegacyRpcSenders.SendSyncRoleSkill(PlayerControl.LocalPlayer.NetId, _Player.NetId, writer);
     }
     public override void ReceiveRPC(MessageReader reader, PlayerControl player)
     {

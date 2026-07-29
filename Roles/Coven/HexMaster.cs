@@ -82,8 +82,7 @@ internal class HexMaster : CovenManager
     {
         if (regularHex)
         {
-            var msg = new RpcDoHex(PlayerControl.LocalPlayer.NetId, hexId, target);
-            RpcUtils.LateBroadcastReliableMessage(msg);
+            RoleRpcs.SendDoHex(PlayerControl.LocalPlayer.NetId, hexId, target);
         }
         else
         {
@@ -93,7 +92,7 @@ internal class HexMaster : CovenManager
             var writer = MessageWriter.Get(SendOption.Reliable);
             writer.Write(newHex);
             writer.Write(oldHex);
-            RpcUtils.LateBroadcastReliableMessage(new RpcSyncRoleSkill(PlayerControl.LocalPlayer.NetId, player.NetId, writer));
+            LegacyRpcSenders.SendSyncRoleSkill(PlayerControl.LocalPlayer.NetId, player.NetId, writer);
         }
     }
     public static void ReceiveRPC(MessageReader reader, bool regularHex)

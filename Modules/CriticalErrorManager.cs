@@ -31,8 +31,7 @@ public static class CriticalErrorManager
         }
         else
         {
-            var msg = new RpcAntiBlackout(PlayerControl.LocalPlayer.NetId, PlayerControl.LocalPlayer.PlayerId, reason, sourseError);
-            RpcUtils.LateBroadcastReliableMessage(msg);
+            LegacyRpcSenders.SendAntiBlackout(PlayerControl.LocalPlayer.NetId, PlayerControl.LocalPlayer.PlayerId, reason, sourseError);
         }
     }
     public static void ReadRpc(PlayerControl player, MessageReader reader)

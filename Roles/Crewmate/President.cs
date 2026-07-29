@@ -135,12 +135,10 @@ internal class President : RoleBase
 
         if (!isEnd)
         {
-            var msg1 = new RpcPresidentReveal(PlayerControl.LocalPlayer.NetId, playerId, CheckPresidentReveal[playerId]);
-            RpcUtils.LateBroadcastReliableMessage(msg1);
+            RoleRpcs.SendPresidentReveal(PlayerControl.LocalPlayer.NetId, playerId, CheckPresidentReveal[playerId]);
             return;
         }
-        var msg2 = new RpcPresidentEnd(PlayerControl.LocalPlayer.NetId, playerId);
-        RpcUtils.LateBroadcastReliableMessage(msg2);
+        RoleRpcs.SendPresidentEnd(PlayerControl.LocalPlayer.NetId, playerId);
     }
     public static void ReceiveRPC(MessageReader reader, PlayerControl pc, bool isEnd = true)
     {

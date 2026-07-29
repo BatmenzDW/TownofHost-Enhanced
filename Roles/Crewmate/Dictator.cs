@@ -121,8 +121,7 @@ internal class Dictator : RoleBase
 
     private static void SendDictatorRPC(byte playerId)
     {
-        var msg = new RpcDictator(PlayerControl.LocalPlayer.NetId, playerId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendDictator(PlayerControl.LocalPlayer.NetId, playerId);
     }
 
     public static void OnReceiveDictatorRPC(MessageReader reader, PlayerControl pc)

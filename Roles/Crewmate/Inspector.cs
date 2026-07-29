@@ -66,8 +66,7 @@ internal class Inspector : RoleBase
     }
     public static void SendRPC(byte playerId)
     {
-        var msg = new RpcSetInspectorLimit(PlayerControl.LocalPlayer.NetId, playerId, RoundCheckLimit[playerId]);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetInspectorLimit(PlayerControl.LocalPlayer.NetId, playerId, RoundCheckLimit[playerId]);
     }
     public static void ReceiveRPC(MessageReader reader)
     {

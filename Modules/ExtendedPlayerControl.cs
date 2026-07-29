@@ -56,8 +56,7 @@ static class ExtendedPlayerControl
         }
         if (AmongUsClient.Instance.AmHost)
         {
-            var message = new RpcSetCustomRole(PlayerControl.LocalPlayer.NetId, player.PlayerId, role);
-            RpcUtils.LateBroadcastReliableMessage(message);
+            LegacyRpcSenders.SendSetCustomRole(PlayerControl.LocalPlayer.NetId, player.PlayerId, role);
         }
 
     }
@@ -294,8 +293,7 @@ static class ExtendedPlayerControl
     public static void RpcExile(this PlayerControl player)
     {
         player.Exiled();
-        var message = new RpcExiled(player.NetId);
-        RpcUtils.LateBroadcastReliableMessage(message);
+        LegacyRpcSenders.SendExiled(player.NetId);
     }
     public static void RpcExileDesync(this PlayerControl player, PlayerControl seer)
     {
@@ -306,8 +304,7 @@ static class ExtendedPlayerControl
             return;
         }
 
-        var message = new RpcExiled(player.NetId);
-        RpcUtils.LateSpecificSendMessage(message, clientId, SendOption.Reliable);
+        LegacyRpcSenders.SendExiled(player.NetId, clientId);
     }
     public static void RpcExileV2(this PlayerControl player)
     {
@@ -317,8 +314,7 @@ static class ExtendedPlayerControl
         }
         player.Exiled();
 
-        var message = new RpcExiled(player.NetId);
-        RpcUtils.LateBroadcastReliableMessage(message);
+        LegacyRpcSenders.SendExiled(player.NetId);
     }
     public static void RpcCastVote(this PlayerControl player, byte suspectIdx)
     {
@@ -492,8 +488,7 @@ static class ExtendedPlayerControl
         // Other Clients
         else
         {
-            var message = new RpcGuardAndKill(killer, target);
-            RpcUtils.LateSpecificSendMessage(message, killer.OwnerId, SendOption.Reliable);
+            LegacyRpcSenders.SendGuardAndKill(killer, target, killer.OwnerId);
         }
 
         if (!fromSetKCD) killer.SetKillTimer(half: true);
@@ -542,8 +537,7 @@ static class ExtendedPlayerControl
                 time = Main.AllPlayerKillCooldown[player.PlayerId] /= 2;
                 player.SetKillTimer(time);
 
-                var message = new RpcGuardAndKillModded(player, target, time);
-                RpcUtils.LateSpecificSendMessage(message, player.OwnerId, SendOption.Reliable);
+                LegacyRpcSenders.SendGuardAndKillModded(player, target, time, player.OwnerId);
             }
             else
             {
@@ -557,8 +551,7 @@ static class ExtendedPlayerControl
             if (player.IsHost()) PlayerControl.LocalPlayer.SetKillTimer(time);
             else
             {
-                var message = new RpcSetKillTimer(PlayerControl.LocalPlayer.NetId, time);
-                RpcUtils.LateSpecificSendMessage(message, player.GetClientId(), SendOption.Reliable);
+                LegacyRpcSenders.SendSetKillTimer(PlayerControl.LocalPlayer.NetId, time, player.GetClientId());
             }
             // Check Observer
             if (Observer.HasEnabled)
@@ -596,8 +589,7 @@ static class ExtendedPlayerControl
             if (player.IsHost()) PlayerControl.LocalPlayer.SetKillTimer(time);
             else
             {
-                var message = new RpcSetKillTimer(PlayerControl.LocalPlayer.NetId, time);
-                RpcUtils.LateSpecificSendMessage(message, player.GetClientId(), SendOption.Reliable);
+                LegacyRpcSenders.SendSetKillTimer(PlayerControl.LocalPlayer.NetId, time, player.GetClientId());
             }
             // Check Observer
             if (Observer.HasEnabled)
@@ -742,8 +734,7 @@ static class ExtendedPlayerControl
             return;
         }
 
-        var message = new RpcCheckVanish(player.NetId);
-        RpcUtils.LateSpecificSendMessage(message, seer.OwnerId);
+        LegacyRpcSenders.SendCheckVanish(player.NetId, seer.OwnerId);
     }
     public static void RpcStartVanishDesync(this PlayerControl player, PlayerControl seer)
     {
@@ -753,8 +744,7 @@ static class ExtendedPlayerControl
             return;
         }
 
-        var message = new RpcVanish(player.NetId);
-        RpcUtils.LateSpecificSendMessage(message, seer.OwnerId);
+        LegacyRpcSenders.SendVanish(player.NetId, seer.OwnerId);
     }
     public static void RpcCheckAppearDesync(this PlayerControl player, bool shouldAnimate, PlayerControl seer)
     {
@@ -764,8 +754,7 @@ static class ExtendedPlayerControl
             return;
         }
 
-        var message = new RpcCheckAppear(player.NetId, shouldAnimate);
-        RpcUtils.LateSpecificSendMessage(message, seer.OwnerId);
+        LegacyRpcSenders.SendCheckAppear(player.NetId, shouldAnimate, seer.OwnerId);
     }
     public static void RpcStartAppearDesync(this PlayerControl player, bool shouldAnimate, PlayerControl seer)
     {
@@ -775,8 +764,7 @@ static class ExtendedPlayerControl
             return;
         }
 
-        var message = new RpcAppear(player.NetId, shouldAnimate);
-        RpcUtils.LateSpecificSendMessage(message, seer.OwnerId);
+        LegacyRpcSenders.SendAppear(player.NetId, shouldAnimate, seer.OwnerId);
     }
     public static void RpcCheckAppear(this PlayerControl player, bool shouldAnimate)
     {
@@ -793,8 +781,7 @@ static class ExtendedPlayerControl
             return;
         }
 
-        var message = new RpcMurderPlayer(killer.NetId, target.NetId, MurderResultFlags.Succeeded);
-        RpcUtils.LateSpecificSendMessage(message, seer.GetClientId(), SendOption.Reliable);
+        LegacyRpcSenders.SendMurderPlayer(killer.NetId, target.NetId, MurderResultFlags.Succeeded, seer.GetClientId());
     } //Must provide seer, target
     public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
     {
@@ -803,8 +790,7 @@ static class ExtendedPlayerControl
             killer.ProtectPlayer(target, colorId);
         }
 
-        var message = new RpcProtectPlayer(killer.NetId, target.NetId, colorId);
-        RpcUtils.LateSpecificSendMessage(message, killer.GetClientId(), SendOption.Reliable);
+        LegacyRpcSenders.SendProtectPlayer(killer.NetId, target.NetId, colorId, killer.GetClientId());
     }
     public static void RpcResetAbilityCooldown(this PlayerControl target)
     {
@@ -823,8 +809,7 @@ static class ExtendedPlayerControl
         }
         else
         {
-            var message = new RpcProtectPlayer(target.NetId, target.NetId, 0);
-            RpcUtils.LateSpecificSendMessage(message, target.GetClientId(), SendOption.Reliable);
+            LegacyRpcSenders.SendProtectPlayer(target.NetId, target.NetId, 0, target.GetClientId());
         }
         /*
             When a player puts up a barrier, the cooldown of the ability is reset regardless of the player's position.

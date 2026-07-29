@@ -244,8 +244,7 @@ public class Lovers : IAddon
         {
             Logger.Info($"{pair.Item1.GetPlayerName()} loves {pair.Item2.GetPlayerName()}", "Lovers.SendRPC");
         }
-        var msg = new RpcSetLoverPairs(PlayerControl.LocalPlayer.NetId, loverPairs.Count, loverPairs, loverless);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetLoverPairs(PlayerControl.LocalPlayer.NetId, loverPairs.Count, loverPairs, loverless);
     }
     public static void ReceiveRPC(MessageReader reader)
     {

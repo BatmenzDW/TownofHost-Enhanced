@@ -34,6 +34,7 @@ namespace TOHE;
 [BepInIncompatibility("xyz.crowdedmods.crowdedmod")]
 [BepInIncompatibility("com.slushiegoose.townofus")]
 [BepInIncompatibility("com.gurge44.endlesshostroles")]
+[BepInIncompatibility("com.0xdrmoe.townofhostenhanced")]
 [BepInIncompatibility("com.emptybottle.townofhost")]
 [BepInIncompatibility("me.eisbison.theotherroles")]
 [BepInIncompatibility("com.discussions.LotusContinued")]
@@ -55,7 +56,7 @@ public class Main : BasePlugin
 
     public static ConfigEntry<string> DebugKeyInput { get; private set; }
 
-    public const string PluginGuid = "com.0xdrmoe.townofhostenhanced";
+    public const string PluginGuid = "com.batmenzdw.townofhostenhanced";
     public const string PluginGuid4 = "90759289-1d0d-494b-b36c-839f93ae0df1"; // for matchmaking token
     public const string PluginVersion = "2026.0514.242.16000"; // YEAR.MMDD.VERSION.CANARYDEV
     public const string PluginDisplayVersion = "2.4.2 Beta 16";
@@ -85,16 +86,16 @@ public class Main : BasePlugin
     public static readonly bool ShowUpdateButton = true;
 
     public static readonly bool ShowGitHubButton = true;
-    public static readonly string GitHubInviteUrl = "https://github.com/EnhancedNetwork/TownofHost-Enhanced";
+    public static readonly string GitHubInviteUrl = "https://github.com/BatmenzDW/TownofHost-Enhanced/";
 
     public static readonly bool ShowDiscordButton = true;
-    public static readonly string DiscordInviteUrl = "https://discord.gg/ten";
+    public static readonly string DiscordInviteUrl = "WIP";
 
     public static readonly bool ShowWebsiteButton = true;
-    public static readonly string WebsiteInviteUrl = "https://weareten.ca/";
+    public static readonly string WebsiteInviteUrl = "WIP";
 
     public static readonly bool ShowDonationButton = true;
-    public static readonly string DonationInviteUrl = "https://weareten.ca/TOHE";
+    public static readonly string DonationInviteUrl = "WIP";
 
     public Harmony Harmony { get; } = new Harmony(PluginGuid);
     public static Version version = Version.Parse(PluginVersion);
@@ -165,7 +166,7 @@ public class Main : BasePlugin
     public static readonly Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = [];
     public static readonly Dictionary<CustomRoles, string> roleColors = [];
 
-    public static readonly string LANGUAGE_FOLDER_NAME = OperatingSystem.IsAndroid() ? Path.Combine(UnityEngine.Application.persistentDataPath, "TOHE-DATA", "Language") : "TOHE-DATA/Language";
+    public static readonly string LANGUAGE_FOLDER_NAME = OperatingSystem.IsAndroid() ? Path.Combine(Application.persistentDataPath, "TOHE-DATA", "Language") : "TOHE-DATA/Language";
 
     public static readonly string DataPath = OperatingSystem.IsAndroid() ? Application.persistentDataPath : ".";
 
@@ -180,7 +181,6 @@ public class Main : BasePlugin
     public static readonly HashSet<byte> winnerList = [];
     public static readonly HashSet<string> winnerNameList = [];
     public static readonly HashSet<int> clientIdList = [];
-    // public static readonly List<(string, byte, string)> MessagesToSend = [];
     public static readonly Dictionary<string, int> PlayerQuitTimes = [];
     public static bool isChatCommand = false;
     public static bool MeetingIsStarted = false;
@@ -207,9 +207,6 @@ public class Main : BasePlugin
     public static readonly HashSet<byte> DeadPassedMeetingPlayers = [];
 
     public static bool GameIsLoaded { get; set; } = false;
-
-    // public static bool isLoversDead = true;
-    // public static readonly HashSet<PlayerControl> LoversPlayers = [];
 
     public static bool DoBlockNameChange = false;
     public static int updateTime;
@@ -409,7 +406,6 @@ public class Main : BasePlugin
         }
         catch (ArgumentException ex)
         {
-            TOHE.Logger.Error("错误：字典出现重复项", "LoadDictionary");
             TOHE.Logger.Exception(ex, "LoadDictionary");
             hasArgumentException = true;
             ExceptionMessage = ex.Message;
@@ -681,12 +677,6 @@ public class Main : BasePlugin
 
         LogGitInfo();
         
-        // Injecting BaseModdedRpc has a very high chance for the game to crash on load!!!
-        // And you need to inject it for all the modded rpc to work!!!
-        // Works after injected. No idea how to resolve this problem.
-        ClassInjector.RegisterTypeInIl2Cpp<BaseModdedRpc>();
-        ClassInjector.RegisterTypeInIl2Cpp<CustomModdedData>();
-
         ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
         ClassInjector.RegisterTypeInIl2Cpp<OptionShower>();
         ClassInjector.RegisterTypeInIl2Cpp<MeetingHudPagingBehaviour>();

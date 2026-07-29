@@ -63,8 +63,7 @@ internal class BountyHunter : RoleBase
     }
     private static void SendRPC(byte bountyId, byte targetId)
     {
-        var msg = new RpcSetBountyTarget(PlayerControl.LocalPlayer.NetId, bountyId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetBountyTarget(PlayerControl.LocalPlayer.NetId, bountyId, targetId);
     }
 
     public static void ReceiveRPC(MessageReader reader)

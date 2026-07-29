@@ -34,8 +34,7 @@ static class TargetArrow
         var seer = seerId.GetPlayer();
         if (!seer.IsNonHostModdedClient()) return;
 
-        var message = new RpcArrow(PlayerControl.LocalPlayer.NetId, true, index, seerId, targetId, null);
-        RpcUtils.LateSpecificSendMessage(message, seer.OwnerId);
+        LegacyRpcSenders.SendArrow(PlayerControl.LocalPlayer.NetId, true, index, seerId, targetId, null, seer.OwnerId);
     }
     public static void ReceiveRPC(MessageReader reader)
     {

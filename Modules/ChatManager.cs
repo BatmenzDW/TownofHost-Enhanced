@@ -152,8 +152,7 @@ namespace TOHE.Modules.ChatManager
 
         public static void SendQuickChatSpam()
         {
-            var message = new RpcQuickChatSpam();
-            RpcUtils.LateBroadcastReliableMessage(message);
+            LegacyRpcSenders.SendQuickChatSpam();
         }
         public static void SendPreviousMessagesToAll()
         {

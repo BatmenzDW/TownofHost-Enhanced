@@ -303,8 +303,7 @@ internal class Swapper : RoleBase
     
     private static void SendSwapRPC(byte playerId)
     {
-        var msg = new RpcSetSwapperVotes(PlayerControl.LocalPlayer.NetId, playerId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetSwapperVotes(PlayerControl.LocalPlayer.NetId, playerId);
     }
     public static void ReceiveSwapRPC(MessageReader reader, PlayerControl pc)
     {

@@ -49,8 +49,7 @@ class EndGamePatch
                     {
                         // Ensure Randomizer role persists
                         state.MainRole = CustomRoles.Randomizer;
-                        var message = new RpcSyncPlayerSetting(PlayerControl.LocalPlayer.NetId, pvc, prevrole);
-                        RpcUtils.LateBroadcastReliableMessage(message);
+                        LegacyRpcSenders.SendSyncPlayerSetting(PlayerControl.LocalPlayer.NetId, pvc, prevrole);
 
                     }
 

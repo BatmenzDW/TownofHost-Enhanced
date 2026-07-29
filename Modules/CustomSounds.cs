@@ -19,13 +19,13 @@ public static class CustomSoundsManager
             Play(sound);
             return;
         }
-        RpcUtils.LateSpecificSendMessage(new RpcPlayCustomSound(pc.NetId, sound, volume, pitch), pc.GetClientId());
+        LegacyRpcSenders.SendPlayCustomSound(pc.NetId, sound, volume, pitch, pc.GetClientId());
     }
 
     public static void RPCPlayCustomSoundAll(string sound, float volume = 1f, float pitch = 1f)
     {
         if (!AmongUsClient.Instance.AmHost) return;
-        RpcUtils.LateBroadcastReliableMessage(new RpcPlayCustomSound(PlayerControl.LocalPlayer.NetId, sound, volume, pitch));
+        LegacyRpcSenders.SendPlayCustomSound(PlayerControl.LocalPlayer.NetId, sound, volume, pitch);
         Play(sound);
     }
 

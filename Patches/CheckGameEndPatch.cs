@@ -545,8 +545,7 @@ class GameEndCheckerForNormal
         //     .SendMultipleMessages();
 
         // Sync of CustomWinnerHolder info
-        var rpc = new RpcEndGame(PlayerControl.LocalPlayer.NetId, WinnerTeam, AdditionalWinnerTeams, WinnerRoles, WinnerIds);
-        RpcUtils.LateBroadcastReliableMessage(rpc);
+        LegacyRpcSenders.SendEndGame(PlayerControl.LocalPlayer.NetId, WinnerTeam, AdditionalWinnerTeams, WinnerRoles, WinnerIds);
 
         SetEverythingUpPatch.LastWinsReason = WinnerTeam is CustomWinner.Crewmate or CustomWinner.Impostor ? GetString($"GameOverReason.{reason}") : string.Empty;
         var self = AmongUsClient.Instance;

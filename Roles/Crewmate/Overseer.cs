@@ -109,8 +109,7 @@ internal class Overseer : RoleBase
 
     private static void SendTimerRPC(byte RpcType, byte overseertId, PlayerControl target = null, float timer = 0)
     {
-        var msg = new RpcSetOverseerTimer(PlayerControl.LocalPlayer.NetId, RpcType, overseertId, target, timer);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetOverseerTimer(PlayerControl.LocalPlayer.NetId, RpcType, overseertId, target, timer);
     }
     public static void ReceiveTimerRPC(MessageReader reader)
     {
@@ -134,8 +133,7 @@ internal class Overseer : RoleBase
     }
     private static void SetRevealPlayerRPC(PlayerControl player, PlayerControl target, bool isRevealed)
     {
-        var msg = new RpcSetOverseerRevealedPlayer(PlayerControl.LocalPlayer.NetId, player.PlayerId, target.PlayerId, isRevealed);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSetOverseerRevealedPlayer(PlayerControl.LocalPlayer.NetId, player.PlayerId, target.PlayerId, isRevealed);
     }
     public static void ReceiveSetRevealedPlayerRPC(MessageReader reader)
     {

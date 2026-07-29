@@ -64,13 +64,11 @@ internal class Witch : RoleBase
     {
         if (doSpell)
         {
-            var msg = new RpcDoSpell(PlayerControl.LocalPlayer.NetId, witchId, target);
-            RpcUtils.LateBroadcastReliableMessage(msg);
+            RoleRpcs.SendDoSpell(PlayerControl.LocalPlayer.NetId, witchId, target);
         }
         else
         {
-            var msg = new RpcSetKillOrSpell(PlayerControl.LocalPlayer.NetId, witchId, SpellMode[witchId]);
-            RpcUtils.LateBroadcastReliableMessage(msg);
+            RoleRpcs.SendSetKillOrSpell(PlayerControl.LocalPlayer.NetId, witchId, SpellMode[witchId]);
         }
     }
     public static void ReceiveRPC(MessageReader reader, bool doSpell)

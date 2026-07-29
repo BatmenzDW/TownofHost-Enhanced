@@ -52,8 +52,7 @@ internal class Puppeteer : RoleBase
 
     private static void SendRPC(byte puppetId, byte targetId, byte typeId)
     {
-        var msg = new RpcSyncPuppet(PlayerControl.LocalPlayer.NetId, typeId, puppetId, targetId);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        RoleRpcs.SendSyncPuppet(PlayerControl.LocalPlayer.NetId, typeId, puppetId, targetId);
     }
     public static void ReceiveRPC(MessageReader reader)
     {

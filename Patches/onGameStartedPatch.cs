@@ -492,14 +492,12 @@ internal class StartGameHostPatch
             // Sync for non-host modded clients by RPC
             foreach (var pair in Main.PlayerStates)
             {
-                var message = new RpcSetCustomRole(PlayerControl.LocalPlayer.NetId, pair.Key, pair.Value.MainRole);
-                RpcUtils.LateBroadcastReliableMessage(message);
+                LegacyRpcSenders.SendSetCustomRole(PlayerControl.LocalPlayer.NetId, pair.Key, pair.Value.MainRole);
 
                 // Set Add-ons
                 foreach (var subRole in pair.Value.SubRoles.ToArray())
                 {
-                    var message2 = new RpcSetCustomRole(PlayerControl.LocalPlayer.NetId, pair.Key, subRole);
-                    RpcUtils.LateBroadcastReliableMessage(message2);
+                    LegacyRpcSenders.SendSetCustomRole(PlayerControl.LocalPlayer.NetId, pair.Key, subRole);
                 }
             }
 

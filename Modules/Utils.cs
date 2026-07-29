@@ -237,8 +237,7 @@ public static class Utils
     }
     private static void SendRpcKillFlash(uint playerNetId, bool playKillSound)
     {
-        var msg = new RpcKillFlash(PlayerControl.LocalPlayer.NetId, playerNetId, playKillSound);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        LegacyRpcSenders.SendKillFlash(PlayerControl.LocalPlayer.NetId, playerNetId, playKillSound);
     }
     public static void RemoveKillFlashTask(PlayerControl player)
     {
@@ -412,8 +411,7 @@ public static class Utils
     {
         if (!AmongUsClient.Instance.AmHost || !GameStates.IsInGame) return false;
         var playerId = player.PlayerId;
-        var msg = new RpcSyncGeneralOptions(PlayerControl.LocalPlayer.NetId, playerId, player.GetCustomRole(), Main.PlayerStates[playerId].IsDead, Main.PlayerStates[playerId].Disconnected, Main.PlayerStates[playerId].deathReason, Main.AllPlayerKillCooldown[playerId], Main.AllPlayerSpeed[playerId]);
-        RpcUtils.LateBroadcastReliableMessage(msg);
+        LegacyRpcSenders.SendSyncGeneralOptions(PlayerControl.LocalPlayer.NetId, playerId, player.GetCustomRole(), Main.PlayerStates[playerId].IsDead, Main.PlayerStates[playerId].Disconnected, Main.PlayerStates[playerId].deathReason, Main.AllPlayerKillCooldown[playerId], Main.AllPlayerSpeed[playerId]);
         return true;
     }
     public static bool DoRPC => AmongUsClient.Instance.AmHost && Main.EnumeratePlayerControls().Any(x => x.IsModded() && !x.IsHost());
@@ -436,8 +434,7 @@ public static class Utils
     {
         if (!AmongUsClient.Instance.AmHost || !GameStates.IsInGame) return;
 
-        var message = new RpcSyncSpeed(PlayerControl.LocalPlayer.NetId, player.PlayerId, Main.AllPlayerSpeed[player.PlayerId]);
-        RpcUtils.LateBroadcastReliableMessage(message);
+        LegacyRpcSenders.SendSyncSpeed(PlayerControl.LocalPlayer.NetId, player.PlayerId, Main.AllPlayerSpeed[player.PlayerId]);
     }
     public static float GetDistance(Vector2 pos1, Vector2 pos2) => Vector2.Distance(pos1, pos2);
     public static Color GetRoleColor(CustomRoles role)
@@ -3260,8 +3257,7 @@ public static class Utils
 
         if (player.IsModded())
         {
-            var msg = new RpcShowChat(PlayerControl.LocalPlayer.NetId, player.OwnerId);
-            RpcUtils.LateBroadcastReliableMessage(msg);
+            LegacyRpcSenders.SendShowChat(PlayerControl.LocalPlayer.NetId, player.OwnerId);
             return;
         }
 

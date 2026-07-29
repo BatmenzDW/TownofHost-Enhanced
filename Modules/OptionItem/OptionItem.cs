@@ -239,8 +239,7 @@ public abstract class OptionItem
             {
                 if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer != null && Main.EnumeratePlayerControls().Any(pc => pc.IsNonHostModdedClient()))
                 {
-                    var message = new RpcSyncCustomSettingsSingle(PlayerControl.LocalPlayer.NetId, Id, afterValue);
-                    RpcUtils.LateBroadcastReliableMessage(message);
+                    LegacyRpcSenders.SendSyncCustomSettingsSingle(PlayerControl.LocalPlayer.NetId, Id, afterValue);
                 }
             }
             else

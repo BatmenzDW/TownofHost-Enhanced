@@ -701,8 +701,7 @@ class InnerNetClientSpawnPatch
                     return;
                 }
 
-                var message = new RpcRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId);
-                RpcUtils.LateSpecificSendMessage(message, client.Id);
+                LegacyRpcSenders.SendRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId, client.Id);
             }, 3f, "RPC Request Retry Version Check");
 
             if (GameStates.IsOnlineGame && !client.Character.IsHost())
@@ -830,8 +829,7 @@ class InnerNetClientSpawnPatch
                     return;
                 }
 
-                var message = new RpcRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId);
-                RpcUtils.LateSpecificSendMessage(message, client.Id);
+                LegacyRpcSenders.SendRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId, client.Id);
             }, 3f, "RPC Request Retry Version Check");
 
             if (GameStates.IsOnlineGame)
@@ -843,14 +841,12 @@ class InnerNetClientSpawnPatch
                         // Only for vanilla
                         if (!client.Character.IsModded())
                         {
-                            var message = new RpcSyncLobbyTimerVanilla(LobbyBehaviour.Instance.NetId, (int)GameStartManagerPatch.timer, false);
-                            RpcUtils.LateSpecificSendMessage(message, client.Id);
+                            LegacyRpcSenders.SendSyncLobbyTimerVanilla(LobbyBehaviour.Instance.NetId, (int)GameStartManagerPatch.timer, false, client.Id);
                         }
                         // Non-host modded client
                         else if (client.Character.IsNonHostModdedClient())
                         {
-                            var message = new RpcSyncLobbyTimerModded(PlayerControl.LocalPlayer.NetId, (int)GameStartManagerPatch.timer);
-                            RpcUtils.LateBroadcastReliableMessage(message);
+                            LegacyRpcSenders.SendSyncLobbyTimerModded(PlayerControl.LocalPlayer.NetId, (int)GameStartManagerPatch.timer);
                         }
                     }
                 }, 3.1f, "Send RPC or Sync Lobby Timer");

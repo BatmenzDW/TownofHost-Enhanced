@@ -568,8 +568,7 @@ class RpcMurderPlayerPatch
             __instance.MurderPlayer(target, murderResultFlags);
         }
 
-        var message = new RpcMurderPlayer(__instance.NetId, target.NetId, murderResultFlags);
-        RpcUtils.LateBroadcastReliableMessage(message);
+        LegacyRpcSenders.SendMurderPlayer(__instance.NetId, target.NetId, murderResultFlags);
 
         return false;
         // There is no need to include DecisionByHost in Succeeded kill attempt. DecisionByHost will make client check protection locally and cause confusion.
@@ -1962,8 +1961,7 @@ class PlayerControlCheckNamePatch
         {
             if (__instance != null && !__instance.Data.Disconnected && !__instance.IsModded())
             {
-                var message = new RpcRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId);
-                RpcUtils.LateSpecificSendMessage(message, __instance.OwnerId);
+                LegacyRpcSenders.SendRequestRetryVersionCheck(PlayerControl.LocalPlayer.NetId, __instance.OwnerId);
             }
 
             var sender = CustomRpcSender.Create("LobbyTagsSender", SendOption.Reliable);
