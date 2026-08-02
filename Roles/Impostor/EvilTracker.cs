@@ -1,12 +1,12 @@
 using AmongUs.GameOptions;
 using Hazel;
 using System.Text;
-using TOHE.Modules.Rpc;
+using BHR.Modules.Rpc;
 using UnityEngine;
-using static TOHE.Options;
-using static TOHE.Translator;
+using static BHR.Options;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Impostor;
+namespace BHR.Roles.Impostor;
 
 internal class EvilTracker : RoleBase
 {

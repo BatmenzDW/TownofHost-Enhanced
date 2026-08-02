@@ -1,13 +1,13 @@
 using Hazel;
 using System;
 using System.Text;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
 using UnityEngine;
-using static TOHE.Options;
+using static BHR.Options;
 
-namespace TOHE.Roles.Impostor;
+namespace BHR.Roles.Impostor;
 
 // Ported from: https://github.com/tukasa0001/TownOfHost/blob/main/Roles/Impostor/EvilHacker.cs
 internal class EvilHacker : RoleBase

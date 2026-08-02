@@ -1,11 +1,11 @@
 using AmongUs.GameOptions;
 
-namespace TOHE.Roles.Vanilla;
+namespace BHR.Roles.Vanilla;
 
-internal class ViperTOHE : RoleBase
+internal class ViperBHR : RoleBase
 {
     //===========================SETUP================================\\
-    public override CustomRoles Role => CustomRoles.ViperTOHE;
+    public override CustomRoles Role => CustomRoles.ViperBHR;
     private const int Id = 35000;
     public override CustomRoles ThisRoleBase => CustomRoles.Viper;
     public override Custom_RoleType ThisRoleType => Custom_RoleType.ImpostorVanilla;
@@ -15,9 +15,9 @@ internal class ViperTOHE : RoleBase
 
     public override void SetupCustomOption()
     {
-        Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.ViperTOHE);
+        Options.SetupRoleOptions(Id, TabGroup.ImpostorRoles, CustomRoles.ViperBHR);
         ViperDissolveTime = IntegerOptionItem.Create(Id + 2, GeneralOption.ViperBase_ViperDissolveTime, new(1, 180, 1), 15, TabGroup.ImpostorRoles, false)
-            .SetParent(Options.CustomRoleSpawnChances[CustomRoles.ViperTOHE])
+            .SetParent(Options.CustomRoleSpawnChances[CustomRoles.ViperBHR])
             .SetValueFormat(OptionFormat.Seconds);
     }
 

@@ -1,13 +1,13 @@
 using System;
-using TOHE.Modules;
-using TOHE.Patches;
-using TOHE.Roles.AddOns;
-using TOHE.Roles.AddOns.Impostor;
-using TOHE.Roles.Core;
-using TOHE.Roles.Core.DraftAssign;
+using BHR.Modules;
+using BHR.Patches;
+using BHR.Roles.AddOns;
+using BHR.Roles.AddOns.Impostor;
+using BHR.Roles.Core;
+using BHR.Roles.Core.DraftAssign;
 using UnityEngine;
 
-namespace TOHE;
+namespace BHR;
 
 [Obfuscation(Exclude = true)]
 [Flags]
@@ -18,7 +18,7 @@ public enum CustomGameMode
 
     SpeedRun = 0x04,
 
-    HidenSeekTOHE = 0x08, // HidenSeekTOHE must be after other game modes
+    HidenSeekBHR = 0x08, // HidenSeekBHR must be after other game modes
     All = int.MaxValue
 }
 
@@ -55,7 +55,7 @@ public static class Options
             1 => CustomGameMode.FFA,
 
             2 => CustomGameMode.SpeedRun,
-            3 => CustomGameMode.HidenSeekTOHE, // HidenSeekTOHE must be after other game modes
+            3 => CustomGameMode.HidenSeekBHR, // HidenSeekBHR must be after other game modes
             _ => CustomGameMode.Standard
         };
     public static int prevGameMode = 0;
@@ -66,7 +66,7 @@ public static class Options
 
         "SpeedRun",
 
-        "Hide&SeekTOHE", // HidenSeekTOHE must be after other game modes
+        "Hide&SeekBHR", // HidenSeekBHR must be after other game modes
     ];
 
     public static OptionItem DraftHeader;
@@ -1403,14 +1403,14 @@ public static class Options
 
         // Hide & Seek
         TextOptionItem.Create(10000055, "MenuTitle.Hide&Seek", TabGroup.ModSettings)
-            .SetGameMode(CustomGameMode.HidenSeekTOHE)
+            .SetGameMode(CustomGameMode.HidenSeekBHR)
             .SetColor(Color.red);
 
         // Num impostors in Hide & Seek
         NumImpostorsHnS = IntegerOptionItem.Create(60891, "NumImpostorsHnS", new(1, 3, 1), 1, TabGroup.ModSettings, false)
             .SetHeader(true)
             .SetColor(Color.red)
-            .SetGameMode(CustomGameMode.HidenSeekTOHE)
+            .SetGameMode(CustomGameMode.HidenSeekBHR)
             .SetValueFormat(OptionFormat.Players);
 
         Logger.Info("Start of Draft Setup", "Draft Setup");

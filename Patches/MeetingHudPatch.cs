@@ -3,21 +3,21 @@ using Hazel;
 using System;
 using System.Text;
 using TMPro;
-using TOHE.Modules;
-using TOHE.Patches;
-using TOHE.Roles.AddOns.Common;
-using TOHE.Roles.AddOns.Crewmate;
-using TOHE.Roles.AddOns.Impostor;
-using TOHE.Roles.Core;
-using TOHE.Roles.Coven;
-using TOHE.Roles.Crewmate;
-using TOHE.Roles.Impostor;
-using TOHE.Roles.Neutral;
+using BHR.Modules;
+using BHR.Patches;
+using BHR.Roles.AddOns.Common;
+using BHR.Roles.AddOns.Crewmate;
+using BHR.Roles.AddOns.Impostor;
+using BHR.Roles.Core;
+using BHR.Roles.Coven;
+using BHR.Roles.Crewmate;
+using BHR.Roles.Impostor;
+using BHR.Roles.Neutral;
 using UnityEngine;
-using static TOHE.Translator;
-using static TOHE.Utils;
+using static BHR.Translator;
+using static BHR.Utils;
 
-namespace TOHE;
+namespace BHR;
 
 [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
 class CheckForEndVotingPatch

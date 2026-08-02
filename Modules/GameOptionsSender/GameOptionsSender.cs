@@ -6,7 +6,7 @@ using Hazel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 
-namespace TOHE.Modules;
+namespace BHR.Modules;
 
 public abstract class GameOptionsSender
 {

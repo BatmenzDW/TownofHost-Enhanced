@@ -1,14 +1,14 @@
 using Hazel;
 using System;
 using System.Text;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
 using UnityEngine;
-using static TOHE.Options;
-using static TOHE.Translator;
+using static BHR.Options;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Crewmate;
+namespace BHR.Roles.Crewmate;
 
 internal class Keeper : RoleBase
 {

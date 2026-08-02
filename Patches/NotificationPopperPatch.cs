@@ -1,7 +1,7 @@
-using TOHE.Modules.Rpc;
+using BHR.Modules.Rpc;
 using UnityEngine;
 
-namespace TOHE.Patches;
+namespace BHR.Patches;
 
 [HarmonyPatch(typeof(NotificationPopper), nameof(NotificationPopper.Awake))]
 public class NotificationPopperAwakePatch

@@ -5,18 +5,18 @@ using Hazel;
 using InnerNet;
 using System;
 using System.Text.RegularExpressions;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
-using TOHE.Roles.AddOns.Common;
-using TOHE.Roles.Core.AssignManager;
-using TOHE.Roles.Crewmate;
-using TOHE.Roles.Neutral;
-using TOHE.Test;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Patches;
+using BHR.Roles.AddOns.Common;
+using BHR.Roles.Core.AssignManager;
+using BHR.Roles.Crewmate;
+using BHR.Roles.Neutral;
+using BHR.Test;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE;
+namespace BHR;
 
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
 internal static class OnGameJoinedPatch
@@ -89,8 +89,8 @@ internal static class OnGameJoinedPatch
                     if (AURoleOptions.GuardianAngelCooldown == 0f)
                         AURoleOptions.GuardianAngelCooldown = Main.LastGuardianAngelCooldown.Value;
 
-                    // If custom Gamemode is HideNSeekTOHE in normal game, set Standard
-                    if (Options.CurrentGameMode == CustomGameMode.HidenSeekTOHE)
+                    // If custom Gamemode is HideNSeekBHR in normal game, set Standard
+                    if (Options.CurrentGameMode == CustomGameMode.HidenSeekBHR)
                     {
                         // Select Standard
                         Options.GameMode.SetValue(0);
@@ -101,10 +101,10 @@ internal static class OnGameJoinedPatch
                 case GameModes.HideNSeek:
                     Logger.Info(" Is Hide & Seek", "Game Mode");
 
-                    // If custom Gamemode is Standard/FFA/Speedrun in H&S game, set HideNSeekTOHE
-                    if (Options.CurrentGameMode != CustomGameMode.HidenSeekTOHE)
+                    // If custom Gamemode is Standard/FFA/Speedrun in H&S game, set HideNSeekBHR
+                    if (Options.CurrentGameMode != CustomGameMode.HidenSeekBHR)
                     {
-                        // Select HideNSeekTOHE
+                        // Select HideNSeekBHR
                         Options.GameMode.SetValue(3);
                     }
                     break;

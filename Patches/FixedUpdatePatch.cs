@@ -1,14 +1,14 @@
 using System;
 using InnerNet;
 using TMPro;
-using TOHE.Modules;
-using TOHE.Roles.AddOns.Common;
-using TOHE.Roles.Core;
-using TOHE.Test;
+using BHR.Modules;
+using BHR.Roles.AddOns.Common;
+using BHR.Roles.Core;
+using BHR.Test;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE.Patches;
+namespace BHR.Patches;
 
 // Credit: EHR
 [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.FixedUpdate))]

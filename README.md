@@ -1,9 +1,9 @@
 
-<h1 align="center">Town of Host: Enhanced (TOHE)</h1>
+<h1 align="center">Town of Host: Enhanced (BHR)</h1>
 
 <br>
 
-<img align="left" alt="Cover" src="Resources/Background/TOHE-Background-Old.jpg" width="50%" height="300" /> 
+<img align="left" alt="Cover" src="Resources/Background/BHR-Background-Old.jpg" width="50%" height="300" /> 
 
 <p align="right">
   
@@ -30,6 +30,10 @@
 <br>
 
 **Credit to these mods and their developers for the code and help:**
+### :star: [TOHE](https://github.com/0xDrMoe/TownofHost-Enhanced) 
+> 
+> - Bedder Host Roles was forked from Town of Host: Enhanced.
+>
 ### :star: [TOHRE](https://github.com/Loonie-Toons/) 
 > 
 > - Town of Host: Enhanced was forked from Town of Host: Re-Edited.
@@ -131,7 +135,7 @@ To obtain an API token for this project, you must join our Discord server and op
    https://discord.gg/ten
 
 2. **Open a Ticket:**
-   Once you've joined the server, open a ticket and request an API token for TOHE API. Provide any necessary information as instructed in the ticket system.
+   Once you've joined the server, open a ticket and request an API token for BHR API. Provide any necessary information as instructed in the ticket system.
 
 3. **Token Usage:**
    Upon receiving the API token, follow the instructions in the documentation to configure and use the token with the project.

@@ -1,9 +1,9 @@
 using Hazel;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
-using static TOHE.Translator;
+using BHR.Modules.Rpc;
+using BHR.Patches;
+using static BHR.Translator;
 
-namespace TOHE.Modules;
+namespace BHR.Modules;
 
 public static class CriticalErrorManager
 {

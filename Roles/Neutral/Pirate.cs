@@ -1,19 +1,19 @@
 using Hazel;
 using System.Text;
 using System.Text.RegularExpressions;
-using TOHE.Modules;
-using TOHE.Modules.ChatManager;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
-using TOHE.Roles.Core;
-using TOHE.Roles.Double;
+using BHR.Modules;
+using BHR.Modules.ChatManager;
+using BHR.Modules.Rpc;
+using BHR.Patches;
+using BHR.Roles.Core;
+using BHR.Roles.Double;
 using UnityEngine;
-using static TOHE.Options;
-using static TOHE.Translator;
-using static TOHE.Utils;
+using static BHR.Options;
+using static BHR.Translator;
+using static BHR.Utils;
 
 
-namespace TOHE.Roles.Neutral;
+namespace BHR.Roles.Neutral;
 internal class Pirate : RoleBase
 {
     //===========================SETUP================================\\

@@ -4,7 +4,7 @@ using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.Injection;
 using System;
 
-namespace TOHE.Modules.Rpc
+namespace BHR.Modules.Rpc
 {
     // Used to serialize multiple gamedata calls in a single message item
     [Obsolete("Use CustomRpcSender instead as it handles data throttling.")]

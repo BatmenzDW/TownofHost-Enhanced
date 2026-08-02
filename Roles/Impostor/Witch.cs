@@ -1,11 +1,11 @@
 using Hazel;
 using System.Text;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using static TOHE.Options;
-using static TOHE.Translator;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using static BHR.Options;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Impostor;
+namespace BHR.Roles.Impostor;
 
 internal class Witch : RoleBase
 {

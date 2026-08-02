@@ -1,9 +1,9 @@
 using System;
 using System.Text;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE;
+namespace BHR;
 
 [Obfuscation(Exclude = true, Feature = "renaming", ApplyToMembers = true)]
 public class OptionShower : MonoBehaviour

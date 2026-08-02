@@ -1,13 +1,13 @@
 using Hazel;
 using System.Text;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
 using UnityEngine;
-using static TOHE.Translator;
-using static TOHE.Utils;
+using static BHR.Translator;
+using static BHR.Utils;
 
-namespace TOHE.Roles.Neutral;
+namespace BHR.Roles.Neutral;
 
 internal class Seeker : RoleBase
 {

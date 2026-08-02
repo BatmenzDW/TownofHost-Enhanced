@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.Json;
 using UnityEngine;
 
-namespace TOHE.Test;
+namespace BHR.Test;
 
 public interface IExperiment
 {

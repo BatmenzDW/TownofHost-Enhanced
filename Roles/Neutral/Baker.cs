@@ -1,13 +1,13 @@
 using AmongUs.GameOptions;
 using Hazel;
 using System.Text;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
-using static TOHE.Options;
-using static TOHE.Translator;
-using static TOHE.Utils;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
+using static BHR.Options;
+using static BHR.Translator;
+using static BHR.Utils;
 
-namespace TOHE.Roles.Neutral;
+namespace BHR.Roles.Neutral;
 
 internal class Baker : RoleBase
 {

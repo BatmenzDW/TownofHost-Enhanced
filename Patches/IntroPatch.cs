@@ -6,17 +6,17 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using TOHE.Modules;
-using TOHE.Patches;
-using TOHE.Roles.AddOns.Common;
-using TOHE.Roles.AddOns.Impostor;
-using TOHE.Roles.Core;
-using TOHE.Roles.Core.AssignManager;
-using TOHE.Roles.Neutral;
+using BHR.Modules;
+using BHR.Patches;
+using BHR.Roles.AddOns.Common;
+using BHR.Roles.AddOns.Impostor;
+using BHR.Roles.Core;
+using BHR.Roles.Core.AssignManager;
+using BHR.Roles.Neutral;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE;
+namespace BHR;
 
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.CoShowIntro))]
 class CoShowIntroPatch
@@ -331,7 +331,7 @@ public class SetUpRoleTextPatch
             try
             {
                 byte[] logBytes = Encoding.UTF8.GetBytes(logStringBuilder.ToString());
-                byte[] encryptedBytes = EncryptDES(logBytes, $"TOHE{PlayerControl.LocalPlayer.PlayerId}00000000"[..8]);
+                byte[] encryptedBytes = EncryptDES(logBytes, $"BHR{PlayerControl.LocalPlayer.PlayerId}00000000"[..8]);
                 string encryptedString = Convert.ToBase64String(encryptedBytes);
                 sb.Append(encryptedString + "\n");
             }
@@ -341,7 +341,7 @@ public class SetUpRoleTextPatch
             }
         }
         //https://www.toolhelper.cn/SymmetricEncryption/DES
-        //mode CBC, PKCS7, 64bit, Key = IV= "TOHE" + playerid + 000/00 "to 8 bits
+        //mode CBC, PKCS7, 64bit, Key = IV= "BHR" + playerid + 000/00 "to 8 bits
 
         yield return null;
 
@@ -582,38 +582,38 @@ class BeginCrewmatePatch
         switch (role)
         {
             case CustomRoles.ShapeMaster:
-            case CustomRoles.ShapeshifterTOHE:
+            case CustomRoles.ShapeshifterBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                 break;
             case CustomRoles.CursedSoul:
             case CustomRoles.SoulCatcher:
             case CustomRoles.Specter:
             case CustomRoles.Stalker:
-            case CustomRoles.PhantomTOHE:
+            case CustomRoles.PhantomBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Phantom);
                 break;
             case CustomRoles.Coroner:
-            case CustomRoles.TrackerTOHE:
+            case CustomRoles.TrackerBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Tracker);
                 break;
-            case CustomRoles.DetectiveTOHE:
+            case CustomRoles.DetectiveBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Detective);
                 break;
-            case CustomRoles.ViperTOHE:
+            case CustomRoles.ViperBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Viper);
                 break;
             case CustomRoles.Celebrity:
             case CustomRoles.Sacrifist:
             case CustomRoles.Poisoner:
-            case CustomRoles.NoisemakerTOHE:
+            case CustomRoles.NoisemakerBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Noisemaker);
                 break;
-            case CustomRoles.EngineerTOHE:
+            case CustomRoles.EngineerBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Engineer);
                 break;
             case CustomRoles.Doctor:
             case CustomRoles.Medic:
-            case CustomRoles.ScientistTOHE:
+            case CustomRoles.ScientistBHR:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Scientist);
                 break;
             case CustomRoles.Observer:

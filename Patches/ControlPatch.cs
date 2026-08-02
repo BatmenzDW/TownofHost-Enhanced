@@ -1,12 +1,12 @@
 using System;
 using System.Text;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Patches;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE;
+namespace BHR;
 
 [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
 internal class ControllerManagerUpdatePatch
@@ -67,7 +67,7 @@ internal class ControllerManagerUpdatePatch
                     sb.Append(GetString(role.ToString()) + Utils.GetRoleChance(role) + lp.GetRoleInfo(true));
                     //if (Options.CustomRoleSpawnChances.TryGetValue(role, out var opt))
                     //Utils.ShowChildrenSettings(Options.CustomRoleSpawnChances[role], ref sb, command: true);
-                    HudManager.Instance.ShowPopUp(sb.ToString() + "<size=0%>tohe</size>");
+                    HudManager.Instance.ShowPopUp(sb.ToString() + "<size=0%>BHR</size>");
                 }
                 catch (Exception ex)
                 {
@@ -91,7 +91,7 @@ internal class ControllerManagerUpdatePatch
 
                     addonInfoIndex++;
                     if (addonInfoIndex >= addDes.Count) addonInfoIndex = 0;
-                    HudManager.Instance.ShowPopUp(addDes[addonInfoIndex] + "<size=0%>tohe</size>");
+                    HudManager.Instance.ShowPopUp(addDes[addonInfoIndex] + "<size=0%>BHR</size>");
                 }
                 catch (Exception ex)
                 {
@@ -135,7 +135,7 @@ internal class ControllerManagerUpdatePatch
 
                     addonSettingsIndex++;
                     if (addonSettingsIndex >= addSett.Count) addonSettingsIndex = 0;
-                    HudManager.Instance.ShowPopUp(addSett[addonSettingsIndex] + "<size=0%>tohe</size>");
+                    HudManager.Instance.ShowPopUp(addSett[addonSettingsIndex] + "<size=0%>BHR</size>");
                 }
                 catch (Exception ex)
                 {
@@ -281,11 +281,11 @@ internal class ControllerManagerUpdatePatch
                 Utils.ShowActiveSettings();
             }
 
-            // Reset all TOHE Settings to Default
+            // Reset all BHR Settings to Default
             if (GameStates.IsLobby && GetKeysDown(KeyCode.LeftControl, KeyCode.LeftShift, KeyCode.Return, KeyCode.Delete))
             {
                 OptionItem.AllOptions.ToArray().Where(x => x.Id > 0).Do(x => x.SetValueNoRpc(x.DefaultValue));
-                Logger.SendInGame(GetString("RestTOHESetting"));
+                Logger.SendInGame(GetString("RestBHRSetting"));
             }
 
             // Host kill self

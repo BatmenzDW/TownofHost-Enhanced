@@ -2,13 +2,13 @@ using AmongUs.GameOptions;
 using Hazel;
 using System;
 using System.Text;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Neutral;
+namespace BHR.Roles.Neutral;
 
 // https://github.com/tukasa0001/TownOfHost/blob/main/Roles/Neutral/PlagueDoctor.cs
 internal class PlagueDoctor : RoleBase

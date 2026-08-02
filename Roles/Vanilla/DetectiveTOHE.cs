@@ -1,11 +1,11 @@
 using AmongUs.GameOptions;
 
-namespace TOHE.Roles.Vanilla;
+namespace BHR.Roles.Vanilla;
 
-internal class DetectiveTOHE : RoleBase
+internal class DetectiveBHR : RoleBase
 {
     //===========================SETUP================================\\
-    public override CustomRoles Role => CustomRoles.DetectiveTOHE;
+    public override CustomRoles Role => CustomRoles.DetectiveBHR;
     private const int Id = 32200;
     public override CustomRoles ThisRoleBase => CustomRoles.Detective;
     public override Custom_RoleType ThisRoleType => Custom_RoleType.CrewmateVanilla;
@@ -15,9 +15,9 @@ internal class DetectiveTOHE : RoleBase
 
     public override void SetupCustomOption()
     {
-        Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.DetectiveTOHE);
+        Options.SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.DetectiveBHR);
         DetectiveSuspectLimit = IntegerOptionItem.Create(Id + 2, GeneralOption.DetectiveBase_DetectiveSuspectLimit, new(2, 4, 1), 2, TabGroup.CrewmateRoles, false)
-            .SetParent(Options.CustomRoleSpawnChances[CustomRoles.DetectiveTOHE])
+            .SetParent(Options.CustomRoleSpawnChances[CustomRoles.DetectiveBHR])
             .SetValueFormat(OptionFormat.Players);
     }
 

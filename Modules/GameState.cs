@@ -1,15 +1,15 @@
 using AmongUs.GameOptions;
 using System;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.AddOns.Impostor;
-using TOHE.Roles.Core;
-using TOHE.Roles.Impostor;
-using TOHE.Roles.Neutral;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Roles.AddOns.Impostor;
+using BHR.Roles.Core;
+using BHR.Roles.Impostor;
+using BHR.Roles.Neutral;
 using UnityEngine;
-using static TOHE.Utils;
+using static BHR.Utils;
 
-namespace TOHE;
+namespace BHR;
 
 public class PlayerState(byte playerId)
 {
@@ -513,7 +513,7 @@ public class PlayerState(byte playerId)
         Fall,
         Exorcised,
 
-        // TOHE
+        // BHR
         Gambled,
         Eaten,
         Sacrifice,

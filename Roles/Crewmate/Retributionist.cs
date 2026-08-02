@@ -1,15 +1,15 @@
 using Hazel;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
-using TOHE.Roles.Double;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Patches;
+using BHR.Roles.Double;
 using UnityEngine;
-using static TOHE.MeetingHudStartPatch;
-using static TOHE.Options;
-using static TOHE.Translator;
-using static TOHE.Utils;
+using static BHR.MeetingHudStartPatch;
+using static BHR.Options;
+using static BHR.Translator;
+using static BHR.Utils;
 
-namespace TOHE.Roles.Crewmate;
+namespace BHR.Roles.Crewmate;
 
 internal class Retributionist : RoleBase
 {

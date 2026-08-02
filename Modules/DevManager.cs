@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace TOHE;
+namespace BHR;
 
 public class DevUser(string code = "", string color = "null", string userType = "null", string tag = "null", bool isUp = false, bool isDev = false, bool deBug = false, bool colorCmd = false, bool nameCmd = false, string upName = "未认证用户")
 {
@@ -20,9 +20,9 @@ public class DevUser(string code = "", string color = "null", string userType = 
     public string GetTag()
     {
 #if ANDROID
-        string tagColorFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "TOHE-DATA", "Tags", "SPONSOR_TAGS", $"{Code}.txt");
+        string tagColorFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "BHR-DATA", "Tags", "SPONSOR_TAGS", $"{Code}.txt");
 #else
-        string tagColorFilePath = @$"./TOHE-DATA/Tags/SPONSOR_TAGS/{Code}.txt";
+        string tagColorFilePath = @$"./BHR-DATA/Tags/SPONSOR_TAGS/{Code}.txt";
 #endif
         if (Color == "null" || Color == string.Empty) return $"<size=1.2>{Tag}</size>\r\n";
         var startColor = Color.TrimStart('#');
@@ -38,7 +38,7 @@ public class DevUser(string code = "", string color = "null", string userType = 
     }
     //public string GetTag() 
     //{
-    //    string tagColorFilePath = @$"./TOHE-DATA/Tags/SPONSOR_TAGS/{Code}.txt";
+    //    string tagColorFilePath = @$"./BHR-DATA/Tags/SPONSOR_TAGS/{Code}.txt";
 
     //    if (Color == "null" || Color == string.Empty) return $"<size=1.2>{Tag}</size>\r\n";
     //    var startColor = "FFFF00";
@@ -96,7 +96,7 @@ public static class DevManager
         DevUserList.Add(new(code: "pinklaze#1776", color: "#30548e", tag: "#Dev", userType: "s_cr", isUp: true, isDev: true, deBug: true, colorCmd: false, upName: "NCSIMON"));
         DevUserList.Add(new(code: "sofaagile#3120", color: "null", tag: "null", userType: "s_cr", isUp: false, isDev: true, deBug: true, colorCmd: false, upName: null)); //天寸
         //DevUserList.Add(new(code: "keyscreech#2151", color: "null", tag: "<color=#D3A4FF>美術</color><color=#5A5AAD>NotKomi</color>", isUp: false, isDev: true, deBug: false, upName: null)); //Endrmen40409
-        DevUserList.Add(new(code: "icingposh#6469", color: "#9e2424", userType: "s_cr", tag: "discord.gg/tohe", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: "ryuk2"));
+        DevUserList.Add(new(code: "icingposh#6469", color: "#9e2424", userType: "s_cr", tag: "discord.gg/BHR", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: "ryuk2"));
         DevUserList.Add(new(code: "bestanswer#3360", color: "#00ff1d", tag: "绿色游戏", userType: "s_cr", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: null)); //NikoCat233's alt
         DevUserList.Add(new(code: "happypride#3747", color: "#00ff1d", tag: "绿色游戏", userType: "s_cr", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: null)); //NikoCat233's alt 2
         DevUserList.Add(new(code: "unseenray#6185", color: "#33ff00", tag: "#Dev", userType: "s_cr", isUp: true, isDev: true, deBug: true, colorCmd: true, upName: "BatmenzDW"));
@@ -143,7 +143,7 @@ public static class DevManager
         DevUserList.Add(new(code: "twainrobin#8089", color: "#0000FF", tag: "啊哈修maker", isUp: false, isDev: false, colorCmd: false, deBug: false, upName: null));
         DevUserList.Add(new(code: "mallcasual#6075", color: "#f89ccb", tag: "波奇酱", isUp: false, isDev: false, colorCmd: false, deBug: false, upName: null));
         DevUserList.Add(new(code: "beamelfin#9478", color: "#6495ED", tag: "Amaster-1111", isUp: false, isDev: false, colorCmd: false, deBug: false, upName: null));
-        DevUserList.Add(new(code: "lordcosy#8966", color: "#FFD6EC", tag: "HostTOHE", isUp: false, isDev: false, colorCmd: false, deBug: false, upName: null)); //K
+        DevUserList.Add(new(code: "lordcosy#8966", color: "#FFD6EC", tag: "HostBHR", isUp: false, isDev: false, colorCmd: false, deBug: false, upName: null)); //K
         DevUserList.Add(new(code: "honestsofa#2870", color: "#D381D9", tag: "Discord: SolarFlare#0700", isUp: true, isDev: false, colorCmd: false, deBug: false, upName: "SolarFlare")); //SolarFlare
     }
     public static bool IsDevUser(this string code) => DevUserList.Any(x => x.Code == code);

@@ -2,7 +2,7 @@ using Hazel;
 using InnerNet;
 using System.Collections.Generic;
 
-namespace TOHE.Modules.Rpc
+namespace BHR.Modules.Rpc
 {
     public static class RoleRpcs
     {

@@ -1,12 +1,12 @@
 using Hazel;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
-using TOHE.Roles.Coven;
-using TOHE.Roles.Neutral;
-using static TOHE.Options;
-using static TOHE.Utils;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
+using BHR.Roles.Coven;
+using BHR.Roles.Neutral;
+using static BHR.Options;
+using static BHR.Utils;
 
-namespace TOHE.Roles.Crewmate;
+namespace BHR.Roles.Crewmate;
 
 internal class Psychic : RoleBase
 {

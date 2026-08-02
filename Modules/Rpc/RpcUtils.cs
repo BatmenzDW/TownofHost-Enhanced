@@ -3,7 +3,7 @@ using Hazel;
 using InnerNet;
 using System;
 
-namespace TOHE.Modules.Rpc;
+namespace BHR.Modules.Rpc;
 
 [HarmonyPatch]
 public class RpcUtils

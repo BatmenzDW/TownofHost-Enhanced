@@ -1,11 +1,11 @@
 using AmongUs.GameOptions;
 using Hazel;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
+using BHR.Modules;
+using BHR.Modules.Rpc;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Impostor;
+namespace BHR.Roles.Impostor;
 
 internal class Fireworker : RoleBase
 {

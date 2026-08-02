@@ -2,9 +2,9 @@ using System;
 using AmongUs.GameOptions;
 using Hazel;
 using InnerNet;
-using TOHE.Modules;
+using BHR.Modules;
 
-namespace TOHE.Patches;
+namespace BHR.Patches;
 
 [Obfuscation(Exclude = true)]
 public enum GameDataTag : byte

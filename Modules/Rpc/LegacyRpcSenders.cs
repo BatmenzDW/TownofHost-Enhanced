@@ -4,10 +4,10 @@ using AmongUs.QuickChat;
 using Hazel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Linq;
-using static TOHE.Options;
-using static TOHE.Translator;
+using static BHR.Options;
+using static BHR.Translator;
 
-namespace TOHE.Modules.Rpc;
+namespace BHR.Modules.Rpc;
 
 public static class LegacyRpcSenders
 {

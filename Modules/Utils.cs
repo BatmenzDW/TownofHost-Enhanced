@@ -14,22 +14,22 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using TOHE.Modules;
-using TOHE.Modules.ChatManager;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
-using TOHE.Roles.AddOns.Common;
-using TOHE.Roles.AddOns.Crewmate;
-using TOHE.Roles.AddOns.Impostor;
-using TOHE.Roles.Core;
-using TOHE.Roles.Coven;
-using TOHE.Roles.Crewmate;
-using TOHE.Roles.Impostor;
-using TOHE.Roles.Neutral;
+using BHR.Modules;
+using BHR.Modules.ChatManager;
+using BHR.Modules.Rpc;
+using BHR.Patches;
+using BHR.Roles.AddOns.Common;
+using BHR.Roles.AddOns.Crewmate;
+using BHR.Roles.AddOns.Impostor;
+using BHR.Roles.Core;
+using BHR.Roles.Coven;
+using BHR.Roles.Crewmate;
+using BHR.Roles.Impostor;
+using BHR.Roles.Neutral;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE;
+namespace BHR;
 
 [Obfuscation(Exclude = true, Feature = "renaming", ApplyToMembers = true)]
 public static class Utils
@@ -1256,7 +1256,7 @@ public static class Utils
             helpString.AppendGetString($"CommandList.{currentBlock}");
         }
     
-        helpString.Append(command.ToHelpString());
+        helpString.Append(command.BHRlpString());
     }
     private static readonly StringBuilder helpString = new();
     public static void ShowHelp(byte ID)
@@ -1858,9 +1858,9 @@ public static class Utils
     {
         if (friendCode == "") return false;
 #if ANDROID
-        var friendCodesFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "TOHE-DATA", "Moderators.txt");
+        var friendCodesFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "BHR-DATA", "Moderators.txt");
 #else
-        var friendCodesFilePath = @"./TOHE-DATA/Moderators.txt";
+        var friendCodesFilePath = @"./BHR-DATA/Moderators.txt";
 #endif
         var friendCodes = File.ReadAllLines(friendCodesFilePath);
         return friendCodes.Any(code => code.Contains(friendCode));
@@ -1869,9 +1869,9 @@ public static class Utils
     {
         if (friendCode == "") return false;
 #if ANDROID
-        var friendCodesFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "TOHE-DATA", "VIP-List.txt");
+        var friendCodesFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "BHR-DATA", "VIP-List.txt");
 #else
-        var friendCodesFilePath = @"./TOHE-DATA/VIP-List.txt";
+        var friendCodesFilePath = @"./BHR-DATA/VIP-List.txt";
 #endif
         var friendCodes = File.ReadAllLines(friendCodesFilePath);
         return friendCodes.Any(code => code.Contains(friendCode));
@@ -1916,7 +1916,7 @@ public static class Utils
             float a = startColor.a + (stepA * i);
 
 
-            string colorHex = ColorToHex(new Color(r, g, b, a));
+            string colorHex = ColorBHRx(new Color(r, g, b, a));
             //Logger.Msg(colorHex, "color");
             gradientText += $"<color=#{colorHex}>{text[i]}</color>";
         }
@@ -1933,7 +1933,7 @@ public static class Utils
         return Color.white;
     }
 
-    private static string ColorToHex(Color color)
+    private static string ColorBHRx(Color color)
     {
         Color32 color32 = (Color32)color;
         return $"{color32.r:X2}{color32.g:X2}{color32.b:X2}{color32.a:X2}";
@@ -1992,9 +1992,9 @@ public static class Utils
     {
         string modtag = "";
 #if ANDROID
-        string colorFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "TOHE-DATA", "Tags", "VIP_TAGS", $"{player.FriendCode}.txt");
+        string colorFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "BHR-DATA", "Tags", "VIP_TAGS", $"{player.FriendCode}.txt");
 #else
-        string colorFilePath = @$"./TOHE-DATA/Tags/VIP_TAGS/{player.FriendCode}.txt";
+        string colorFilePath = @$"./BHR-DATA/Tags/VIP_TAGS/{player.FriendCode}.txt";
 #endif
         if (!Options.GradientTagsOpt.GetBool())
         {
@@ -2036,9 +2036,9 @@ public static class Utils
     {
         string modtag = "";
 #if ANDROID
-        string colorFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "TOHE-DATA", "Tags", "MOD_TAGS", $"{player.FriendCode}.txt");
+        string colorFilePath = Path.Combine(UnityEngine.Application.persistentDataPath, "BHR-DATA", "Tags", "MOD_TAGS", $"{player.FriendCode}.txt");
 #else
-        string colorFilePath = @$"./TOHE-DATA/Tags/MOD_TAGS/{player.FriendCode}.txt";
+        string colorFilePath = @$"./BHR-DATA/Tags/MOD_TAGS/{player.FriendCode}.txt";
 #endif
         if (!Options.GradientTagsOpt.GetBool())
         {
@@ -2094,7 +2094,7 @@ public static class Utils
     {
         name = Options.GetSuffixMode() switch
         {
-            SuffixModes.TOHE => name += $"\r\n<color={Main.ModColor}>TOHE v{Main.PluginDisplayVersion}</color>",
+            SuffixModes.BHR => name += $"\r\n<color={Main.ModColor}>BHR v{Main.PluginDisplayVersion}</color>",
             SuffixModes.Streaming => name += $"\r\n<size=1.7><color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color></size>",
             SuffixModes.Recording => name += $"\r\n<size=1.7><color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color></size>",
             SuffixModes.RoomHost => name += $"\r\n<size=1.7><color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color></size>",
@@ -3034,12 +3034,12 @@ public static class Utils
 
     public static void DumpLog(bool open = true)
     {
-        var f = $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TOHE-logs/";
+        var f = $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/BHR-logs/";
         if (OperatingSystem.IsAndroid())
-            f = $"{Main.DataPath}/TOHE-logs/";
+            f = $"{Main.DataPath}/BHR-logs/";
         
         string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
-        string filename = $"{f}TOHE-v{Main.PluginVersion}-{t}.log";
+        string filename = $"{f}BHR-v{Main.PluginVersion}-{t}.log";
         if (!Directory.Exists(f)) Directory.CreateDirectory(f);
         FileInfo file = new(@$"{Environment.CurrentDirectory}/BepInEx/LogOutput.log");
         file.CopyTo(@filename);
@@ -3047,7 +3047,7 @@ public static class Utils
         if (!open) return;
 
         if (PlayerControl.LocalPlayer)
-            HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.DumpfileSaved"), $"TOHE - v{Main.PluginVersion}-{t}.log"));
+            HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.DumpfileSaved"), $"BHR - v{Main.PluginVersion}-{t}.log"));
 
         SendMessage(string.Format(GetString("Message.DumpcmdUsed"), PlayerControl.LocalPlayer.GetNameWithRole()));
 

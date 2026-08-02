@@ -1,9 +1,9 @@
 using Hazel;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
+using BHR.Modules;
+using BHR.Modules.Rpc;
 using UnityEngine;
 
-namespace TOHE;
+namespace BHR;
 
 static class LocateArrow
 {

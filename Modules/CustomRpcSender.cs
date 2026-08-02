@@ -4,15 +4,15 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using InnerNet;
 using System;
 using System.Text;
-using TOHE.Roles.Core;
-using TOHE.Roles.Crewmate;
-using TOHE.Roles.Neutral;
-using TOHE.Modules;
+using BHR.Roles.Core;
+using BHR.Roles.Crewmate;
+using BHR.Roles.Neutral;
+using BHR.Modules;
 using UnityEngine;
 using System.Runtime.CompilerServices;
-using TOHE.Test;
+using BHR.Test;
 
-namespace TOHE;
+namespace BHR;
 
 public class CustomRpcSender
 {

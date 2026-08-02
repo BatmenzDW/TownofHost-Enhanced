@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 using Hazel;
-using TOHE.Modules.Rpc;
+using BHR.Modules.Rpc;
 using UnityEngine;
 
-namespace TOHE.Roles.Impostor;
+namespace BHR.Roles.Impostor;
 
 internal class Undertaker : RoleBase
 {

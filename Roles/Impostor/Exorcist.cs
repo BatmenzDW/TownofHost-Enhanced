@@ -1,13 +1,13 @@
 using Hazel;
 using TMPro;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
-using TOHE.Roles.Core;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Patches;
+using BHR.Roles.Core;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Impostor;
+namespace BHR.Roles.Impostor;
 
 internal class Exorcist : RoleBase
 {

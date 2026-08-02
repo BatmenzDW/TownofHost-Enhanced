@@ -1,10 +1,10 @@
 using Hazel;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using static TOHE.Options;
-using static TOHE.Utils;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using static BHR.Options;
+using static BHR.Utils;
 
-namespace TOHE.Roles.Crewmate;
+namespace BHR.Roles.Crewmate;
 
 internal class Spy : RoleBase
 {

@@ -5,11 +5,11 @@ using Hazel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Linq;
 using InnerNet;
-using TOHE.Roles.Core;
-using TOHE.Roles.Crewmate;
+using BHR.Roles.Core;
+using BHR.Roles.Crewmate;
 using Mathf = UnityEngine.Mathf;
 
-namespace TOHE.Modules;
+namespace BHR.Modules;
 
 public class PlayerGameOptionsSender(PlayerControl player) : GameOptionsSender
 {

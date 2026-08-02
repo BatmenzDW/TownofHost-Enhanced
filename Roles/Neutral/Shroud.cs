@@ -1,13 +1,13 @@
 using AmongUs.GameOptions;
 using Hazel;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
-using TOHE.Roles.Double;
-using static TOHE.Options;
-using static TOHE.Translator;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
+using BHR.Roles.Double;
+using static BHR.Options;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Neutral;
+namespace BHR.Roles.Neutral;
 
 internal class Shroud : RoleBase
 {

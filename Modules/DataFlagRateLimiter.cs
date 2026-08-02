@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Hazel;
 
-namespace TOHE.Modules;
+namespace BHR.Modules;
 
 public static class DataFlagRateLimiter
 {

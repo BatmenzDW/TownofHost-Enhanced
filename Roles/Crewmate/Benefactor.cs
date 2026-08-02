@@ -1,12 +1,12 @@
 using Hazel;
 using System;
 using System.Text;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
+using BHR.Modules;
+using BHR.Modules.Rpc;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Crewmate;
+namespace BHR.Roles.Crewmate;
 
 internal class Benefactor : RoleBase
 {

@@ -1,12 +1,12 @@
 using Hazel;
-using TOHE.Modules;
-using TOHE.Modules.ChatManager;
-using TOHE.Modules.Rpc;
-using TOHE.Patches;
-using static TOHE.Options;
-using static TOHE.Translator;
+using BHR.Modules;
+using BHR.Modules.ChatManager;
+using BHR.Modules.Rpc;
+using BHR.Patches;
+using static BHR.Options;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Crewmate;
+namespace BHR.Roles.Crewmate;
 
 internal class President : RoleBase
 {

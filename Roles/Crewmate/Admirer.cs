@@ -1,12 +1,12 @@
 using Hazel;
-using TOHE.Modules;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
-using TOHE.Roles.Double;
-using static TOHE.Options;
-using static TOHE.Translator;
+using BHR.Modules;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
+using BHR.Roles.Double;
+using static BHR.Options;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Crewmate;
+namespace BHR.Roles.Crewmate;
 
 internal class Admirer : RoleBase
 {

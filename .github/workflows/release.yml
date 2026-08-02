@@ -1,4 +1,4 @@
-name: Build & Release TOHE
+name: Build & Release BHR
 
 on:
   workflow_dispatch:
@@ -31,9 +31,9 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
   # ---------------------------------------------------------
-  # 1) Build TOHE on Linux
+  # 1) Build BHR on Linux
   # ---------------------------------------------------------
-  build-tohe:
+  build-BHR:
     runs-on: ubuntu-latest
     needs: [prepare-build]
     steps:
@@ -44,30 +44,30 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Build TOHE
-        run: dotnet build TOHE.csproj -c Release -o build/
+      - name: Build BHR
+        run: dotnet build BHR.csproj -c Release -o build/
 
-      - name: Upload TOHE artifact
+      - name: Upload BHR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: tohe
-          path: build/TOHE.dll
+          name: BHR
+          path: build/BHR.dll
 
   # ---------------------------------------------------------
   # 3) Package everything on Linux
   # ---------------------------------------------------------
   package:
     runs-on: ubuntu-latest
-    needs: [build-tohe]
+    needs: [build-BHR]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download TOHE artifact
+      - name: Download BHR artifact
         uses: actions/download-artifact@v4
         with:
-          name: tohe
-          path: artifacts/tohe
+          name: BHR
+          path: artifacts/BHR
 
       - name: Prepare release folders
         run: |
@@ -83,10 +83,10 @@ jobs:
           unzip bepinex-x86.zip -d steam
           chmod -R u+rwX,go+rX steam
 
-      - name: Copy TOHE dll to plugins
+      - name: Copy BHR dll to plugins
         run: |
-          cp artifacts/tohe/TOHE.dll epic/BepInEx/plugins/
-          cp artifacts/tohe/TOHE.dll steam/BepInEx/plugins/
+          cp artifacts/BHR/BHR.dll epic/BepInEx/plugins/
+          cp artifacts/BHR/BHR.dll steam/BepInEx/plugins/
 
       - name: Copy configs to BepInEx config
         run: |
@@ -106,18 +106,18 @@ jobs:
       - name: Create Epic/MS Store ZIP
         run: |
           cd epic
-          zip -r "../TOHE.v${{ github.event.inputs.version }}_Epic-Games_Microsoft-Store.zip" .
+          zip -r "../BHR.v${{ github.event.inputs.version }}_Epic-Games_Microsoft-Store.zip" .
 
       - name: Create Steam ZIP
         run: |
           cd steam
-          zip -r "../TOHE.v${{ github.event.inputs.version }}_Steam.zip" .
+          zip -r "../BHR.v${{ github.event.inputs.version }}_Steam.zip" .
 
       - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
           name: final-zips
-          path: ./TOHE*.zip
+          path: ./BHR*.zip
 
   # ---------------------------------------------------------
   # 4) Create GitHub Release
@@ -141,8 +141,8 @@ jobs:
       - name: Download EHR.dll
         uses: actions/download-artifact@v4
         with:
-          name: tohe
-          path: release-artifacts/tohe
+          name: BHR
+          path: release-artifacts/BHR
 
       - name: Download Control Panel EXE
         uses: actions/download-artifact@v4
@@ -157,7 +157,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: "v${{ github.event.inputs.version }}"
-          name: "TOHE v${{ github.event.inputs.version }}"
+          name: "BHR v${{ github.event.inputs.version }}"
           generate_release_notes: true
           body_path: CHANGELOG.md
           files: |
@@ -189,5 +189,5 @@ jobs:
       #   run: |
       #     curl -H "Content-Type: application/json" \
       #       -X POST \
-      #       -d "{\"content\": \"<@&1170671991343288391>\nTOHE v${{ github.event.inputs.version }}\nhttps://github.com/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }}\"}" \
+      #       -d "{\"content\": \"<@&1170671991343288391>\nBHR v${{ github.event.inputs.version }}\nhttps://github.com/${{ github.repository }}/releases/tag/v${{ github.event.inputs.version }}\"}" \
       #       ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}

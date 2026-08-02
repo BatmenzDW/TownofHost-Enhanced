@@ -1,7 +1,7 @@
 using AmongUs.InnerNet.GameDataMessages;
-using TOHE.Modules.Rpc;
+using BHR.Modules.Rpc;
 
-namespace TOHE.Modules;
+namespace BHR.Modules;
 
 public static class OutfitManager
 {

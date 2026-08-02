@@ -1,10 +1,10 @@
 using AmongUs.GameOptions;
 using Hazel;
 using System.Text;
-using TOHE.Roles.Core;
+using BHR.Roles.Core;
 using UnityEngine;
 
-namespace TOHE;
+namespace BHR;
 
 public abstract class RoleBase
 {

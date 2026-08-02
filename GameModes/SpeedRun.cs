@@ -1,13 +1,13 @@
 using AmongUs.GameOptions;
 using Hazel;
 using System.Text;
-using TOHE.Modules.Rpc;
-using TOHE.Roles.Core;
+using BHR.Modules.Rpc;
+using BHR.Roles.Core;
 using UnityEngine;
-using static TOHE.Translator;
-using static TOHE.Utils;
+using static BHR.Translator;
+using static BHR.Utils;
 
-namespace TOHE;
+namespace BHR;
 
 public static class SpeedRun
 {

@@ -1,12 +1,12 @@
-using TOHE.Modules;
-using TOHE.Roles.AddOns.Crewmate;
-using TOHE.Roles.Core;
-using TOHE.Roles.Crewmate;
-using TOHE.Roles.Double;
+using BHR.Modules;
+using BHR.Roles.AddOns.Crewmate;
+using BHR.Roles.Core;
+using BHR.Roles.Crewmate;
+using BHR.Roles.Double;
 using UnityEngine;
-using static TOHE.Translator;
+using static BHR.Translator;
 
-namespace TOHE.Roles.Impostor;
+namespace BHR.Roles.Impostor;
 
 internal class Gangster : RoleBase
 {
