@@ -1,5 +1,5 @@
 
-<h1 align="center">Town of Host: Enhanced (BHR)</h1>
+<h1 align="center">Bedder Host Roles (BHR)</h1>
 
 <br>
 
@@ -119,7 +119,7 @@
 > - We included CrowdedMod in our Mod
 ---
 
-# Legal License Notice
+<!-- # Legal License Notice
 
 This project utilizes a third-party API, custom-coded by The Enhanced Network. founded by Moe Wehbeh, which is not subject to the GPL 3.0 license. However, please be aware that the project itself, including any modifications, additions, or integrations made to interact with the API, is governed by the terms of the GNU General Public License version 3.0 (GPL-3.0).
 
@@ -140,6 +140,6 @@ To obtain an API token for this project, you must join our Discord server and op
 3. **Token Usage:**
    Upon receiving the API token, follow the instructions in the documentation to configure and use the token with the project.
 
-**Note:** Access to the API is subject to our terms and conditions. Failure to comply with these terms may result in revocation of API access. Additionally, you only need a token if you are a developer. You do not need it to play the mod.
+**Note:** Access to the API is subject to our terms and conditions. Failure to comply with these terms may result in revocation of API access. Additionally, you only need a token if you are a developer. You do not need it to play the mod. -->
 
 ---
