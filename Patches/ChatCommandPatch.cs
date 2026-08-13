@@ -482,7 +482,8 @@ internal class ChatCommands
             return;
         }
         
-        if (text.StartsWith("/cmd ")) 
+        bool hasCmdPrefix = text.StartsWith("/cmd ");
+        if (hasCmdPrefix) 
         {
             text = text[5..];
             if (!text.StartsWith("/")) text = "/" + text;
@@ -516,6 +517,11 @@ internal class ChatCommands
         }
 
         if (ExileController.Instance)
+        {
+            canceled = true;
+        }
+
+        if (hasCmdPrefix)
         {
             canceled = true;
         }
