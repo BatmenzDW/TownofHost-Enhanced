@@ -455,7 +455,11 @@ public abstract class RoleBase
     public virtual string PlayerKnowTargetColor(PlayerControl seer, PlayerControl target) => string.Empty;
     public virtual bool OthersKnowTargetRoleColor(PlayerControl seer, PlayerControl target) => false;
 
-
+    public virtual bool OnJudge(PlayerControl voter, PlayerControl target)
+    {
+        return false;
+    }
+    
     public virtual void ReceiveRPC(MessageReader reader, PlayerControl pc)
     { }
 

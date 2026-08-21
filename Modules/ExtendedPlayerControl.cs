@@ -359,6 +359,12 @@ static class ExtendedPlayerControl
             writer.SendMessage();
         }, 0.5f, "Clear Vote");
     }
+    public static bool UsesJudgeAbilityAsTrigger(this PlayerControl player)
+    {
+        CustomRoles role = player.GetCustomRole();
+        if (player.IsModded() && role is CustomRoles.Councillor or CustomRoles.Inspector or CustomRoles.JudgeOld or CustomRoles.Retributionist or CustomRoles.Starspawn or CustomRoles.Swapper) return false;
+        return role.UsesJudgeAbilityAsTrigger();
+    }
     public static void RpcSetNameEx(this PlayerControl player, string name)
     {
         name = name.Replace("color=", string.Empty);

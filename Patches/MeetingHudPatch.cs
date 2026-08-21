@@ -1296,7 +1296,19 @@ class MeetingHudStartPatch
         try
         {
             if (AmongUsClient.Instance.AmHost)
+            {
                 NotifyRoleSkillOnMeetingStart();
+
+                if (Options.UseJudgeAbilityAsTrigger.GetBool())
+                {
+                    LateTask.New(() =>
+                    {
+                        if (!MeetingHud.Instance || MeetingHud.Instance.state is MeetingHud.MeetingStates.Results or MeetingHud.MeetingStates.Proceeding) return;
+
+                        Main.EnumerateAlivePlayerControls().DoIf(x => x.UsesJudgeAbilityAsTrigger(), x => x.RpcSetRoleDesync(RoleTypes.Judge, x.OwnerId));
+                    }, 1f, "Set Judge Role For Meeting Use");
+                }
+            }
         }
         catch (Exception error)
         {
@@ -1519,6 +1531,16 @@ class MeetingHudOnDestroyPatch
 
             Main.LastVotedPlayerInfo = null;
             EAC.ReportTimes = [];
+
+            if (!AntiBlackout.SkipTasks)
+            {
+                if (Options.UseJudgeAbilityAsTrigger.GetBool())
+                {
+                    foreach (PlayerControl pc in Main.AllAlivePlayerControls)
+                        if (pc.UsesJudgeAbilityAsTrigger())
+                            pc.RpcSetRoleDesync(pc.GetCustomRole().GetRoleTypes(), pc.OwnerId);
+                }
+            }
         }
     }
 }
@@ -1584,34 +1606,50 @@ class MeetingHudHandleRpcPatch
 {
     public static bool Prefix(MeetingHud __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
     {
-        if (callId == (byte)RpcCalls.CloseMeeting)
+        switch (callId)
         {
-            if (AmongUsClient.Instance.AmHost)
+            case (byte)RpcCalls.QueueOverruleVotes:
             {
-                EAC.WarnHost(4);
-                Logger.Warn("MeetingHud.HandleRpc CloseMeeting is being called, impossible to receive as host.", "MeetingHudHandleRpcPatch");
-                return false;
+                byte judgePlayerId = reader.ReadByte();
+                byte targetPlayerId = reader.ReadByte();
+
+                PlayerControl judge = judgePlayerId.GetPlayer();
+                PlayerControl target = targetPlayerId.GetPlayer();
+
+                if (judge && target && judge.UsesJudgeAbilityAsTrigger() && Main.PlayerStates.TryGetValue(judgePlayerId, out PlayerState state))
+                    return !state.RoleClass.OnJudge(judge, target);
+                break;
             }
-            else
+            case (byte)RpcCalls.CloseMeeting:
             {
-                Logger.Info("Received Close Meeting Rpc", "MeetingHudHandleRpcPatch");
-
-                if (reader.BytesRemaining > 6)
+                if (AmongUsClient.Instance.AmHost)
                 {
-                    try
-                    {
-                        var temp = reader.ReadString();
+                    EAC.WarnHost(4);
+                    Logger.Warn("MeetingHud.HandleRpc CloseMeeting is being called, impossible to receive as host.", "MeetingHudHandleRpcPatch");
+                    return false;
+                }
+                else
+                {
+                    Logger.Info("Received Close Meeting Rpc", "MeetingHudHandleRpcPatch");
 
-                        if (temp.Contains("<size"))
+                    if (reader.BytesRemaining > 6)
+                    {
+                        try
                         {
-                            Logger.Info($"Read Name From Rpc: {temp}", "MeetingHudHandleRpcPatch");
-                            CheckForEndVotingPatch.TempExileMsg = temp;
+                            var temp = reader.ReadString();
+
+                            if (temp.Contains("<size"))
+                            {
+                                Logger.Info($"Read Name From Rpc: {temp}", "MeetingHudHandleRpcPatch");
+                                CheckForEndVotingPatch.TempExileMsg = temp;
+                            }
+                        }
+                        catch
+                        {
                         }
                     }
-                    catch
-                    {
-                    }
                 }
+                break;
             }
         }
 

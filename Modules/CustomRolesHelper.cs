@@ -1772,6 +1772,13 @@ public static class CustomRolesHelper
             _ => false
         };
     }
+
+    public static bool UsesJudgeAbilityAsTrigger(this CustomRoles role)
+    {
+        if (!Options.UseJudgeAbilityAsTrigger.GetBool()) return false;
+        Type type = role.GetType();
+        return type.GetMethod("OnJudge")?.DeclaringType == type;
+    }
 }
 [Obfuscation(Exclude = true)]
 public enum Custom_Team

@@ -210,6 +210,8 @@ public static class Options
     public static OptionItem KickPlayerFriendCodeInvalid;
     public static OptionItem TempBanPlayerFriendCodeInvalid;
 
+    public static OptionItem UseJudgeAbilityAsTrigger;
+
     public static OptionItem AutoKickStart;
     public static OptionItem AutoKickStartTimes;
     public static OptionItem AutoKickStartAsBan;
@@ -1277,6 +1279,11 @@ public static class Options
         StartCommandMaxCountdown = IntegerOptionItem.Create(60124, "StartCommandMaxCountdown", new(0, 99, 1), 15, TabGroup.SystemSettings, false)
             .SetParent(AllowStartCommand)
             .SetValueFormat(OptionFormat.Seconds);
+
+        UseJudgeAbilityAsTrigger = BooleanOptionItem.Create(23865, "UseJudgeAbilityAsTrigger", true, TabGroup.SystemSettings, false)
+            .SetGameMode(CustomGameMode.Standard)
+            .SetHeader(true)
+            .SetColor(Palette.Orange);
 
         //ApplyReminderMsg = BooleanOptionItem.Create(60130, "ApplyReminderMsg", false, TabGroup.SystemSettings, false);
         /*TimeForReminder = IntegerOptionItem.Create(60131, "TimeForReminder", new(0, 99, 1), 3, TabGroup.SystemSettings, false)
