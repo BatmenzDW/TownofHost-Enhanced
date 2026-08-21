@@ -132,7 +132,7 @@ internal class CopyCat : RoleBase
                 CustomRoles.Visionary => CustomRoles.Oracle,
                 CustomRoles.Workaholic => CustomRoles.Snitch,
                 CustomRoles.Sunnyboy => new[] { CustomRoles.Doctor, CustomRoles.ScientistBHR }.RandomElement(),
-                CustomRoles.Councillor => CustomRoles.Judge,
+                CustomRoles.Councillor => CustomRoles.JudgeOld,
                 CustomRoles.Taskinator => CustomRoles.Benefactor,
                 CustomRoles.EvilTracker => CustomRoles.TrackerBHR,
                 CustomRoles.AntiAdminer => CustomRoles.Telecommunication,

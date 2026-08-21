@@ -58,7 +58,7 @@ public class ModNews
     [HarmonyPatch(typeof(AnnouncementPopUp), nameof(AnnouncementPopUp.Init)), HarmonyPostfix]
     public static void Initialize_Postfix(ref Il2CppSystem.Collections.IEnumerator __result)
     {
-        static IEnumerator FetchBlacklist()
+        static IEnumerator FetchAnnouncements()
         {
             Logger.Info("Fetching Mod News from GitHub", "ModNews");
             if (downloaded)
@@ -118,7 +118,7 @@ public class ModNews
                 LoadModNewsFromResources();
             }
         }
-        __result = Effects.Sequence(FetchBlacklist().WrapToIl2Cpp(), __result);
+        __result = Effects.Sequence(FetchAnnouncements().WrapToIl2Cpp(), __result);
     }
 
     private static void LoadModNewsFromResources()

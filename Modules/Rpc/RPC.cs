@@ -605,7 +605,7 @@ internal class RPCHandlerPatch
                 NameNotifyManager.ReceiveRPC(reader);
                 break;
             case CustomRPC.Judge:
-                Judge.ReceiveRPC_Custom(reader, __instance);
+                JudgeOld.ReceiveRPC_Custom(reader, __instance);
                 break;
             case CustomRPC.ExorcistExorcise:
                 Exorcist.ReceiveRPC_Custom(reader, __instance);

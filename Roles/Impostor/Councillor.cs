@@ -256,7 +256,7 @@ internal class Councillor : RoleBase
                     {
                         if (!MakeEvilJudgeClear.GetBool())
                         {
-                            Utils.SendMessage(string.Format(GetString("Judge_TrialKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Judge), GetString("Judge_TrialKillTitle")), true);
+                            Utils.SendMessage(string.Format(GetString("JudgeOld_TrialKill"), Name), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.JudgeOld), GetString("JudgeOld_TrialKillTitle")), true);
                         }
                         else
                         {
