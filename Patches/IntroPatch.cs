@@ -710,7 +710,7 @@ class BeginCrewmatePatch
             
             case CustomRoles.Judge:
             case CustomRoles.JudgeBHR:
-            case CustomRoles.JudgeOld:
+            case CustomRoles.Prosecutor:
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Judge);
                 break;
         }

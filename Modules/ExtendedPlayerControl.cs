@@ -362,7 +362,7 @@ static class ExtendedPlayerControl
     public static bool UsesJudgeAbilityAsTrigger(this PlayerControl player)
     {
         CustomRoles role = player.GetCustomRole();
-        if (player.IsModded() && role is CustomRoles.Councillor or CustomRoles.Inspector or CustomRoles.JudgeOld or CustomRoles.Retributionist or CustomRoles.Starspawn or CustomRoles.Swapper) return false;
+        if (player.IsModded() && role is CustomRoles.Councillor or CustomRoles.Inspector or CustomRoles.Prosecutor or CustomRoles.Retributionist or CustomRoles.Starspawn or CustomRoles.Swapper) return false;
         return role.UsesJudgeAbilityAsTrigger();
     }
     public static void RpcSetNameEx(this PlayerControl player, string name)

@@ -854,7 +854,7 @@ public enum CustomRoles
     Inspector,
     Investigator,
     Jailer,
-    JudgeOld,
+    Prosecutor,
     Keeper,
     Knight,
     LazyGuy,

@@ -2465,7 +2465,7 @@ public static class Utils
             {
                 var GetTragetId = ColorString(GetRoleColor(seer.GetCustomRole()), target.PlayerId.ToString()) + " " + TargetPlayerName;
 
-                if (Options.CrewmatesCanGuess.GetBool() && seer.GetCustomRole().IsCrewmate() && !seer.Is(CustomRoles.JudgeOld) && !seer.Is(CustomRoles.Inspector) && !seer.Is(CustomRoles.Lookout) && !seer.Is(CustomRoles.Swapper))
+                if (Options.CrewmatesCanGuess.GetBool() && seer.GetCustomRole().IsCrewmate() && !seer.Is(CustomRoles.Prosecutor) && !seer.Is(CustomRoles.Inspector) && !seer.Is(CustomRoles.Lookout) && !seer.Is(CustomRoles.Swapper))
                     TargetPlayerName = GetTragetId;
 
                 else if (seer.Is(CustomRoles.NiceGuesser) && !Options.CrewmatesCanGuess.GetBool())
@@ -2849,7 +2849,7 @@ public static class Utils
                                 || CustomRoles.Provocateur.IsEnable(),
             PlayerState.DeathReason.Dismembered => CustomRoles.Butcher.IsEnable(),
             PlayerState.DeathReason.LossOfHead => CustomRoles.Hangman.IsEnable(),
-            PlayerState.DeathReason.Trialed => CustomRoles.JudgeOld.IsEnable() 
+            PlayerState.DeathReason.Trialed => CustomRoles.Prosecutor.IsEnable() 
                                 || CustomRoles.Councillor.IsEnable(),
             PlayerState.DeathReason.Infected => CustomRoles.Infectious.IsEnable(),
             PlayerState.DeathReason.Hack => false,

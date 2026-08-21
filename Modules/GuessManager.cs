@@ -104,7 +104,7 @@ public static class GuessManager
         if (!pc.Is(CustomRoles.NiceGuesser)
             && !pc.Is(CustomRoles.EvilGuesser)
             && !pc.Is(CustomRoles.Doomsayer)
-            && !pc.Is(CustomRoles.JudgeOld)
+            && !pc.Is(CustomRoles.Prosecutor)
             && !pc.Is(CustomRoles.Councillor)
             && !pc.Is(CustomRoles.Guesser)
             && !Options.GuesserMode.GetBool()) return false;

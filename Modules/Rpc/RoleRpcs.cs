@@ -24,7 +24,7 @@ namespace BHR.Modules.Rpc
             EndAndSend(sender);
         }
 
-        public static void SendJudgeOld(uint netId, byte playerId)
+        public static void SendProsecutor(uint netId, byte playerId)
         {
             var sender = StartRoleRpc(nameof(CustomRPC.Judge), netId, CustomRPC.Judge);
             sender.stream.Write(playerId);

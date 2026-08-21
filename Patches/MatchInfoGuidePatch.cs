@@ -112,7 +112,7 @@ public static class MatchInfoGuidePatch
             CustomRoles.Captain or CustomRoles.Coroner or CustomRoles.EvilTracker or CustomRoles.Lookout => RoleTypes.Tracker,
             CustomRoles.Demon or CustomRoles.Pelican or CustomRoles.Scavenger or CustomRoles.Vampire or CustomRoles.Vulture => RoleTypes.Viper,
             CustomRoles.Specter or CustomRoles.SuperStar or CustomRoles.Sunnyboy => RoleTypes.Noisemaker,
-            CustomRoles.JudgeOld or CustomRoles.Mayor or CustomRoles.Dictator or CustomRoles.Swapper or CustomRoles.President => RoleTypes.Judge,
+            CustomRoles.Prosecutor or CustomRoles.Mayor or CustomRoles.Dictator or CustomRoles.Swapper or CustomRoles.President => RoleTypes.Judge,
             _ when role.IsCoven() => RoleTypes.Shapeshifter,
             _ when role.IsCrewmate() && role.IsDesyncRole() => RoleTypes.Engineer,
             _ when role.GetStaticRoleClass().ThisRoleType == Custom_RoleType.CrewmateInvestigative => RoleTypes.Detective,

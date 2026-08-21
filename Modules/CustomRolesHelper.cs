@@ -187,7 +187,7 @@ public static class CustomRolesHelper
                 CustomRoles.Crusader or
                 CustomRoles.Overseer or
                 CustomRoles.Jailer or
-                CustomRoles.JudgeOld or
+                CustomRoles.Prosecutor or
                 CustomRoles.Medic or
                 CustomRoles.Medium or
                 CustomRoles.Monarch or
@@ -659,7 +659,7 @@ public static class CustomRolesHelper
                     return false;
                 if (pc.Is(CustomRoles.EvilGuesser)
                     || pc.Is(CustomRoles.NiceGuesser)
-                    || pc.Is(CustomRoles.JudgeOld)
+                    || pc.Is(CustomRoles.Prosecutor)
                     || pc.Is(CustomRoles.CopyCat)
                     || pc.Is(CustomRoles.Doomsayer)
                     || pc.Is(CustomRoles.Nemesis)
