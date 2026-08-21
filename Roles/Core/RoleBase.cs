@@ -512,6 +512,7 @@ public abstract class RoleBase
         TrackerBase_TrackingDuration,
         TrackerBase_TrackingDelay,
         DetectiveBase_DetectiveSuspectLimit,
-        ViperBase_ViperDissolveTime
+        ViperBase_ViperDissolveTime,
+        JudgeBase_JudgeTaskRequirementPercentage,
     }
 }

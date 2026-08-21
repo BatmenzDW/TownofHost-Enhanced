@@ -64,17 +64,12 @@ internal partial class Mayor : RoleBase
         {
             statesList.Add(new MeetingHud.VoterState()
             {
-                VoterId = votedPlayer.TargetPlayerId,
-                VotedForId = votedPlayer.VotedFor
+                VoterId = votedPlayer.PlayerId,
+                VotedForId = votedPlayer.VotedForId
             });
         }
     }
 
-    //public override void OnReportDeadBody(PlayerControl reporter, PlayerControl target)
-    //{
-    //    if (target == null)
-    //        MayorUsedButtonCount[reporter.PlayerId] += 1;
-    //}
     public override void ApplyGameOptions(IGameOptions opt, byte playerId)
     {
         AURoleOptions.EngineerCooldown =

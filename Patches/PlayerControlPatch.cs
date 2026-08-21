@@ -2291,6 +2291,7 @@ class PlayerControlLocalSetRolePatch
                 RoleTypes.Tracker => CustomRoles.TrackerBHR,
                 RoleTypes.Detective => CustomRoles.DetectiveBHR,
                 RoleTypes.Viper => CustomRoles.ViperBHR,
+                RoleTypes.Judge => CustomRoles.JudgeBHR,
                 _ => CustomRoles.NotAssigned,
             };
             if (modRole != CustomRoles.NotAssigned)

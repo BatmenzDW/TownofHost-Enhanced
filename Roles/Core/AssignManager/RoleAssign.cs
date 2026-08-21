@@ -1152,6 +1152,7 @@ public class RoleAssign
     public static int AddTrackerNum;
     public static int AddDetectiveNum;
     public static int AddViperNum;
+    public static int AddJudgeNum;
 
     public static void CalculateVanillaRoleCount()
     {
@@ -1164,6 +1165,7 @@ public class RoleAssign
         AddTrackerNum = 0;
         AddDetectiveNum = 0;
         AddViperNum = 0;
+        AddJudgeNum = 0;
 
         foreach (var role in AllRoles)
         {
@@ -1192,6 +1194,9 @@ public class RoleAssign
                     break;
                 case CustomRoles.Detective:
                     AddDetectiveNum++;
+                    break;
+                case CustomRoles.Judge:
+                    AddJudgeNum++;
                     break;
             }
         }

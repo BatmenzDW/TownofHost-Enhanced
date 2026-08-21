@@ -199,7 +199,7 @@ public class Lovers : IAddon
                     p2.Data.IsDead = true;
                     p2.RpcExileV2();
                     Main.PlayerStates[p2.PlayerId].SetDead();
-                    if (MeetingHud.Instance?.state is MeetingHud.VoteStates.Discussion or MeetingHud.VoteStates.NotVoted or MeetingHud.VoteStates.Voted)
+                    if (MeetingHud.Instance?.state is MeetingHud.MeetingStates.Discussion or MeetingHud.MeetingStates.NotVoted or MeetingHud.MeetingStates.Voted)
                     {
                         MeetingHud.Instance?.CheckForEndVoting();
                     }

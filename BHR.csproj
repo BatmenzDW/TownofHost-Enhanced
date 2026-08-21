@@ -7,7 +7,7 @@
 		<Description>BHR</Description>
 		<Authors>BatmenzDW</Authors>
 		<LangVersion>12.0</LangVersion>
-		<Platforms>Windows;Android</Platforms>
+		<Platforms>Windows</Platforms>
 		<!--<AmongUs>C:\Program Files\Epic Games\AmongUs</AmongUs>-->
 		<Configurations>Debug;Release;Canary</Configurations>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -15,9 +15,9 @@
 		<CodePage>65001</CodePage>
 	</PropertyGroup>
 
-	<PropertyGroup Condition=" '$(Platform)' == 'Android' ">
+	<!-- <PropertyGroup Condition=" '$(Platform)' == 'Android' ">
 		<DefineConstants>TRACE;ANDROID</DefineConstants>
-	</PropertyGroup>
+	</PropertyGroup> -->
 	<PropertyGroup Condition=" '$(Platform)' == 'Windows' ">
 		<DefineConstants>TRACE;PC</DefineConstants>
 	</PropertyGroup>
@@ -28,8 +28,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Condition="$(Platform)=='Android'" Include="AmongUs.GameLibs.Android" Version="2025.9.9" PrivateAssets="all" />
-		<PackageReference Condition="$(Platform)=='Windows'" Include="AmongUs.GameLibs.Steam" Version="2025.9.9" PrivateAssets="all" />
+		<!-- <PackageReference Condition="$(Platform)=='Android'" Include="AmongUs.GameLibs.Android" Version="2025.10.14" PrivateAssets="all" /> -->
+		<PackageReference Condition="$(Platform)=='Windows'" Include="AmongUs.GameLibs.Steam" Version="2026.8.18" PrivateAssets="all" />
 		
 		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.1.0-rc.1">
 			<PrivateAssets>all</PrivateAssets>

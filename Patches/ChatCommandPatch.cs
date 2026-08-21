@@ -495,7 +495,7 @@ internal class ChatCommands
 
         var commandEntered = false;
 
-        if (text.StartsWith('/') && !player.IsModded() && (!GameStates.IsMeeting || MeetingHud.Instance.state is not MeetingHud.VoteStates.Results and not MeetingHud.VoteStates.Proceeding))
+        if (text.StartsWith('/') && !player.IsModded() && (!GameStates.IsMeeting || MeetingHud.Instance.state is not MeetingHud.MeetingStates.Results and not MeetingHud.MeetingStates.Proceeding))
         {
             foreach ((string key, Command command) in Command.AllCommands)
             {

@@ -45,6 +45,9 @@ internal class ChangeRoleSettings
                     Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Noisemaker, 0, 0);
                     Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Phantom, 0, 0);
                     Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Tracker, 0, 0);
+                    Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Viper, 0, 0);
+                    Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Detective, 0, 0);
+                    Main.NormalOptions.roleOptions.SetRoleRate(RoleTypes.Judge, 0, 0);
                 }
             }
             else if (GameStates.IsHideNSeek)
@@ -270,7 +273,7 @@ internal class StartGameHostPatch
 {
     private static AmongUsClient thiz;
 
-    private static RoleOptionsCollectionV10 RoleOpt => Main.NormalOptions.roleOptions;
+    private static RoleOptionsCollectionV11 RoleOpt => Main.NormalOptions.roleOptions;
     private static Dictionary<RoleTypes, int> RoleTypeNums = [];
     public static void UpdateRoleTypeNums()
     {
@@ -284,6 +287,7 @@ internal class StartGameHostPatch
             { RoleTypes.Tracker, RoleAssign.AddTrackerNum },
             { RoleTypes.Detective, RoleAssign.AddDetectiveNum },
             { RoleTypes.Viper, RoleAssign.AddViperNum },
+            { RoleTypes.Judge, RoleAssign.AddJudgeNum }
         };
     }
 
@@ -453,6 +457,7 @@ internal class StartGameHostPatch
                     RoleTypes.Tracker => CustomRoles.Tracker,
                     RoleTypes.Detective => CustomRoles.Detective,
                     RoleTypes.Viper => CustomRoles.Viper,
+                    RoleTypes.Judge => CustomRoles.Judge,
                     _ => CustomRoles.NotAssigned
                 };
                 if (role == CustomRoles.NotAssigned) Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
