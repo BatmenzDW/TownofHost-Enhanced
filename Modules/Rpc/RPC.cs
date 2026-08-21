@@ -49,9 +49,9 @@ public enum CustomRPC : byte // 182/255 USED
     SetNameColorData,
     KNChat = 119, // Kill network chat, may conflicts with judge and guess calls
     GuessKill,
-    Judge,
+    // Judge,
     Guess,
-    CouncillorJudge,
+    // CouncillorJudge,
     NemesisRevenge,
     RetributionistRevenge,
     SyncLobbyTimer,
@@ -156,9 +156,9 @@ internal class RPCHandlerPatch
         or CustomRPC.RequestRetryVersionCheck
         or CustomRPC.AntiBlackout
         or CustomRPC.RequestCommandProcessing
-        or CustomRPC.Judge
+        // or CustomRPC.Judge
         or CustomRPC.ExorcistExorcise
-        or CustomRPC.CouncillorJudge
+        // or CustomRPC.CouncillorJudge
         or CustomRPC.NemesisRevenge
         or CustomRPC.RetributionistRevenge
         or CustomRPC.Guess
@@ -604,9 +604,9 @@ internal class RPCHandlerPatch
             case CustomRPC.SyncNameNotify:
                 NameNotifyManager.ReceiveRPC(reader);
                 break;
-            case CustomRPC.Judge:
-                Prosecutor.ReceiveRPC_Custom(reader, __instance);
-                break;
+            // case CustomRPC.Judge:
+            //     Prosecutor.ReceiveRPC_Custom(reader, __instance);
+            //     break;
             case CustomRPC.ExorcistExorcise:
                 Exorcist.ReceiveRPC_Custom(reader, __instance);
                 break;
@@ -616,9 +616,9 @@ internal class RPCHandlerPatch
             case CustomRPC.PresidentReveal:
                 President.ReceiveRPC(reader, __instance, isEnd: false);
                 break;
-            case CustomRPC.CouncillorJudge:
-                Councillor.ReceiveRPC_Custom(reader, __instance);
-                break;
+            // case CustomRPC.CouncillorJudge:
+            //     Councillor.ReceiveRPC_Custom(reader, __instance);
+            //     break;
             case CustomRPC.Guess:
                 GuessManager.ReceiveRPC(reader, __instance);
                 break;
