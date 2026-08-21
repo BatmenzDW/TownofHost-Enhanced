@@ -23,15 +23,11 @@ internal class Dictator : RoleBase
     public override void SetupCustomOption()
     {
         SetupRoleOptions(Id, TabGroup.CrewmateRoles, CustomRoles.Dictator);
-        ChangeCommandToExpel = BooleanOptionItem.Create(Id + 10, "DictatorChangeCommandToExpel", false, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Dictator]);
+        ChangeCommandToExpel = BooleanOptionItem.Create(Id + 10, "DictatorChangeCommandToExpel", true, TabGroup.CrewmateRoles, false).SetParent(Options.CustomRoleSpawnChances[CustomRoles.Dictator]);
     }
-
-    public static bool CheckVotingForTarget(PlayerControl pc, PlayerVoteArea pva)
-        => pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedForId && pva.VotedForId < 253 && !pc.Data.IsDead && pc.IsAlive();
 
     public static void ExpelCommand(PlayerControl pc, string commandKey, string msg, string[] args)
     {
-        if (!ChangeCommandToExpel.GetBool()) return;
         if (!AmongUsClient.Instance.AmHost)
         {
             ChatCommands.RequestCommandProcessingFromHost(msg, commandKey);
@@ -42,9 +38,6 @@ internal class Dictator : RoleBase
         if (!pc.IsAlive()) return;
         if (!pc.Is(CustomRoles.Dictator)) return;
 
-        List<MeetingHud.VoterState> statesList = [];
-        MeetingHud.VoterState[] states;
-
         bool isUI = pc.IsModded();
 
         if (args.Length < 2 || !int.TryParse(args[1], out int targetid))
@@ -54,22 +47,30 @@ internal class Dictator : RoleBase
         }
 
         var target = GetPlayerById(targetid);
+        pc.GetRoleClass().OnJudge(pc, target);
+    }
+
+    public override bool OnJudge(PlayerControl pc, PlayerControl target)
+    {
         if (target == pc)
         {
-            pc.ShowInfoMessage(isUI, GetString("DictatorExpelSelf"));
-            return;
+            pc.ShowInfoMessage(pc.IsModded(), GetString("DictatorExpelSelf"));
+            return false;
         }
         if (!target.IsAlive())
         {
-            return;
+            return false;
         }
 
         if (target.Is(CustomRoles.Solsticer))
         {
-            pc.ShowInfoMessage(isUI, GetString("ExpelSolsticer"));
+            pc.ShowInfoMessage(pc.IsModded(), GetString("ExpelSolsticer"));
             MeetingHud.Instance.RpcClearVoteDelay(pc.PlayerId);
-            return;
+            return false;
         }
+
+        List<MeetingHud.VoterState> statesList = [];
+        MeetingHud.VoterState[] states;
 
         statesList.Add(new()
         {
@@ -114,6 +115,8 @@ internal class Dictator : RoleBase
         Logger.Info("Dictatorial vote, forced closure of the meeting", "Special Phase");
 
         target.SetRealKiller(pc);
+
+        return true;
     }
     
     public override string NotifyPlayerName(PlayerControl seer, PlayerControl target, string TargetPlayerName = "", bool IsForMeeting = false)

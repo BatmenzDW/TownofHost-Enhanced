@@ -58,8 +58,8 @@ public class Main : BasePlugin
 
     public const string PluginGuid = "com.batmenzdw.bedderhostroles";
     public const string PluginGuid4 = "90759289-1d0d-494b-b36c-839f93ae0df1"; // for matchmaking token
-    public const string PluginVersion = "2026.0701.011.00000"; // YEAR.MMDD.VERSION.CANARYDEV
-    public const string PluginDisplayVersion = "0.1.1";
+    public const string PluginVersion = "2026.0701.012.00000"; // YEAR.MMDD.VERSION.CANARYDEV
+    public const string PluginDisplayVersion = "0.1.2";
     public static readonly List<(int year, int month, int day, int revision)> SupportedVersionAU =
     [
         (2025, 8, 18, 0) // 2025.8.18 & 18.0
@@ -69,9 +69,9 @@ public class Main : BasePlugin
     public static readonly Release RELEASE = Release.BETA;
 
 #pragma warning disable IDE1006 // Naming Styles
-    public static bool devRelease => RELEASE == Release.ALPHA; // Latest: v3.0.0 Alpha 28
-    public static bool canaryRelease => RELEASE == Release.BETA; // Latest: V2.4.2 Beta 16
-    public static bool fullRelease => RELEASE == Release.RELEASE; // Latest: V2.4.1 hotfix 1
+    public static bool devRelease => RELEASE == Release.ALPHA; // Latest: 
+    public static bool canaryRelease => RELEASE == Release.BETA; // Latest: 
+    public static bool fullRelease => RELEASE == Release.RELEASE; // Latest: 
 #pragma warning restore IDE1006 // Naming Styles
 
     public enum Release

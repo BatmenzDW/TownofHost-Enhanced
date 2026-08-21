@@ -44,7 +44,7 @@ internal class Oracle : RoleBase
     {
         playerId.SetAbilityUseLimit(CheckLimitOpt.GetFloat());
     }
-    public override bool CheckVote(PlayerControl player, PlayerControl target)
+    public override bool OnJudge(PlayerControl player, PlayerControl target)
     {
         if (player == null || target == null) return true;
         if (DidVote.Contains(player.PlayerId)) return true;

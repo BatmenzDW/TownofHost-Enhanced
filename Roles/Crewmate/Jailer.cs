@@ -132,12 +132,12 @@ internal class Jailer : RoleBase
         JailerTarget.Clear();
     }
 
-    public override void OnVote(PlayerControl voter, PlayerControl target)
+    public override bool OnJudge(PlayerControl voter, PlayerControl target)
     {
-        if (voter == null || target == null) return;
-        if (!voter.Is(CustomRoles.Jailer)) return;
-        if (JailerDidVote.TryGetValue(voter.PlayerId, out var didVote) && didVote) return;
-        if (JailerTarget.TryGetValue(voter.PlayerId, out var jTarget) && jTarget == byte.MaxValue) return;
+        if (voter == null || target == null) return false;
+        if (!voter.Is(CustomRoles.Jailer)) return false;
+        if (JailerDidVote.TryGetValue(voter.PlayerId, out var didVote) && didVote) return false;
+        if (JailerTarget.TryGetValue(voter.PlayerId, out var jTarget) && jTarget == byte.MaxValue) return false;
 
         JailerDidVote[voter.PlayerId] = true;
         if (target.PlayerId == jTarget)
@@ -150,6 +150,7 @@ internal class Jailer : RoleBase
             else JailerHasExe[voter.PlayerId] = false;
         }
         SendRPC(voter.PlayerId);
+        return true;
     }
 
     public override string GetMark(PlayerControl seer, PlayerControl seen, bool isForMeeting)

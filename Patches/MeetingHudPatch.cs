@@ -62,62 +62,6 @@ class CheckForEndVotingPatch
                     }
                 }
 
-                if (Dictator.CheckVotingForTarget(pc, pva) && !Dictator.ChangeCommandToExpel.GetBool())
-                {
-                    var voteTarget = GetPlayerById(pva.VotedForId);
-                    TryAddAfterMeetingDeathPlayers(PlayerState.DeathReason.Suicide, pc.PlayerId);
-
-                    statesList.Add(new()
-                    {
-                        VoterId = pva.PlayerId,
-                        VotedForId = pva.VotedForId
-                    });
-                    states = [.. statesList];
-
-                    var exiled = voteTarget.Data;
-
-                    ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiled;
-                    Main.LastVotedPlayerInfo = exiled;
-                    AntiBlackout.ExilePlayerId = exiled.PlayerId;
-
-                    if (AntiBlackout.BlackOutIsActive)
-                    {
-                        // Need check BlackOutIsActive again
-                        var isBlackOut = AntiBlackout.BlackOutIsActive;
-
-                        if (exiled != null)
-                        {
-                            AntiBlackout.ShowExiledInfo = isBlackOut;
-                            ConfirmEjections(exiled, isBlackOut);
-                        }
-
-                        if (isBlackOut)
-                            __instance.AntiBlackRpcVotingComplete(states, exiled, false);
-                        else
-                            __instance.RpcVotingComplete(states, exiled, false, false, 0);
-                    }
-                    else
-                    {
-
-                        if (exiled != null)
-                        {
-                            ConfirmEjections(exiled);
-                        }
-
-                        __instance.RpcVotingComplete(states, exiled, false, false, 0);
-                    }
-
-                    Logger.Info($"{voteTarget.GetNameWithRole()} expelled by Dictator", "Dictator");
-
-                    CheckForDeathOnExile(PlayerState.DeathReason.Vote, pva.VotedForId);
-
-                    Logger.Info("Dictatorial vote, forced closure of the meeting", "Special Phase");
-
-                    voteTarget.SetRealKiller(pc);
-
-                    return true;
-                }
-
                 if (pva.DidVote && pva.VotedForId < 253 && pc.IsAlive())
                 {
                     var voteTarget = GetPlayerById(pva.VotedForId);

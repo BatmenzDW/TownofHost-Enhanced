@@ -89,7 +89,7 @@ internal class Keeper : RoleBase
     }
 
 
-    public override bool CheckVote(PlayerControl voter, PlayerControl target)
+    public override bool OnJudge(PlayerControl voter, PlayerControl target)
     {
         if (!CustomRoles.Keeper.HasEnabled()) return true;
         if (voter == null || target == null) return true;

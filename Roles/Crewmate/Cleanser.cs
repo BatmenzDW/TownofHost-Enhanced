@@ -38,7 +38,7 @@ internal class Cleanser : RoleBase
         DidVote = false;
     }
     public static bool CantGetAddon() => !CleansedCanGetAddon.GetBool();
-    public override bool CheckVote(PlayerControl voter, PlayerControl target)
+    public override bool OnJudge(PlayerControl voter, PlayerControl target)
     {
         if (DidVote) return true;
         DidVote = true;
