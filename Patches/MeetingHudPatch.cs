@@ -1186,7 +1186,7 @@ class MeetingHudStartPatch
             var IdNumber = LevelDisplay.transform.Find("LevelNumber");
             UnityEngine.Object.Destroy(IdLabel.GetComponent<TextTranslatorTMP>());
             IdLabel.GetComponent<TextMeshPro>().text = "ID";
-            IdNumber.GetComponent<TextMeshPro>().text = pva.PlayerId.ToString();
+            IdNumber.GetComponent<TextMeshPro>().text = pva.PlayerId.Value.ToString();
             IdLabel.name = "IdLabel";
             IdNumber.name = "IdNumber";
 
@@ -1530,7 +1530,9 @@ class MeetingHudRpcClosePatch
     {
         Logger.Info("MeetingHud.RpcClose is being called", "MeetingHudRpcClosePatch");
         // Send SetName rpc together with Close rpc
-        if (Options.CurrentGameMode is CustomGameMode.Standard)
+        // Official/vanilla regionsuse default ejection screen modded uses custom
+        if (Options.CurrentGameMode is CustomGameMode.Standard
+            && !GameStates.IsVanillaServer)
         {
             if (AmongUsClient.Instance.AmClient)
             {

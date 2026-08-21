@@ -8,7 +8,7 @@
 		<Authors>BatmenzDW</Authors>
 		<LangVersion>12.0</LangVersion>
 		<Platforms>Windows</Platforms>
-		<!--<AmongUs>C:\Program Files\Epic Games\AmongUs</AmongUs>-->
+		<AmongUs>/home/batmenzdw/.steam/debian-installation/steamapps/common/Among Us</AmongUs>
 		<Configurations>Debug;Release;Canary</Configurations>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Optimize>True</Optimize>
