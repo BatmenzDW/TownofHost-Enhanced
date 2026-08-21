@@ -24,19 +24,19 @@ namespace BHR.Modules.Rpc
             EndAndSend(sender);
         }
 
-        public static void SendProsecutor(uint netId, byte playerId)
-        {
-            var sender = StartRoleRpc(nameof(CustomRPC.Judge), netId, CustomRPC.Judge);
-            sender.stream.Write(playerId);
-            EndAndSend(sender);
-        }
+        // public static void SendProsecutor(uint netId, byte playerId)
+        // {
+        //     var sender = StartRoleRpc(nameof(CustomRPC.Judge), netId, CustomRPC.Judge);
+        //     sender.stream.Write(playerId);
+        //     EndAndSend(sender);
+        // }
 
-        public static void SendCouncillorJudge(uint netId, byte playerId)
-        {
-            var sender = StartRoleRpc(nameof(CustomRPC.CouncillorJudge), netId, CustomRPC.CouncillorJudge);
-            sender.stream.Write(playerId);
-            EndAndSend(sender);
-        }
+        // public static void SendCouncillorJudge(uint netId, byte playerId)
+        // {
+        //     var sender = StartRoleRpc(nameof(CustomRPC.CouncillorJudge), netId, CustomRPC.CouncillorJudge);
+        //     sender.stream.Write(playerId);
+        //     EndAndSend(sender);
+        // }
 
         public static void SendNemesisRevenge(uint netId, byte playerId)
         {
