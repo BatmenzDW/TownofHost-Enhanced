@@ -144,8 +144,8 @@ public static class MainMenuManagerPatch
         var spriteRenderer = splashArt.AddComponent<SpriteRenderer>();
         string folder = "BHR.Resources.Background.";
         IRandom rand = IRandom.Instance;
-        if (rand.Next(0, 100) < 30) folder += "PrevArtWinner";
-        else folder += "CurrentArtWinner";
+        /*if (rand.Next(0, 100) < 30)*/ folder += "PrevArtWinner";
+        // else folder += "CurrentArtWinner";
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         string[] fileNames = assembly.GetManifestResourceNames().Where(resourceName => resourceName.StartsWith(folder) && resourceName.EndsWith(".png")).ToArray();
         int choice = rand.Next(0, fileNames.Length);
