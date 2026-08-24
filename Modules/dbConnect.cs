@@ -13,7 +13,7 @@ public class dbConnect
     private static bool InitOnce = false;
     private static Dictionary<string, string> UserType = [];
 
-    private const string ApiUrl = "https://api.weareten.ca";
+    private const string ApiUrl = "";
     private const string FallBackUrl = "https://tohe.niko233.top"; // Mirror of Enhanced Api
 
     public static IEnumerator Init()
@@ -282,7 +282,7 @@ public class dbConnect
             yield break;
         }
 
-        string[] apiUrls = { ApiUrl, FallBackUrl };
+        string[] apiUrls = [ApiUrl, FallBackUrl];
         int maxAttempts = !InitOnce ? 4 : 2;
         int attempt = 0;
         bool success = false;

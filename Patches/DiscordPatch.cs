@@ -20,8 +20,8 @@ namespace BHR.Patches
 
             activity.Assets = new ActivityAssets
             {
-                LargeImage = "https://BHR.weareten.ca/logo.png",
-                SmallImage = "https://BHR.weareten.ca/logo.png"
+                LargeImage = "",
+                SmallImage = ""
             };
 
             try
