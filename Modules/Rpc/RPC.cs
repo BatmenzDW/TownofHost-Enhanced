@@ -51,7 +51,7 @@ public enum CustomRPC : byte // 182/255 USED
     GuessKill,
     // Judge,
     Guess,
-    // CouncillorJudge,
+    CouncillorJudge,
     NemesisRevenge,
     RetributionistRevenge,
     SyncLobbyTimer,
@@ -158,7 +158,7 @@ internal class RPCHandlerPatch
         or CustomRPC.RequestCommandProcessing
         // or CustomRPC.Judge
         or CustomRPC.ExorcistExorcise
-        // or CustomRPC.CouncillorJudge
+        or CustomRPC.CouncillorJudge
         or CustomRPC.NemesisRevenge
         or CustomRPC.RetributionistRevenge
         or CustomRPC.Guess
@@ -616,9 +616,9 @@ internal class RPCHandlerPatch
             case CustomRPC.PresidentReveal:
                 President.ReceiveRPC(reader, __instance, isEnd: false);
                 break;
-            // case CustomRPC.CouncillorJudge:
-            //     Councillor.ReceiveRPC_Custom(reader, __instance);
-            //     break;
+            case CustomRPC.CouncillorJudge:
+                Councillor.ReceiveRPC_Custom(reader, __instance);
+                break;
             case CustomRPC.Guess:
                 GuessManager.ReceiveRPC(reader, __instance);
                 break;
