@@ -90,14 +90,14 @@ public class dbConnect
             shouldDisconnect = false;
 
             // Show waring message
-            if (GameStates.IsLobby || GameStates.IsInGame)
-            {
-                DestroyableSingleton<HudManager>.Instance.ShowPopUp(GetString("dbConnect.InitFailurePublic"));
-            }
-            else
-            {
-                DestroyableSingleton<DisconnectPopup>.Instance.ShowCustom(GetString("dbConnect.InitFailurePublic"));
-            }
+            // if (GameStates.IsLobby || GameStates.IsInGame)
+            // {
+            //     DestroyableSingleton<HudManager>.Instance.ShowPopUp(GetString("dbConnect.InitFailurePublic"));
+            // }
+            // else
+            // {
+            //     DestroyableSingleton<DisconnectPopup>.Instance.ShowCustom(GetString("dbConnect.InitFailurePublic"));
+            // }
         }
         else
         {
