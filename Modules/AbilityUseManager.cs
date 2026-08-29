@@ -12,24 +12,29 @@ public static class AbilityUseManager
         AbilityUseLimit.Clear();
     }
 
-    public static float GetAbilityUseLimit(this PlayerControl pc) => AbilityUseLimit.GetValueOrDefault(pc.PlayerId, float.NaN);
+    public static float GetAbilityUseLimit(this PlayerControl pc) => GetAbilityUseLimit((IPlayerControl)(ModdedPlayerControl)pc);
+    public static float GetAbilityUseLimit(this IPlayerControl pc) => AbilityUseLimit.GetValueOrDefault(pc.PlayerId, float.NaN);
     public static float GetAbilityUseLimit(this byte playerId) => AbilityUseLimit.GetValueOrDefault(playerId, float.NaN);
 
-    public static void RpcRemoveAbilityUse(this PlayerControl pc, bool log = true)
+    public static void RpcRemoveAbilityUse(this PlayerControl pc, bool log = true) => RpcRemoveAbilityUse((IPlayerControl)(ModdedPlayerControl)pc, log);
+    public static void RpcRemoveAbilityUse(this IPlayerControl pc, bool log = true, bool rpc = true)
     {
         float current = pc.GetAbilityUseLimit();
         if (float.IsNaN(current) || current <= 0f) return;
-        pc.SetAbilityUseLimit(current - 1, log: log);
+        pc.SetAbilityUseLimit(current - 1, rpc, log);
     }
 
-    public static void RpcIncreaseAbilityUseLimitBy(this PlayerControl pc, float get, bool log = true)
+    public static void RpcIncreaseAbilityUseLimitBy(this PlayerControl pc, float get, bool log = true) => RpcIncreaseAbilityUseLimitBy((IPlayerControl)(ModdedPlayerControl)pc, get, log);
+    public static void RpcIncreaseAbilityUseLimitBy(this IPlayerControl pc, float get, bool log = true, bool rpc = true)
     {
         float current = pc.GetAbilityUseLimit();
         if (float.IsNaN(current)) return;
-        pc.SetAbilityUseLimit(current + get, log: log);
+        pc.SetAbilityUseLimit(current + get, rpc, log);
     }
 
-    public static void SetAbilityUseLimit(this PlayerControl pc, float limit, bool rpc = true, bool log = true) => pc.PlayerId.SetAbilityUseLimit(limit, rpc, log);
+
+    public static void SetAbilityUseLimit(this PlayerControl pc, float limit, bool rpc = true, bool log = true) => SetAbilityUseLimit((IPlayerControl)(ModdedPlayerControl)pc, limit, rpc, log);
+    public static void SetAbilityUseLimit(this IPlayerControl pc, float limit, bool rpc = true, bool log = true) => pc.PlayerId.SetAbilityUseLimit(limit, rpc, log);
 
     public static void SetAbilityUseLimit(this byte playerId, float limit, bool rpc = true, bool log = true)
     {
@@ -48,14 +53,15 @@ public static class AbilityUseManager
         var player = playerId.GetPlayer();
         if (AmongUsClient.Instance.AmHost && player.IsNonHostModdedClient() && rpc)
         {
-            LegacyRpcSenders.SendSyncAbilityUseLimit(PlayerControl.LocalPlayer.NetId, playerId, limit);
+            LegacyRpcSenders.SendSyncAbilityUseLimit(ModdedPlayerControl.LocalPlayer.NetId, playerId, limit);
         }
 
         Utils.NotifyRoles(SpecifySeer: player, ForceLoop: false);
         if (log) Logger.Info($" {player.GetNameWithRole()} => {limit}", "SetAbilityUseLimit");
     }
 
-    public static bool CanAbilityLimitBeManip(this PlayerControl pc)
+    public static bool CanAbilityLimitBeManip(this PlayerControl pc) => CanAbilityLimitBeManip((IPlayerControl)(ModdedPlayerControl)pc);
+    public static bool CanAbilityLimitBeManip(this IPlayerControl pc)
     {
         return pc.GetCustomRole() switch
         {
