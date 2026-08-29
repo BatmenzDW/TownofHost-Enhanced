@@ -7,7 +7,7 @@ public static class AbilityUseManager
 {
     private static readonly Dictionary<byte, float> AbilityUseLimit = [];
 
-    public static void Initializate()
+    public static void Initialize()
     {
         AbilityUseLimit.Clear();
     }
@@ -38,7 +38,13 @@ public static class AbilityUseManager
         if (float.IsNaN(limit) || limit is < 0f or > 1000f || (AbilityUseLimit.TryGetValue(playerId, out var beforeLimit) && Math.Abs(beforeLimit - limit) < 0.01f)) return;
 
         AbilityUseLimit[playerId] = limit;
+        if (!rpc && !log) return;
 
+        ApplyGameSideEffects(playerId, limit, rpc, log);
+    }
+
+    private static void ApplyGameSideEffects(byte playerId, float limit, bool rpc, bool log)
+    {
         var player = playerId.GetPlayer();
         if (AmongUsClient.Instance.AmHost && player.IsNonHostModdedClient() && rpc)
         {
@@ -53,11 +59,22 @@ public static class AbilityUseManager
     {
         return pc.GetCustomRole() switch
         {
-            CustomRoles.Lich or CustomRoles.SoulCollector or CustomRoles.Benefactor or CustomRoles.Berserker
-                or CustomRoles.Keeper or CustomRoles.Collector or CustomRoles.Doomsayer or CustomRoles.Maverick
-                or CustomRoles.Pirate or CustomRoles.Pixie or CustomRoles.PunchingBag or CustomRoles.Seeker
-                or CustomRoles.Taskinator or CustomRoles.Vector or CustomRoles.Vulture
-                    => false,
+            CustomRoles.Lich or 
+            CustomRoles.SoulCollector or 
+            CustomRoles.Benefactor or 
+            CustomRoles.Berserker or 
+            CustomRoles.Keeper or 
+            CustomRoles.Collector or 
+            CustomRoles.Doomsayer or 
+            CustomRoles.Maverick or 
+            CustomRoles.Pirate or 
+            CustomRoles.Pixie or 
+            CustomRoles.PunchingBag or 
+            CustomRoles.Seeker or 
+            CustomRoles.Taskinator or 
+            CustomRoles.Vector or 
+            CustomRoles.Vulture
+                => false,
 
             _ => true
         };

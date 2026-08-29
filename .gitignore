@@ -13,3 +13,5 @@ BHR.sln
 token.env
 
 notes.md
+BHR.Tests/obj
+BHR.Tests/bin

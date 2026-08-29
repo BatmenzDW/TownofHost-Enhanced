@@ -61,7 +61,7 @@ internal class ChangeRoleSettings
             RoleAssign.PrevRolePreventAttempts = [];
             RoleAssign.RoleResult = [];
             KillTimerManager.Initializate();
-            AbilityUseManager.Initializate();
+            AbilityUseManager.Initialize();
 
             Main.AllPlayerKillCooldown.Clear();
             Main.AllPlayerSpeed.Clear();
