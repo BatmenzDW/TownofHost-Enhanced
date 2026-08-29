@@ -4,11 +4,15 @@ on:
   push:
     branches:
       - "**"
+    branches-ignore:
+      - "**l10n_main"
   pull_request:
     types:
       - opened
       - reopened
       - synchronize
+    branches-ignore:
+      - "**l10n_main"
 
 jobs:
   test:
