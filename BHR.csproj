@@ -63,7 +63,7 @@
 		<Exec Condition=" '$(OS)' != 'Windows_NT' " Command="if [ ! -f token.env ]; then echo API_TOKEN=REPLACE THIS ONLY IF YOU GOT YOUR OWN API TOKEN &gt; token.env; fi" />
 	</Target>
 
-	<Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
+	<Target Name="Copy" AfterTargets="Build" Condition="Exists('$(AmongUs)/BepInEx/plugins')">
 		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
 		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Canary'" />
 		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Release'" />
