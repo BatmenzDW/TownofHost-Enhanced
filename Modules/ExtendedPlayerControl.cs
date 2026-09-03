@@ -290,7 +290,7 @@ public static class ExtendedPlayerControl
     {
         var clientId = seer.GetClientId();
         if (clientId == -1) return;
-        if (AmongUsClient.Instance.ClientId == clientId)
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, clientId))
         {
             player.SetPet(petId);
             return;
@@ -299,6 +299,9 @@ public static class ExtendedPlayerControl
         var message = new RpcSetPetStrMessage(player.NetId, petId, player.GetNextRpcSequenceId(RpcCalls.SetPetStr));
         RpcUtils.LateSpecificSendMessage(message, clientId, SendOption.Reliable);
     }
+
+    public static bool IsLocalClient(int currentClientId, int targetClientId) => currentClientId == targetClientId;
+
     public static void RpcExile(this PlayerControl player)
     {
         player.Exiled();
@@ -307,7 +310,7 @@ public static class ExtendedPlayerControl
     public static void RpcExileDesync(this PlayerControl player, PlayerControl seer)
     {
         var clientId = seer.GetClientId();
-        if (AmongUsClient.Instance.ClientId == clientId)
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, clientId))
         {
             player.Exiled();
             return;
@@ -430,7 +433,7 @@ public static class ExtendedPlayerControl
         if (physics == null) return;
 
         var clientId = seer.GetClientId();
-        if (AmongUsClient.Instance.ClientId == clientId)
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, clientId))
         {
             physics.StopAllCoroutines();
             physics.StartCoroutine(physics.CoEnterVent(ventId));
@@ -445,7 +448,7 @@ public static class ExtendedPlayerControl
         if (physics == null) return;
 
         var clientId = seer.GetClientId();
-        if (AmongUsClient.Instance.ClientId == clientId)
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, clientId))
         {
             physics.StopAllCoroutines();
             physics.StartCoroutine(physics.CoExitVent(ventId));
@@ -460,7 +463,7 @@ public static class ExtendedPlayerControl
         if (physics == null) return;
 
         var clientId = seer.GetClientId();
-        if (AmongUsClient.Instance.ClientId == clientId)
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, clientId))
         {
             physics.BootFromVent(ventId);
             return;
@@ -759,7 +762,7 @@ public static class ExtendedPlayerControl
     }
     public static void RpcCheckVanishDesync(this PlayerControl player, PlayerControl seer)
     {
-        if (AmongUsClient.Instance.ClientId == seer.GetClientId())
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, seer.GetClientId()))
         {
             player.CheckVanish();
             return;
@@ -769,7 +772,7 @@ public static class ExtendedPlayerControl
     }
     public static void RpcStartVanishDesync(this PlayerControl player, PlayerControl seer)
     {
-        if (AmongUsClient.Instance.ClientId == seer.GetClientId())
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, seer.GetClientId()))
         {
             player.SetRoleInvisibility(true, false, true);
             return;
@@ -779,7 +782,7 @@ public static class ExtendedPlayerControl
     }
     public static void RpcCheckAppearDesync(this PlayerControl player, bool shouldAnimate, PlayerControl seer)
     {
-        if (AmongUsClient.Instance.ClientId == seer.GetClientId())
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, seer.GetClientId()))
         {
             player.CheckAppear(shouldAnimate);
             return;
@@ -789,7 +792,7 @@ public static class ExtendedPlayerControl
     }
     public static void RpcStartAppearDesync(this PlayerControl player, bool shouldAnimate, PlayerControl seer)
     {
-        if (AmongUsClient.Instance.ClientId == seer.GetClientId())
+        if (IsLocalClient(AmongUsClient.Instance.ClientId, seer.GetClientId()))
         {
             player.SetRoleInvisibility(false, shouldAnimate, true);
             return;

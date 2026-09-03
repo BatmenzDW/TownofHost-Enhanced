@@ -119,6 +119,17 @@ public class ExtendedPlayerControlTests
     }
 
     [Theory]
+    [InlineData(0, 0, true)]
+    [InlineData(42, 42, true)]
+    [InlineData(0, 1, false)]
+    [InlineData(-1, 0, false)]
+    public void IsLocalClient_ReturnsTrueOnlyForMatchingClientIds(int currentClientId, int targetClientId,
+        bool expected)
+    {
+        Assert.Equal(expected, ExtendedPlayerControl.IsLocalClient(currentClientId, targetClientId));
+    }
+
+    [Theory]
     [InlineData(CustomRoles.LastImpostor)]
     [InlineData(CustomRoles.Madmate)]
     [InlineData(CustomRoles.Charmed)]
