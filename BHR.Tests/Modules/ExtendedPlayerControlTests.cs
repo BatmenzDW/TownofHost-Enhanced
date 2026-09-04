@@ -16,10 +16,10 @@ public class ExtendedPlayerControlTests
     [InlineData(5, 10.2f, 18.1f)]
     public void GetBlackRoomCoordinates_ReturnsExpectedPositionForMap(int mapId, float expectedX, float expectedY)
     {
-        var position = ExtendedPlayerControl.GetBlackRoomCoordinates(mapId);
+        var (X, Y) = ExtendedPlayerControl.GetBlackRoomCoordinates(mapId);
 
-        Assert.Equal(expectedX, position.X);
-        Assert.Equal(expectedY, position.Y);
+        Assert.Equal(expectedX, X);
+        Assert.Equal(expectedY, Y);
     }
 
     [Theory]
