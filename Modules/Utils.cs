@@ -3179,14 +3179,11 @@ public static class Utils
         if (!withoutEnding) sb.Append("</color>");
         return sb.ToString();
     }
-    /// <summary>
-    /// Darkness:１の比率で黒色と元の色を混ぜる。マイナスだと白色と混ぜる。
-    /// </summary>
     public static Color ShadeColor(this Color color, float Darkness = 0)
     {
-        bool IsDarker = Darkness >= 0; //黒と混ぜる
+        bool IsDarker = Darkness >= 0; 
         if (!IsDarker) Darkness = -Darkness;
-        float Weight = IsDarker ? 0 : Darkness; //黒/白の比率
+        float Weight = IsDarker ? 0 : Darkness; 
         float R = (color.r + Weight) / (Darkness + 1);
         float G = (color.g + Weight) / (Darkness + 1);
         float B = (color.b + Weight) / (Darkness + 1);

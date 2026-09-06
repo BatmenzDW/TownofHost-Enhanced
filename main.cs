@@ -58,15 +58,15 @@ public class Main : BasePlugin
 
     public const string PluginGuid = "com.batmenzdw.bedderhostroles";
     public const string PluginGuid4 = "90759289-1d0d-494b-b36c-839f93ae0df1"; // for matchmaking token
-    public const string PluginVersion = "2026.0825.014.00000"; // YEAR.MMDD.VERSION.CANARYDEV
-    public const string PluginDisplayVersion = "0.1.4";
+    public const string PluginVersion = "2026.0825.100.00000"; // YEAR.MMDD.VERSION.CANARYDEV
+    public const string PluginDisplayVersion = "1.0.0";
     public static readonly List<(int year, int month, int day, int revision)> SupportedVersionAU =
     [
         (2025, 8, 18, 0) // 2025.8.18 & 18.0
     ];
 
     // Change this to change alpha/beta/full release
-    public static readonly Release RELEASE = Release.BETA;
+    public static readonly Release RELEASE = Release.RELEASE;
 
 #pragma warning disable IDE1006 // Naming Styles
     public static bool devRelease => RELEASE == Release.ALPHA; // Latest: 

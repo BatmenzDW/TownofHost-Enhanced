@@ -225,7 +225,6 @@ public static class FixedUpdatePatch
 
         var player = PlayerControl.LocalPlayer;
         if (player == null) return;
-        //Õúüµè£Òüæ
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if ((!AmongUsClient.Instance.IsGameStarted || !GameStates.IsOnlineGame)
@@ -234,7 +233,6 @@ public static class FixedUpdatePatch
                 player.Collider.offset = new Vector2(0f, 127f);
             }
         }
-        //Õúüµè£Òüæ×ğúÚÖñ
         if (player.Collider.offset.y == 127f)
         {
             if (!Input.GetKey(KeyCode.LeftControl) || (AmongUsClient.Instance.IsGameStarted && GameStates.IsOnlineGame))
@@ -315,16 +313,16 @@ public static class FixedUpdatePatch
                     killButtonStateCache[player.PlayerId] = state;
                 }
                 
-                if (player.CanUseKillButton())
-                {
-                    __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
-                    player.Data.Role.CanUseKillButton = true;
-                }
-                else
-                {
-                    __instance.KillButton.SetDisabled();
-                    __instance.KillButton.ToggleVisible(false);
-                }
+                // if (player.CanUseKillButton())
+                // {
+                //     __instance.KillButton.ToggleVisible(player.IsAlive() && GameStates.IsInTask);
+                //     player.Data.Role.CanUseKillButton = true;
+                // }
+                // else
+                // {
+                //     __instance.KillButton.SetDisabled();
+                //     __instance.KillButton.ToggleVisible(false);
+                // }
 
                 __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
                 player.Data.Role.CanVent = player.CanUseVents();

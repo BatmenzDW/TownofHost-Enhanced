@@ -533,7 +533,7 @@ public static class GuessManager
         string result = string.Empty;
         for (int i = 0; i < mc.Count; i++)
         {
-            result += mc[i];//匹配结果是完整的数字，此处可以不做拼接的
+            result += mc[i];
         }
 
         Logger.Info($"result: {result}", "MsgToPlayerAndRole");
@@ -545,16 +545,13 @@ public static class GuessManager
         else
         {
             Logger.Warn($"{msg}::{result} could not be parsed as a byte", "MsgToPlayerAndRole");
-            //并不是玩家编号，判断是否颜色
             //byte color = GetColorFromMsg(msg);
-            //好吧我不知道怎么取某位玩家的颜色，等会了的时候再来把这里补上
             id = byte.MaxValue;
             error = GetString("GuessHelp");
             role = new();
             return false;
         }
 
-        //判断选择的玩家是否合理
         PlayerControl target = Utils.GetPlayerById(id);
         if (target == null || !target.IsAlive())
         {
@@ -679,7 +676,9 @@ public static class GuessManager
     static void GuesserOnClick(byte playerId, MeetingHud __instance)
     {
         var pc = Utils.GetPlayerById(playerId);
+        Logger.Info($"GuesserOnClick called for playerId: {playerId}", "GuesserOnClick");
         if (pc == null || !pc.IsAlive() || guesserUI != null || !GameStates.IsVoting) return;
+        Logger.Info($"Player character retrieved: {pc}", "GuesserOnClick");
 
         try
         {
@@ -869,7 +868,7 @@ public static class GuessManager
             if (Options.ShowOnlyEnabledRolesInGuesserUI.GetBool())
             {
 
-                List<CustomRoles> listOfRoles = CustomRolesHelper.AllRoles.Where(role => !role.IsGhostRole() && (role.IsEnable() || role.RoleExist(countDead: true))).ToList();
+                List<CustomRoles> listOfRoles = [.. CustomRolesHelper.AllRoles.Where(role => !role.IsGhostRole() && (role.IsEnable() || role.RoleExist(countDead: true)))];
 
                 // Always show
                 if (!listOfRoles.Contains(CustomRoles.ImpostorBHR))
